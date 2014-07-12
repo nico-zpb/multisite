@@ -12,4 +12,10 @@ use Doctrine\ORM\EntityRepository;
  */
 class ZFImageRepository extends EntityRepository
 {
+    public function getAllByCategory($id)
+    {
+        $query = $this->_em->createQuery("SELECT i FROM AdminZooFototekBundle:ZFImage i JOIN i.category c WHERE c.id=:id ORDER BY i.position ASC");
+        $query->setParameter('id', $id);
+        return $query->getResult();
+    }
 }
