@@ -4,7 +4,45 @@
 
 
 {% block content %}
+    <div class="row">
+        <div class="col-md-6">
+            <form class="form-horizontal" action="{{ path("admin_zoo_fototek_category_create") }}" method="post">
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="new_category_form_name">Nom*</label>
+                    <div class="col-md-8">
+                        <input class="form-control" type="text" name="new_category_form[name]" id="new_category_form_name" required="required"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="new_category_form_slug">Alias (slug) </label><button type="button" class="btn btn-primary" data-toggle="popover" title="aide" data-content="Non requis, si laissé vide, sera créé automatiquement. Seuls les lettres minuscules de a à z, les chiffres et le tiret sont acceptés."><i class="fa fa-question-circle"></i></button>
+                    <div class="col-md-8">
+                        <input class="form-control" type="text" name="new_category_form[slug]" id="new_category_form_slug"/>
+                    </div>
+                </div>
+                <input name="new_category_form[_token]" type="hidden" value="{{ csrf_token("new_category") }}"/>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-8">
+                        <button class="btn btn-primary" type="submit">Enregistrer</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+        <div class="col-md-6">
+
+        </div>
+    </div>
 
 
+
+
+{% endblock %}
+{% block footScripts %}
+    {{ parent() }}
+    <script>
+        $(function(){
+            $("[data-toggle='popover']").popover();
+        });
+    </script>
 
 {% endblock %}

@@ -5,3 +5,8 @@ admin_zoo_fototek_category_homepage:
 admin_zoo_fototek_category_new:
     path:     /nouvelle
     defaults: { _controller: AdminZooFototekBundle:Category:new }
+
+admin_zoo_fototek_category_create:
+    path:     /creation
+    defaults: { _controller: AdminZooFototekBundle:Category:create }
+    requirements: { _method: post }

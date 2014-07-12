@@ -22,15 +22,23 @@ namespace Sites\Admin\Zoo\FototekBundle\Controller;
 
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 class CategoryController extends Controller
 {
     public function indexAction()
     {
-        return $this->render("AdminZooFototekBundle:Category:index.html.twig");
+        $cats = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFCategory")->findAll();
+        return $this->render("AdminZooFototekBundle:Category:index.html.twig", ["categories"=>$cats]);
     }
 
     public function newAction()
+    {
+        $cats = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFCategory")->findAll();
+        return $this->render("AdminZooFototekBundle:Category:new.html.twig", ["categories"=>$cats]);
+    }
+
+    public function createAction(Request $request)
     {
         $cats = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFCategory")->findAll();
         return $this->render("AdminZooFototekBundle:Category:new.html.twig", ["categories"=>$cats]);
