@@ -1,0 +1,98 @@
+{% set page_title = ( page_title is defined) ? page_title : "Dashboard" %}
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Admin</title>
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="/css/dashboard.css"/>
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{ path("admin_common_base_homepage") }}">Admin</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#"><i class="fa fa-tachometer"></i> Dashboard</a></li>
+                {#<li><a href="#">Settings</a></li>
+                <li><a href="#">Profile</a></li>
+                <li><a href="#">Help</a></li>#}
+            </ul>
+            {#<form class="navbar-form navbar-right">
+                <input type="text" class="form-control" placeholder="Search...">
+            </form>#}
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-1 sidebar">
+            <h4>Généralités</h4>
+            <ul class="nav nav-sidebar">
+                <li><a href="#"><i class="fa fa-files-o"></i> Médiathèque </a></li>
+                <li><a href="#"><i class="fa fa-list-ul"></i> Menus Manager</a></li>
+                <li><a href="#"><i class="fa fa-signal"></i> Statistiques </a></li>
+                <li><a href="#"><i class="fa fa-users"></i> Utilisteurs </a></li>
+            </ul>
+
+            <h4>Zoo</h4>
+            <ul class="nav nav-sidebar">
+                <li><a href="#"><i class="fa fa-pencil-square-o"></i> Actualités</a></li>
+                <li><a href="#"><i class="fa fa-shopping-cart"></i> Boutique </a></li>
+                <li><a href="#"><i class="fa fa-tachometer"></i> Entrée</a></li>
+                <li><a href="#"><i class="fa fa-files-o"></i> Pages</a></li>
+                <li><a href="#"><i class="fa fa-users"></i> Parrainage</a></li>
+                <li><a href="{{ path("admin_zoo_fototek_homepage") }}"><i class="fa fa-picture-o"></i> Photothèque </a></li>
+                <li><a href="#"><i class="fa fa-signal"></i> Statistiques </a></li>
+            </ul>
+            <h4></h4>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-11 col-md-offset-1 main">
+            <h1 class="page-header">{{ page_title }}</h1>
+            {% for flash in app.session.flashbag.get("danger") %}
+                <div class="alert alert-warning fade in">
+                    <button class="close" data-dismiss="alert" type="button">&times;</button>
+                    <strong>Attention ! </strong> {{ flash }}
+                </div>
+            {% endfor %}
+            {% for flash in app.session.flashbag.get("warning") %}
+                <div class="alert alert-warning fade in">
+                    <button class="close" data-dismiss="alert" type="button">&times;</button>
+                    <strong>Attention ! </strong> {{ flash }}
+                </div>
+            {% endfor %}
+            {% for flash in app.session.flashbag.get("success") %}
+                <div class="alert alert-warning fade in">
+                    <button class="close" data-dismiss="alert" type="button">&times;</button>
+                    <strong>Attention ! </strong> {{ flash }}
+                </div>
+            {% endfor %}
+            {% block main %}{% endblock %}
+
+        </div>
+    </div>
+</div>
+
+
+{% block footScripts %}
+    <script src="/js/vendor/jquery-2.1.1.min.js"></script>
+    <script src="/js/vendor/bootstrap.min.js"></script>
+{% endblock %}
+</body>
+</html>

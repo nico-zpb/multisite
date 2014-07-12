@@ -1,0 +1,3 @@
+hotels_base_homepage:
+    path:     /
+    defaults: { _controller: HotelsBaseBundle:Default:index }

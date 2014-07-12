@@ -1,0 +1,3 @@
+installer_base_homepage:
+    path:     /
+    defaults: { _controller: InstallerBaseBundle:Default:index }

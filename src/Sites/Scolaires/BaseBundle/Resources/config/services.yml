@@ -1,0 +1,7 @@
+parameters:
+#    scolaires_base.example.class: Sites\Scolaires\BaseBundle\Example
+
+services:
+#    scolaires_base.example:
+#        class: %scolaires_base.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

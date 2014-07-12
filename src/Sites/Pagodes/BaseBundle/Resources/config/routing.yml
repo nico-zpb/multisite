@@ -1,0 +1,3 @@
+pagodes_base_homepage:
+    path:     /
+    defaults: { _controller: PagodesBaseBundle:Default:index }

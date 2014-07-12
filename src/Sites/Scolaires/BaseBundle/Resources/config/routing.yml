@@ -1,0 +1,3 @@
+scolaires_base_homepage:
+    path:     /
+    defaults: { _controller: ScolairesBaseBundle:Default:index }

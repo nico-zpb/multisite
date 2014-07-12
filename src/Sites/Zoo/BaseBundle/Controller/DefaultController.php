@@ -1,0 +1,13 @@
+<?php
+
+namespace Sites\Zoo\BaseBundle\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
+class DefaultController extends Controller
+{
+    public function indexAction()
+    {
+        return $this->render('ZooBaseBundle:Default:index.html.twig');
+    }
+}

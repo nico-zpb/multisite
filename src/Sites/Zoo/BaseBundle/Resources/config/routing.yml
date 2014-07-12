@@ -1,0 +1,3 @@
+zoo_base_homepage:
+    path:     /
+    defaults: { _controller: ZooBaseBundle:Default:index }

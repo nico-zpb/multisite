@@ -1,0 +1,3 @@
+groupes_base_homepage:
+    path:     /
+    defaults: { _controller: GroupesBaseBundle:Default:index }

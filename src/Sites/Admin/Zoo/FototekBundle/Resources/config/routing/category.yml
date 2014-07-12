@@ -1,0 +1,3 @@
+admin_zoo_fototek_category_homepage:
+    path:     /categories
+    defaults: { _controller: AdminZooFototekBundle:Category:index }

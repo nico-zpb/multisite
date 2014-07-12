@@ -1,0 +1,65 @@
+admin_zoo_fototek:
+    resource: "@AdminZooFototekBundle/Resources/config/routing.yml"
+    host: admin.zooparc.local
+    prefix:   /zoo
+
+installer_base:
+    resource: "@InstallerBaseBundle/Resources/config/routing.yml"
+    host: zoobeauval.local
+    prefix:   /install
+
+admin_common_base:
+    resource: "@AdminCommonBaseBundle/Resources/config/routing.yml"
+    host: admin.zooparc.local
+    prefix:   /
+
+scolaires_base:
+    resource: "@ScolairesBaseBundle/Resources/config/routing.yml"
+    host: scolaires.zoobeauval.local
+    prefix:   /
+
+ce_base:
+    resource: "@CEBaseBundle/Resources/config/routing.yml"
+    host: ce.zoobeauval.local
+    prefix:   /
+
+groupes_base:
+    resource: "@GroupesBaseBundle/Resources/config/routing.yml"
+    host: groupes.zoobeauval.local
+    prefix:   /
+
+pro_base:
+    resource: "@ProBaseBundle/Resources/config/routing.yml"
+    host: pro.zoobeauval.local
+    prefix:   /
+
+hotels_base:
+    resource: "@HotelsBaseBundle/Resources/config/routing.yml"
+    host: leshotelsdebeauval.local
+    prefix:   /
+
+beauval_nature_base:
+    resource: "@BeauvalNatureBaseBundle/Resources/config/routing.yml"
+    host: beauvalnature.local
+    prefix:   /
+
+hameaux_base:
+    resource: "@HameauxBaseBundle/Resources/config/routing.yml"
+    host: leshameauxdebeauval.local
+    prefix:   /
+
+pagodes_base:
+    resource: "@PagodesBaseBundle/Resources/config/routing.yml"
+    host: lespagodesdebeauval.local
+    prefix:   /
+
+jardins_base:
+    resource: "@JardinsBaseBundle/Resources/config/routing.yml"
+    host: lesjardinsdebeauval.local
+    prefix:   /
+
+zoo_base:
+    resource: "@ZooBaseBundle/Resources/config/routing.yml"
+    host: zoobeauval.local
+    prefix:   /
+

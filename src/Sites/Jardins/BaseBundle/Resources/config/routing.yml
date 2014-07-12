@@ -1,0 +1,3 @@
+jardins_base_homepage:
+    path:     /
+    defaults: { _controller: JardinsBaseBundle:Default:index }

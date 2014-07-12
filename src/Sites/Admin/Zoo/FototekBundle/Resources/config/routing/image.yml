@@ -1,0 +1,3 @@
+admin_zoo_fototek_image_homepage:
+    path:     /images
+    defaults: { _controller: AdminZooFototekBundle:Image:index }

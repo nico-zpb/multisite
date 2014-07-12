@@ -1,0 +1,7 @@
+parameters:
+#    admin_zoo_fototek.example.class: Sites\Admin\Zoo\FototekBundle\Example
+
+services:
+#    admin_zoo_fototek.example:
+#        class: %admin_zoo_fototek.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

@@ -1,0 +1,18 @@
+parameters:
+#    zoo_base.example.class: Sites\Zoo\BaseBundle\Example
+    zoo_fototek_base_dir: "%kernel.root_dir%/../web/uploads/zoo/phototheque"
+    zoo_fototek_originals_dirname: "originales"
+    zoo_fototek_mds_dirname: "mds"
+    zoo_fototek_slides_dirname: "slides"
+    zoo_fototek_thumbnails_dirname: "thumbnails"
+    zoo_fototek_archives_dirname: "archives"
+    zoo_fototek_allowed_extensions: ["jpeg","jpg","JPEG","JPG"]
+    zoo_fototek_mr_max_size: 1600
+    zoo_fototek_slide_max_size: 800
+    zoo_fototek_thumbnail_max_size: 400
+
+services:
+#    zoo_base.example:
+#        class: %zoo_base.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
+

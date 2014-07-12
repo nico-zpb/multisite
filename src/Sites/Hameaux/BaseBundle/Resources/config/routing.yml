@@ -1,0 +1,3 @@
+hameaux_base_homepage:
+    path:     /
+    defaults: { _controller: HameauxBaseBundle:Default:index }
