@@ -1,3 +1,7 @@
 admin_zoo_fototek_image_homepage:
-    path:     /images
+    path:     /
     defaults: { _controller: AdminZooFototekBundle:Image:index }
+
+admin_zoo_fototek_image_new:
+    path:     /nouvelle
+    defaults: { _controller: AdminZooFototekBundle:Image:new }

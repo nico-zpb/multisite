@@ -4,8 +4,8 @@ admin_zoo_fototek_bases_routes:
 
 admin_zoo_fototek_image_routes:
     resource: "@AdminZooFototekBundle/Resources/config/routing/image.yml"
-    prefix:     /phototheque
+    prefix:     /phototheque/images
 
 admin_zoo_fototek_category_routes:
     resource: "@AdminZooFototekBundle/Resources/config/routing/category.yml"
-    prefix:     /phototheque
+    prefix:     /phototheque/categories

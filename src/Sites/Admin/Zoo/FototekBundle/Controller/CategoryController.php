@@ -29,4 +29,10 @@ class CategoryController extends Controller
     {
         return $this->render("AdminZooFototekBundle:Category:index.html.twig");
     }
+
+    public function newAction()
+    {
+        $cats = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFCategory")->findAll();
+        return $this->render("AdminZooFototekBundle:Category:new.html.twig", ["categories"=>$cats]);
+    }
 }
