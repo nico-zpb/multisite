@@ -1,0 +1,125 @@
+127.0.0.1 zoobeauval.local
+127.0.0.1 lesjardinsdebeauval.local
+127.0.0.1 leshameauxdebeauval.local
+127.0.0.1 lespagodesdebeauval.local
+127.0.0.1 leshotelsdebeauval.local
+127.0.0.1 pro.zoobeauval.local
+127.0.0.1 groupes.zoobeauval.local
+127.0.0.1 ce.zoobeauval.local
+127.0.0.1 scolaires.zoobeauval.local
+127.0.0.1 beauvalnature.local
+127.0.0.1 admin.zooparc.local
+
+
+
+#######################################
+
+<VirtualHost *:80>
+    ServerName zoobeauval.local
+    DocumentRoot "H:\virtualhosts\multisite\web"
+    <Directory "H:\virtualhosts\multisite\web" >
+            Options Indexes FollowSymLinks
+            AllowOverride All
+            Require all granted
+    </Directory>
+</VirtualHost>
+
+<VirtualHost *:80>
+    ServerName lesjardinsdebeauval.local
+    DocumentRoot "H:\virtualhosts\multisite\web"
+    <Directory "H:\virtualhosts\multisite\web" >
+            Options Indexes FollowSymLinks
+            AllowOverride All
+            Require all granted
+    </Directory>
+</VirtualHost>
+
+<VirtualHost *:80>
+    ServerName leshameauxdebeauval.local
+    DocumentRoot "H:\virtualhosts\multisite\web"
+    <Directory "H:\virtualhosts\multisite\web" >
+            Options Indexes FollowSymLinks
+            AllowOverride All
+            Require all granted
+    </Directory>
+</VirtualHost>
+
+<VirtualHost *:80>
+    ServerName lespagodesdebeauval.local
+    DocumentRoot "H:\virtualhosts\multisite\web"
+    <Directory "H:\virtualhosts\multisite\web" >
+            Options Indexes FollowSymLinks
+            AllowOverride All
+            Require all granted
+    </Directory>
+</VirtualHost>
+
+<VirtualHost *:80>
+    ServerName leshotelsdebeauval.local
+    DocumentRoot "H:\virtualhosts\multisite\web"
+    <Directory "H:\virtualhosts\multisite\web" >
+            Options Indexes FollowSymLinks
+            AllowOverride All
+            Require all granted
+    </Directory>
+</VirtualHost>
+
+<VirtualHost *:80>
+    ServerName pro.zoobeauval.local
+    DocumentRoot "H:\virtualhosts\multisite\web"
+    <Directory "H:\virtualhosts\multisite\web" >
+            Options Indexes FollowSymLinks
+            AllowOverride All
+            Require all granted
+    </Directory>
+</VirtualHost>
+
+<VirtualHost *:80>
+    ServerName groupes.zoobeauval.local
+    DocumentRoot "H:\virtualhosts\multisite\web"
+    <Directory "H:\virtualhosts\multisite\web" >
+            Options Indexes FollowSymLinks
+            AllowOverride All
+            Require all granted
+    </Directory>
+</VirtualHost>
+
+<VirtualHost *:80>
+    ServerName ce.zoobeauval.local
+    DocumentRoot "H:\virtualhosts\multisite\web"
+    <Directory "H:\virtualhosts\multisite\web" >
+            Options Indexes FollowSymLinks
+            AllowOverride All
+            Require all granted
+    </Directory>
+</VirtualHost>
+
+<VirtualHost *:80>
+    ServerName scolaires.zoobeauval.local
+    DocumentRoot "H:\virtualhosts\multisite\web"
+    <Directory "H:\virtualhosts\multisite\web" >
+            Options Indexes FollowSymLinks
+            AllowOverride All
+            Require all granted
+    </Directory>
+</VirtualHost>
+
+<VirtualHost *:80>
+    ServerName beauvalnature.local
+    DocumentRoot "H:\virtualhosts\multisite\web"
+    <Directory "H:\virtualhosts\multisite\web" >
+            Options Indexes FollowSymLinks
+            AllowOverride All
+            Require all granted
+    </Directory>
+</VirtualHost>
+
+<VirtualHost *:80>
+    ServerName admin.zooparc.local
+    DocumentRoot "H:\virtualhosts\multisite\web"
+    <Directory "H:\virtualhosts\multisite\web" >
+            Options Indexes FollowSymLinks
+            AllowOverride All
+            Require all granted
+    </Directory>
+</VirtualHost>
