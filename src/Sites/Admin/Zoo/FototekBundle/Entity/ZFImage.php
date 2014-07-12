@@ -117,6 +117,12 @@ class ZFImage
     private $archivedAt;
 
     /**
+     * @var integer
+     * @ORM\Column(name="position", type="integer")
+     */
+    private $position;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Sites\Admin\Zoo\FototekBundle\Entity\ZFCategory")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id", nullable=false)
      */
@@ -453,5 +459,28 @@ class ZFImage
     public function getCategory()
     {
         return $this->category;
+    }
+
+    /**
+     * Set position
+     *
+     * @param integer $position
+     * @return ZFImage
+     */
+    public function setPosition($position)
+    {
+        $this->position = $position;
+
+        return $this;
+    }
+
+    /**
+     * Get position
+     *
+     * @return integer 
+     */
+    public function getPosition()
+    {
+        return $this->position;
     }
 }
