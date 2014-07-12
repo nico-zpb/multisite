@@ -37,7 +37,6 @@ class CategoryController extends Controller
 
     public function newAction()
     {
-
         $cat = new ZFCategory();
         return $this->render("AdminZooFototekBundle:Category:new.html.twig", ["form_errors"=>[], "entity"=>$cat]);
     }
@@ -96,14 +95,16 @@ class CategoryController extends Controller
 
     public function updateAction($id, Request $request)
     {
+        $csrfProvider = $this->container->get("form.csrf_provider");
+        if(empty($request->request->get("update_category_form")["_token"]) || !$csrfProvider->isCsrfTokenValid("new_category", $request->request->get("update_category_form")["_token"])){
+            throw new AccessDeniedException();
+        }
         $cat = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFCategory")->find($id);
         if(!$cat){
             throw new EntityNotFoundException();
         }
         $errors = [];
-
         $form = $request->request->get("update_category_form");
-
         if(empty($form["name"])){
             $errors[] = "Le champs 'nom' est manquant.";
         }
@@ -134,5 +135,25 @@ class CategoryController extends Controller
         $em->flush();
         $this->container->get("session")->getFlashBag()->add("success", "La catégorie " . $cat->getName() . " a bien été mise à jour.");
         return $this->redirect($this->generateUrl("admin_zoo_fototek_category_homepage"));
+    }
+
+    public function deleteAction($id, Request $request)
+    {
+        $token = $request->query->get("_token");
+        $csrfProvider = $this->container->get("form.csrf_provider");
+        if(!$token || !$csrfProvider->isCsrfTokenValid("delete_category", $token)){
+            throw new AccessDeniedException();
+        }
+        $cat = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFCategory")->find($id);
+        if(!$cat){
+            throw new EntityNotFoundException();
+        }
+        $name = $cat->getName();
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($cat);
+        $em->flush();
+        $this->container->get("session")->getFlashBag()->add("success", "La catégorie " . $name . " a bien été supprimée.");
+        return $this->redirect($this->generateUrl("admin_zoo_fototek_category_homepage"));
+
     }
 }

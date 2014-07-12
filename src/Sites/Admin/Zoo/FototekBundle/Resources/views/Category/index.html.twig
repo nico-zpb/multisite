@@ -32,12 +32,27 @@
                     <td>{{ cat.slug }}</td>
                     <td><a href="#"><i class="fa fa-picture-o"></i></a></td>
                     <td><a href="{{ path("admin_zoo_fototek_category_edit", {id: cat.id}) }}"><i class="fa fa-pencil-square-o"></i></a></td>
-                    <td><a href="#"><i class="fa fa-trash-o"></i></a></td>
+                    <td><a href="{{ path("admin_zoo_fototek_category_delete", {id:cat.id,_token:csrf_token("delete_category")}) }}" class="delete-alert" data-name="{{ cat.name }}"><i class="fa fa-trash-o"></i></a></td>
                 </tr>
             {% endfor %}
         {% endif %}
         </tbody>
     </table>
 </div>
+
+{% endblock %}
+{% block footScripts %}
+    {{ parent() }}
+    <script>
+        $(function(){
+            $(".delete-alert").on("click", function(e){
+                e.preventDefault();
+                var name = $(this).data("name");
+                if(window.confirm("Attention, cette action est irréversible, êtes-vous certain de vouloir continuer et effacer '" + name + "' ?")){
+                    window.location.href = $(this).attr("href");
+                }
+            });
+        });
+    </script>
 
 {% endblock %}

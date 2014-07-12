@@ -21,3 +21,9 @@ admin_zoo_fototek_category_update:
     path:     /maj/{id}
     defaults: { _controller: AdminZooFototekBundle:Category:update }
     requirements: { _method: post, id: \d+ }
+
+admin_zoo_fototek_category_delete:
+    path:     /suppression/{id}
+    defaults: { _controller: AdminZooFototekBundle:Category:delete }
+    requirements:
+        id: \d+
