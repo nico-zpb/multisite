@@ -7,16 +7,21 @@
     <div class="row">
         <div class="col-md-6">
             <form class="form-horizontal" action="{{ path("admin_zoo_fototek_category_create") }}" method="post">
+                {% if form_errors|length>0 %}
+                    {% for error in form_errors %}
+                        <div class="alert alert-danger" role="alert">{{ error }}</div>
+                    {% endfor %}
+                {% endif %}
                 <div class="form-group">
                     <label class="col-md-2 control-label" for="new_category_form_name">Nom*</label>
                     <div class="col-md-8">
-                        <input class="form-control" type="text" name="new_category_form[name]" id="new_category_form_name" required="required"/>
+                        <input class="form-control" type="text" name="new_category_form[name]" id="new_category_form_name" required="required" value="{{ entity.name }}"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-md-2 control-label" for="new_category_form_slug">Alias (slug) </label><button type="button" class="btn btn-primary" data-toggle="popover" title="aide" data-content="Non requis, si laissé vide, sera créé automatiquement. Seuls les lettres minuscules de a à z, les chiffres et le tiret sont acceptés."><i class="fa fa-question-circle"></i></button>
                     <div class="col-md-8">
-                        <input class="form-control" type="text" name="new_category_form[slug]" id="new_category_form_slug"/>
+                        <input class="form-control" type="text" name="new_category_form[slug]" id="new_category_form_slug" value="{{ entity.slug }}"/>
                     </div>
                 </div>
                 <input name="new_category_form[_token]" type="hidden" value="{{ csrf_token("new_category") }}"/>
