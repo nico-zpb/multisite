@@ -10,3 +10,14 @@ admin_zoo_fototek_category_create:
     path:     /creation
     defaults: { _controller: AdminZooFototekBundle:Category:create }
     requirements: { _method: post }
+
+admin_zoo_fototek_category_edit:
+    path:     /edition/{id}
+    defaults: { _controller: AdminZooFototekBundle:Category:edit }
+    requirements:
+        id: \d+
+
+admin_zoo_fototek_category_update:
+    path:     /maj/{id}
+    defaults: { _controller: AdminZooFototekBundle:Category:update }
+    requirements: { _method: post, id: \d+ }

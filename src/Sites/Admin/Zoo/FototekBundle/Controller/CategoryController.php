@@ -21,6 +21,7 @@
 namespace Sites\Admin\Zoo\FototekBundle\Controller;
 
 
+use Doctrine\ORM\EntityNotFoundException;
 use Sites\Admin\Zoo\FototekBundle\Entity\ZFCategory;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,9 +37,9 @@ class CategoryController extends Controller
 
     public function newAction()
     {
-        $cats = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFCategory")->findAll();
+
         $cat = new ZFCategory();
-        return $this->render("AdminZooFototekBundle:Category:new.html.twig", ["categories"=>$cats, "form_errors"=>[], "entity"=>$cat]);
+        return $this->render("AdminZooFototekBundle:Category:new.html.twig", ["form_errors"=>[], "entity"=>$cat]);
     }
 
     public function createAction(Request $request)
@@ -67,21 +68,71 @@ class CategoryController extends Controller
         if($catExists){
             $errors[] = "Il existe déjà une catégorie du même nom.";
         }
-        $em = $this->getDoctrine()->getManager();
+        $name = trim(preg_replace('/\s\s+/'," ",$form["name"]));
         $cat = new ZFCategory();
-        $cat->setName($form["name"]);
+        $cat->setName($name);
         if($form["slug"] != ""){
             $cat->setSlug($form["slug"]);
         }
-
         if($errors){
-            $cats = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFCategory")->findAll();
-            return $this->render("AdminZooFototekBundle:Category:new.html.twig", ["categories"=>$cats,"form_errors"=>$errors, "entity"=>$cat]);
+            return $this->render("AdminZooFototekBundle:Category:new.html.twig", ["form_errors"=>$errors, "entity"=>$cat]);
         }
-
+        $em = $this->getDoctrine()->getManager();
         $em->persist($cat);
         $em->flush();
         $this->container->get("session")->getFlashBag()->add("success", "La catégorie " . $cat->getName() . " a bien été enregistrée.");
+        return $this->redirect($this->generateUrl("admin_zoo_fototek_category_homepage"));
+    }
+
+    public function editAction($id)
+    {
+        $cat = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFCategory")->find($id);
+        if(!$cat){
+            throw new EntityNotFoundException();
+        }
+        $errors = [];
+        return $this->render("AdminZooFototekBundle:Category:edit.html.twig", ["form_errors"=>$errors, "entity"=>$cat]);
+    }
+
+    public function updateAction($id, Request $request)
+    {
+        $cat = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFCategory")->find($id);
+        if(!$cat){
+            throw new EntityNotFoundException();
+        }
+        $errors = [];
+
+        $form = $request->request->get("update_category_form");
+
+        if(empty($form["name"])){
+            $errors[] = "Le champs 'nom' est manquant.";
+        }
+        if(!empty($form["name"])){
+            if(preg_replace("/[a-zA-Z0-9éèêàçùëïôâ'!?, _-]/",'',$form["name"]) != ""){
+                $errors[] = "Le champs 'nom' contient des caractères interdits.";
+            }
+        }
+        if(!empty($form["slug"])){
+            if(preg_replace("/[a-z0-9-]/",'',$form["slug"]) != ""){
+                $errors[] = "Le champs 'alias' contient des caractères interdits.";
+            }
+        }
+        $catExists = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFCategory")->findOneByName($form["name"]);
+        if($catExists){
+            $errors[] = "Il existe déjà une catégorie du même nom.";
+        }
+        $name = trim(preg_replace('/\s\s+/'," ",$form["name"]));
+        $cat->setName($name);
+        if($form["slug"] != ""){
+            $cat->setSlug($form["slug"]);
+        }
+        if($errors){
+            return $this->render("AdminZooFototekBundle:Category:edit.html.twig", ["form_errors"=>$errors, "entity"=>$cat]);
+        }
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($cat);
+        $em->flush();
+        $this->container->get("session")->getFlashBag()->add("success", "La catégorie " . $cat->getName() . " a bien été mise à jour.");
         return $this->redirect($this->generateUrl("admin_zoo_fototek_category_homepage"));
     }
 }

@@ -31,7 +31,7 @@
                     <td>{{ cat.name }}</td>
                     <td>{{ cat.slug }}</td>
                     <td><a href="#"><i class="fa fa-picture-o"></i></a></td>
-                    <td><a href="#"><i class="fa fa-pencil-square-o"></i></a></td>
+                    <td><a href="{{ path("admin_zoo_fototek_category_edit", {id: cat.id}) }}"><i class="fa fa-pencil-square-o"></i></a></td>
                     <td><a href="#"><i class="fa fa-trash-o"></i></a></td>
                 </tr>
             {% endfor %}
