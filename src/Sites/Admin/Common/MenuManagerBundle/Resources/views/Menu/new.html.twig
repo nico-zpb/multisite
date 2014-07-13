@@ -3,5 +3,24 @@
 {% set page_title = "Menu Manager - Créer un nouveau menu" %}
 
 {% block content %}
-
+    <form class="form-horizontal" action="{{ path("admin_common_menu_manager_create") }}" method="post">
+        {% if form_errors|length>0 %}
+            {% for error in form_errors %}
+                <div class="alert alert-danger" role="alert">{{ error }}</div>
+            {% endfor %}
+        {% endif %}
+        <div class="form-group">
+            <label class="control-label col-md-2" for="new_menu_form_title">Nom*</label>
+            <div class="col-md-4">
+                <input class="form-control" type="text" name="new_menu_form[title]" id="new_menu_form_title" value="{{ menu.title }}"/>
+                <span class="help-block">Ce champs est requis. Seuls les caractères de a à z en minuscule, 0 à 9, - et _ sont autorisés.</span>
+            </div>
+        </div>
+        <input name="new_menu_form[_token]" type="hidden" value="{{ csrf_token("new_menu") }}"/>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-8">
+                <button class="btn btn-primary" type="submit">Enregistrer</button>
+            </div>
+        </div>
+    </form>
 {% endblock %}
