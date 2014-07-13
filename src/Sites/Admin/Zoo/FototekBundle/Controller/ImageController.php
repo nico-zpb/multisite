@@ -77,4 +77,107 @@ class ImageController extends Controller
         return $this->render("AdminZooFototekBundle:Image:by_category.html.twig",["category"=>$cat,"images"=>$images]);
 
     }
+
+    public function createAction(Request $request)
+    {
+        $csrfProvider = $this->container->get("form.csrf_provider");
+        $form = $request->request->get("new_image_form");
+
+        if(!$form["_token"] || !$csrfProvider->isCsrfTokenValid("new_image",$form["_token"])){
+            throw new AccessDeniedException();
+        }
+
+        $cat = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFCategory")->find($form["category"]);
+
+        if(!$cat){
+            throw new EntityNotFoundException();
+        }
+
+        // TODO validation
+
+        // TODO upload
+
+        // TODO get last position
+
+        // TODO save in db
+
+        // TODO crop image
+
+        // TODO flash message
+
+        // TODO redirection
+
+    }
+
+    public function editAction($id)
+    {
+        // TODO edit ZFImage
+    }
+
+    public function updateAction($id, Request $request)
+    {
+        // TODO update ZFImage
+    }
+
+    public function deleteAction($id)
+    {
+        // TODO delete ZFImage
+    }
+
+    public function moveupAction($id)
+    {
+        // TODO moveup ZFImage
+        $image = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFImage")->find($id);
+        if(!$image){
+            throw new EntityNotFoundException();
+        }
+        $pos = $image->getPosition();
+        if($pos>1){
+            $newPosition = $pos - 1;
+            $this->_move($image, $newPosition);
+        }
+        //TODO redirect
+    }
+
+    public function movedownAction($id)
+    {
+        // TODO movedown ZFImage
+        $image = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFImage")->find($id);
+        if(!$image){
+            throw new EntityNotFoundException();
+        }
+        $pos = $image->getPosition();
+        $newPosition = $pos + 1;
+        $this->_move($image, $newPosition);
+        //TODO redirect
+    }
+
+    public function moveAction($id, Request $request)
+    {
+        // TODO move ZFImage
+        $csrfProvider = $this->container->get("form.csrf_provider");
+        $form = $request->request->get("move_image_form");
+
+        if(!$form["_token"] || !$csrfProvider->isCsrfTokenValid("move_image",$form["_token"])){
+            throw new AccessDeniedException();
+        }
+
+        if(false == preg_match('/^[1-9][0-9]$/',$form["position"])){
+            throw new AccessDeniedException();
+        }
+
+        $image = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFImage")->find($id);
+        if(!$image){
+            throw new EntityNotFoundException();
+        }
+
+        $this->_move($image, $form["position"]);
+
+        //TODO redirect
+    }
+
+    private function _move($image, $newPosition)
+    {
+
+    }
 }
