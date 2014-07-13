@@ -5,6 +5,77 @@
 
 {% block content %}
 
+    <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
 
+        <div class="form-group">
+            <label class="control-label col-md-2" for="new_image_form_file">Fichier</label>
+            <div class="col-md-4">
+                <input type="file" name="new_image_form[file]" id="new_image_form_file"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="new_image_form_name">Nom</label>
+            <div class="col-md-4">
+                <input type="text" name="new_image_form[name]" id="new_image_form_name" value="" class="form-control"/>
+                <span class="help-block">Si le nom est laissé vide, le nom original du fichier sera utilisé. Caractères autorisés : a à z, A à Z, 0 à 9, - et _</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-4">
+                <div class="checkbox">
+                    <label for="new_image_form_date">
+                        <input type="checkbox" name="new_image_form[date]" id="new_image_form_date" checked="checked"/> Ajouter la date au nom de l'image ?
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-4">
+                <div class="checkbox">
+                    <label for="new_image_form_dims">
+                        <input type="checkbox" name="new_image_form[dims]" id="new_image_form_dims"/> Ajouter les dimensions au nom de l'image ?
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="new_image_form_slug">Alias (slug)</label>
+            <div class="col-md-4">
+                <input type="text" name="new_image_form[slug]" id="new_image_form_slug" value="" class="form-control"/>
+                <span class="help-block">Si l'alias est laissé vide, il sera créé automatiquement. Caractères autorisés : a à z en minuscule, 0 à 9 et le tiret.</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="new_image_form_title">Texte de l'attribut 'title'</label>
+            <div class="col-md-4">
+                <input type="text" name="new_image_form[title]" id="new_image_form_title" value="" class="form-control"/>
+                <span class="help-block">&laquo; &copy;ZooParc de Beauval &raquo; est ajouté automatiquement.</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="new_image_form_category">Catégorie</label>
+            <div class="col-md-4">
+                <select class="form-control" name="new_image_form[category]" id="new_image_form_category">
+                    {% for cat in categories %}
+                        <option value="{{ cat.id }}">{{ cat.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <input name="new_image_form[_token]" type="hidden" value="{{ csrf_token("new_image") }}"/>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-4">
+                <button class="btn btn-primary">Upload</button>
+            </div>
+        </div>
+    </form>
 
 {% endblock %}

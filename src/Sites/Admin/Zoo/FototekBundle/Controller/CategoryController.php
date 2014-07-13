@@ -139,6 +139,7 @@ class CategoryController extends Controller
 
     public function deleteAction($id, Request $request)
     {
+        //TODO update ZFImage => catégorie par défaut ?
         $token = $request->query->get("_token");
         $csrfProvider = $this->container->get("form.csrf_provider");
         if(!$token || !$csrfProvider->isCsrfTokenValid("delete_category", $token)){
