@@ -11,3 +11,8 @@ admin_zoo_fototek_image_get_by_cat_id:
     defaults: { _controller: AdminZooFototekBundle:Image:getbycatid }
     requirements:
         id: \d+
+
+admin_zoo_fototek_image_filter_by_cat:
+    path: /filtre/par_category
+    defaults: { _controller: AdminZooFototekBundle:Image:filterbycat }
+    requirements: { _method: post }

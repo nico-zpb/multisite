@@ -4,7 +4,7 @@
 {% block main %}
 
     <div class="row">
-        <div class="col-sm-3 col-md-1">
+        <div class="col-sm-3 col-md-2">
             <a class="btn btn-primary btn-lg" href="{{ path("admin_zoo_fototek_image_new") }}"><i class="fa fa-upload"></i> Upload</a>
             <hr/>
             <ul class="nav nav-sidebar">
@@ -24,7 +24,7 @@
                 <li><a href="{{ path("admin_zoo_fototek_category_new") }}"><i class="fa fa-plus-square-o"></i> Nouvelle catégorie</a></li>
             </ul>
         </div>
-        <div class="col-sm-9 col-md-11">
+        <div class="col-sm-9 col-md-10">
             {% block content %}{% endblock %}
         </div>
     </div>
