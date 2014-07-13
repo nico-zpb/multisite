@@ -169,7 +169,17 @@ class MenuController extends Controller
                     }
                 ]
             );
-            return $this->render("AdminCommonMenuManagerBundle:Menu:edit.html.twig", ["update_form_errors"=>$update_errors, "add_child_form_errors"=>[],"menu"=>$menu, "child"=>$child, "tree"=>$html]);
+            if($menu->getLvl()>0){
+                $parent = $repo->getPath($menu)[0];
+                return $this->render("AdminCommonMenuManagerBundle:Menu:edit_child.html.twig", ["update_form_errors"=>$update_errors, "add_child_form_errors"=>[],"root"=>$parent,"menu"=>$menu, "child"=>$child, "tree"=>$html]);
+            } else {
+                return $this->render("AdminCommonMenuManagerBundle:Menu:edit.html.twig", ["update_form_errors"=>$update_errors, "add_child_form_errors"=>[],"menu"=>$menu, "child"=>$child, "tree"=>$html]);
+            }
+        }
+
+        $menu->setTitle($form["title"]);
+        if($form["link"]){
+            $menu->setLink(filter_var($form["link"], FILTER_SANITIZE_URL));
         }
 
         $em = $this->getDoctrine()->getManager();
@@ -177,6 +187,7 @@ class MenuController extends Controller
         $em->flush();
 
         $this->container->get("session")->getFlashBag()->add("success", "Le menu " . $menu->getTitle() . " a bien été mis à jour.");
+
         return $this->redirect($this->generateUrl("admin_common_menu_manager_homepage"));
     }
 
@@ -238,7 +249,7 @@ class MenuController extends Controller
         $this->container->get("session")->getFlashBag()->add("success", "L'entrée' " . $child->getTitle() . " a bien été ajouté à " . $parent->getTitle());
 
         if($parent->getLvl()>0){
-            return $this->redirect($this->generateUrl("admin_common_menu_manager_edit", ["id"=>$parent->getId()]));
+            return $this->redirect($this->generateUrl("admin_common_menu_manager_edit_child", ["id"=>$parent->getId()]));
         } else {
             return $this->redirect($this->generateUrl("admin_common_menu_manager_edit", ["id"=>$parent->getId()]));
         }
@@ -253,6 +264,7 @@ class MenuController extends Controller
             throw new EntityNotFoundException();
         }
         $parent = $repo->getPath($node)[0];
+        $child = new Menu();
         $cont = $this;
         $html = $repo->childrenHierarchy(
             $node,
@@ -264,6 +276,51 @@ class MenuController extends Controller
             }]
         );
 
-        return $this->render("AdminCommonMenuManagerBundle:Menu:edit_child.html.twig", ["root"=>$parent, "menu"=>$node, "tree"=>$html]);
+        return $this->render("AdminCommonMenuManagerBundle:Menu:edit_child.html.twig", ["update_form_errors"=>[],"add_child_form_errors"=>[], "root"=>$parent, "menu"=>$node, "tree"=>$html, "child"=>$child]);
     }
+
+    public function deleteChildAction($id)
+    {
+        $repo = $this->getDoctrine()->getRepository("AdminCommonMenuManagerBundle:Menu");
+        $node = $repo->find($id);
+        if(!$node){
+            throw new EntityNotFoundException();
+        }
+
+        $root = $repo->getPath($node)[0];
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($node);
+        $em->flush();
+        return $this->redirect($this->generateUrl("admin_common_menu_manager_edit", ["id"=>$root->getId()]));
+    }
+
+    public function getUpChildAction($id)
+    {
+        $repo = $this->getDoctrine()->getRepository("AdminCommonMenuManagerBundle:Menu");
+        $node = $repo->find($id);
+        if(!$node){
+            throw new EntityNotFoundException();
+        }
+        $root = $repo->getPath($node)[0];
+        $repo->moveUp($node, 1);
+        $em = $this->getDoctrine()->getManager();
+        $em->flush();
+        return $this->redirect($this->generateUrl("admin_common_menu_manager_edit", ["id"=>$root->getId()]));
+    }
+
+    public function getDownChildAction($id)
+    {
+        $repo = $this->getDoctrine()->getRepository("AdminCommonMenuManagerBundle:Menu");
+        $node = $repo->find($id);
+        if(!$node){
+            throw new EntityNotFoundException();
+        }
+        $root = $repo->getPath($node)[0];
+        $repo->moveDown($node, 1);
+        $em = $this->getDoctrine()->getManager();
+        $em->flush();
+        return $this->redirect($this->generateUrl("admin_common_menu_manager_edit", ["id"=>$root->getId()]));
+    }
+
+
 }

@@ -27,25 +27,30 @@ admin_common_menu_manager_delete:
     defaults: { _controller: AdminCommonMenuManagerBundle:Menu:delete }
     requirements:
         id: \d+
-##
+
 admin_common_menu_manager_edit_child:
     path:     /edition_enfant/{id}
     defaults: { _controller: AdminCommonMenuManagerBundle:Menu:editChild }
     requirements:
         id: \d+
-
+##
 admin_common_menu_manager_up_child:
-    path:     /
-    defaults: { _controller: AdminCommonMenuManagerBundle:Menu:index }
+    path:     /monter_enfant/{id}
+    defaults: { _controller: AdminCommonMenuManagerBundle:Menu:getUpChild }
+    requirements:
+        id: \d+
 
 admin_common_menu_manager_down_child:
-    path:     /
-    defaults: { _controller: AdminCommonMenuManagerBundle:Menu:index }
+    path:     /descendre_enfant/{id}
+    defaults: { _controller: AdminCommonMenuManagerBundle:Menu:getDownChild }
+    requirements:
+        id: \d+
 
 admin_common_menu_manager_delete_child:
-    path:     /
-    defaults: { _controller: AdminCommonMenuManagerBundle:Menu:index }
-##
+    path:     /supprimer_enfant/{id}
+    defaults: { _controller: AdminCommonMenuManagerBundle:Menu:deleteChild }
+    requirements:
+        id: \d+
 
 admin_common_menu_manager_add_child:
     path:     /ajouter_enfant/{id}
