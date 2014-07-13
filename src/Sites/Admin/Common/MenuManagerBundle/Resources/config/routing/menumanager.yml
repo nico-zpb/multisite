@@ -1,3 +1,13 @@
 admin_common_menu_manager_homepage:
     path:     /
-    defaults: { _controller: AdminCommonMenuManagerBundle:Default:index }
+    defaults: { _controller: AdminCommonMenuManagerBundle:Menu:index }
+
+admin_common_menu_manager_new:
+    path:     /nouveau
+    defaults: { _controller: AdminCommonMenuManagerBundle:Menu:new }
+
+admin_common_menu_manager_create:
+    path:     /creation
+    defaults: { _controller: AdminCommonMenuManagerBundle:Menu:create }
+    requirements: { _method: post }
+
