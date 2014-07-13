@@ -1,0 +1,7 @@
+parameters:
+#    admin_common_menu_manager.example.class: Sites\Admin\Common\MenuManagerBundle\Example
+
+services:
+#    admin_common_menu_manager.example:
+#        class: %admin_common_menu_manager.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

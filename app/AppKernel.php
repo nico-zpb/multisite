@@ -30,6 +30,7 @@ class AppKernel extends Kernel
             new Sites\Admin\Common\BaseBundle\AdminCommonBaseBundle(),
             new Sites\Installer\BaseBundle\InstallerBaseBundle(),
             new Sites\Admin\Zoo\FototekBundle\AdminZooFototekBundle(),
+            new Sites\Admin\Common\MenuManagerBundle\AdminCommonMenuManagerBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

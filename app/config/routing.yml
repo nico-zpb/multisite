@@ -1,3 +1,8 @@
+admin_common_menu_manager:
+    resource: "@AdminCommonMenuManagerBundle/Resources/config/routing.yml"
+    host: admin.zooparc.local
+    prefix:   /
+
 admin_zoo_fototek:
     resource: "@AdminZooFototekBundle/Resources/config/routing.yml"
     host: admin.zooparc.local

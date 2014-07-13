@@ -1,0 +1,3 @@
+admin_common_menu_manager_homepage:
+    path:     /
+    defaults: { _controller: AdminCommonMenuManagerBundle:Default:index }
