@@ -4,6 +4,7 @@
 
 
 {% block content %}
+    {% if categories|length %}
     <div class="row">
         <div class="col-md-offset-2 col-md-4">
             <div class="alert alert-info">
@@ -88,5 +89,5 @@
             </div>
         </div>
     </form>
-
+    {% endif %}
 {% endblock %}
