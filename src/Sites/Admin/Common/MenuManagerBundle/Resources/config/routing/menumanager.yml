@@ -11,3 +11,41 @@ admin_common_menu_manager_create:
     defaults: { _controller: AdminCommonMenuManagerBundle:Menu:create }
     requirements: { _method: post }
 
+admin_common_menu_manager_edit:
+    path:     /edition/{id}
+    defaults: { _controller: AdminCommonMenuManagerBundle:Menu:edit }
+    requirements:
+        id: \d+
+
+admin_common_menu_manager_update:
+    path:     /modifier/{id}
+    defaults: { _controller: AdminCommonMenuManagerBundle:Menu:update }
+    requirements: { _method: post, id: \d+ }
+
+##
+admin_common_menu_manager_edit_child:
+    path:     /
+    defaults: { _controller: AdminCommonMenuManagerBundle:Menu:index }
+
+admin_common_menu_manager_up_child:
+    path:     /
+    defaults: { _controller: AdminCommonMenuManagerBundle:Menu:index }
+
+admin_common_menu_manager_down_child:
+    path:     /
+    defaults: { _controller: AdminCommonMenuManagerBundle:Menu:index }
+
+admin_common_menu_manager_delete_child:
+    path:     /
+    defaults: { _controller: AdminCommonMenuManagerBundle:Menu:index }
+##
+
+admin_common_menu_manager_add_child:
+    path:     /ajouter_enfant/{id}
+    defaults: { _controller: AdminCommonMenuManagerBundle:Menu:addChild }
+    requirements: { _method: post, id: \d+ }
+
+
+
+
+

@@ -1,0 +1,81 @@
+{% extends "AdminCommonMenuManagerBundle:Layouts:master.html.twig" %}
+
+{% set page_title = "Menu Manager - Edition de \"" ~ menu.title ~ "\"" %}
+
+{% block content %}
+
+    <h3>Modifier {{ menu.title }}</h3>
+    <form class="form-horizontal" action="{{ path("admin_common_menu_manager_update", {id:menu.id}) }}" method="post">
+        {% if update_form_errors|length>0 %}
+            {% for error in update_form_errors %}
+                <div class="alert alert-danger" role="alert">{{ error }}</div>
+            {% endfor %}
+        {% endif %}
+        <div class="form-group">
+            <label class="control-label col-md-2" for="update_menu_form_title">Nom</label>
+            <div class="col-md-4">
+                <input type="text" name="update_menu_form[title]" id="update_menu_form_title" value="{{ menu.title }}" class="form-control"/>
+            </div>
+        </div>
+
+        <input name="update_menu_form[_token]" type="hidden" value="{{ csrf_token("update_menu") }}"/>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-4">
+                <button class="btn btn-primary" type="submit">Mettre à jour</button>
+            </div>
+        </div>
+
+    </form>
+
+
+    <h3>Ajouter une entrée à {{ menu.title }}</h3>
+
+    <form class="form-horizontal" action="{{ path("admin_common_menu_manager_add_child", {id:menu.id}) }}" method="post">
+        {% if add_child_form_errors|length>0 %}
+            {% for error in add_child_form_errors %}
+                <div class="alert alert-danger" role="alert">{{ error }}</div>
+            {% endfor %}
+        {% endif %}
+
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="add_child_form_title">Nom*</label>
+            <div class="col-md-4">
+                <input type="text" name="add_child_form[title]" id="add_child_form_title" class="form-control" value="{{ child.title }}"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="add_child_form_link">Lien</label>
+            <div class="col-md-4">
+                <input type="text" name="add_child_form[link]" id="add_child_form_link" class="form-control" value="{{ child.link }}"/>
+            </div>
+        </div>
+
+
+        <input name="add_child_form[_token]" type="hidden" value="{{ csrf_token("add_child_menu") }}"/>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-4">
+                <button class="btn btn-primary" type="submit">Enregistrer l'entrée</button>
+            </div>
+        </div>
+
+    </form>
+
+    <h3>Entrée du {{ menu.title }}</h3>
+
+    {% if tree != null %}
+    <div>
+        {{ tree|raw }}
+    </div>
+    {% else %}
+        <div class="row">
+            <div class="col-md-6">
+                <div class="alert alert-info">{{ menu.title }} n'a pas d'entrées </div>
+            </div>
+        </div>
+
+    {% endif %}
+
+
+{% endblock %}

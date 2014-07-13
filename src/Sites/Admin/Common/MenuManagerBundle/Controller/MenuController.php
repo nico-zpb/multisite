@@ -21,6 +21,7 @@
 namespace Sites\Admin\Common\MenuManagerBundle\Controller;
 
 
+use Doctrine\ORM\EntityNotFoundException;
 use Sites\Admin\Common\MenuManagerBundle\Entity\Menu;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -80,5 +81,145 @@ class MenuController extends Controller
 
         $this->container->get("session")->getFlashBag()->add("success", "Le menu '" . $menu->getTitle(). "' a bien été enregistré.");
         return $this->redirect($this->generateUrl("admin_common_menu_manager_homepage"));
+    }
+
+    public function editAction($id)
+    {
+        $repo = $this->getDoctrine()->getRepository("AdminCommonMenuManagerBundle:Menu");
+        $menu = $repo->find($id);
+
+        if(!$menu){
+            throw new EntityNotFoundException();
+        }
+
+        $child = new Menu();
+        $cont = $this;
+        $html = $repo->childrenHierarchy(
+            $menu,
+            false,
+            [
+                "decorate"=>true,
+                "nodeDecorator"=>function($node) use (&$cont){
+                    return "<span>".$node["title"]." <a href='" .$cont->generateUrl("admin_common_menu_manager_edit_child",["id"=>$node["id"]]). "'>editer</a>| <a href='".$node["link"]."' target='_blank' >visiter</a> | <a href='".$cont->generateUrl("admin_common_menu_manager_up_child",["id"=>$node["id"]])."'>monter</a> | <a href='".$cont->generateUrl("admin_common_menu_manager_down_child",["id"=>$node["id"]])."'>descendre</a> | <a href='".$cont->generateUrl("admin_common_menu_manager_delete_child",["id"=>$node["id"]])."'>supprimer</a> </span>";
+                }
+            ]
+        );
+        return $this->render("AdminCommonMenuManagerBundle:Menu:edit.html.twig", ["update_form_errors"=>[], "add_child_form_errors"=>[],"menu"=>$menu, "child"=>$child, "tree"=>$html]);
+    }
+
+    public function updateAction($id, Request $request)
+    {
+        $csrfProvider = $this->get("form.csrf_provider");
+        $form = $request->request->get("update_menu_form");
+
+        if(empty($form["_token"]) || !$csrfProvider->isCsrfTokenValid("update_menu", $form["_token"])){
+            throw new AccessDeniedException();
+        }
+
+        $update_errors = [];
+
+        if(empty($form['title'])){
+            $update_errors[] = "Le champs 'nom' est requis.";
+        }
+
+        if(null != $forbiden = preg_replace('/[a-z0-9_-]/','',$form["title"]) != null){
+            $update_errors[] = "Le champs 'nom' contenait des caractères interdits" ;
+        }
+        $repo = $this->getDoctrine()->getRepository("AdminCommonMenuManagerBundle:Menu");
+        $menu = $repo->find($id);
+
+        if(!$menu){
+            throw new EntityNotFoundException();
+        }
+
+
+
+        if($update_errors){
+            $child = new Menu();
+            $cont = $this;
+            $html = $repo->childrenHierarchy(
+                $menu,
+                false,
+                [
+                    "decorate"=>true,
+                    "nodeDecorator"=>function($node) use (&$cont){
+                        return "<span>".$node["title"]." <a href='" .$cont->generateUrl("admin_common_menu_manager_edit_child",["id"=>$node["id"]]). "'>editer</a>| <a href='".$node["link"]."' target='_blank' >visiter</a> | <a href='".$cont->generateUrl("admin_common_menu_manager_up_child",["id"=>$node["id"]])."'>monter</a> | <a href='".$cont->generateUrl("admin_common_menu_manager_down_child",["id"=>$node["id"]])."'>descendre</a> | <a href='".$cont->generateUrl("admin_common_menu_manager_delete_child",["id"=>$node["id"]])."'>supprimer</a> </span>";
+                    }
+                ]
+            );
+            return $this->render("AdminCommonMenuManagerBundle:Menu:edit.html.twig", ["update_form_errors"=>$update_errors, "add_child_form_errors"=>[],"menu"=>$menu, "child"=>$child, "tree"=>$html]);
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($menu);
+        $em->flush();
+
+        $this->container->get("session")->getFlashBag()->add("success", "Le menu " . $menu->getTitle() . " a bien été mis à jour.");
+        return $this->redirect($this->generateUrl("admin_common_menu_manager_homepage"));
+    }
+
+
+
+
+    public function addChildAction($id, Request $request)
+    {
+        $csrfProvider = $this->get("form.csrf_provider");
+        $form = $request->request->get("add_child_form");
+
+        if(empty($form["_token"]) || !$csrfProvider->isCsrfTokenValid("add_child_menu",$form["_token"])){
+            throw new AccessDeniedException();
+        }
+        $repo = $this->getDoctrine()->getRepository("AdminCommonMenuManagerBundle:Menu");
+
+        $parent = $repo->find($id);
+
+        if(!$parent){
+            throw new EntityNotFoundException();
+        }
+
+        $add_errors = [];
+
+        if(empty($form["title"])){
+            $add_errors[] = "Le champs 'nom' est requis.";
+        }
+
+        if(preg_replace('/[a-z0-9_-]/','',$form["title"]) != null){
+            $add_errors[] = "Le champs 'nom' contient des caractères interdits.";
+        }
+
+
+        $child = new Menu();
+
+        $child->setTitle($form["title"]);
+        if($form["link"]){
+            $child->setLink(filter_var($form["link"], FILTER_SANITIZE_URL));
+        }
+        if($add_errors){
+            $cont = $this;
+            $html = $repo->childrenHierarchy(
+                $parent,
+                false,
+                [
+                    "decorate"=>true,
+                    "nodeDecorator"=>function($node) use (&$cont){
+                        return "<span>".$node["title"]." <a href='" .$cont->generateUrl("admin_common_menu_manager_edit_child",["id"=>$node["id"]]). "'>editer</a>| <a href='".$node["link"]."' target='_blank' >visiter</a> | <a href='".$cont->generateUrl("admin_common_menu_manager_up_child",["id"=>$node["id"]])."'>monter</a> | <a href='".$cont->generateUrl("admin_common_menu_manager_down_child",["id"=>$node["id"]])."'>descendre</a> | <a href='".$cont->generateUrl("admin_common_menu_manager_delete_child",["id"=>$node["id"]])."'>supprimer</a> </span>";
+                    }
+                ]
+            );
+            return $this->render("AdminCommonMenuManagerBundle:Menu:edit.html.twig", ["update_form_errors"=>[], "add_child_form_errors"=>$add_errors,"menu"=>$parent, "child"=>$child, "tree"=>$html]);
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $child->setParent($parent);
+        $em->persist($child);
+        $em->flush();
+        $this->container->get("session")->getFlashBag()->add("success", "L'entrée' " . $child->getTitle() . " a bien été ajouté à " . $parent->getTitle());
+
+        if($parent->getLvl()>0){
+            return $this->redirect($this->generateUrl("admin_common_menu_manager_edit", ["id"=>$parent->getId()]));
+        } else {
+            return $this->redirect($this->generateUrl("admin_common_menu_manager_edit", ["id"=>$parent->getId()]));
+        }
+
     }
 }
