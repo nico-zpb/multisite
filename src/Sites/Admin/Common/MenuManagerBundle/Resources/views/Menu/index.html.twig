@@ -17,7 +17,7 @@
             <tbody>
                 {% if menus|length<1 %}
                 <tr class="warning">
-                    <td colspan="4">Il n'y a pas de menus enregistrés. <a href="#"><i class="fa fa-hand-o-right"></i> Enregistrer un nouveau menu.</a></td>
+                    <td colspan="4">Il n'y a pas de menus enregistrés. <a href="{{ path("admin_common_menu_manager_new") }}"><i class="fa fa-hand-o-right"></i> Enregistrer un nouveau menu.</a></td>
                 </tr>
             {% else %}
                 {% for menu in menus %}
@@ -25,7 +25,7 @@
                         <td>{{ menu.id }}</td>
                         <td>{{ menu.title }}</td>
                         <td><a href="{{ path("admin_common_menu_manager_edit", {id:menu.id}) }}"><i class="fa fa-pencil-square-o"></i></a></td>
-                        <td><a href="#" class="delete-alert" data-name=""{{ menu.title }}><i class="fa fa-trash-o"></i></a></td>
+                        <td><a href="{{ path("admin_common_menu_manager_delete", {id:menu.id, _token:csrf_token("delete_menu")}) }}" class="delete-alert" data-name="{{ menu.title }}"><i class="fa fa-trash-o"></i></a></td>
                     </tr>
                 {% endfor %}
             {% endif %}
@@ -40,7 +40,7 @@
             $(".delete-alert").on("click", function(e){
                 e.preventDefault();
                 var name = $(this).data("name");
-                if(window.confirm("Attention, cette action est irréversible, êtes-vous certain de vouloir continuer et effacer '" + name + "' ?")){
+                if(window.confirm("Attention, cette action est irréversible, êtes-vous certain de vouloir continuer et d'effacer '" + name + "' ?")){
                     window.location.href = $(this).attr("href");
                 }
             });

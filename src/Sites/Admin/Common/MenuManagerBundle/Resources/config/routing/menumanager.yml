@@ -22,10 +22,17 @@ admin_common_menu_manager_update:
     defaults: { _controller: AdminCommonMenuManagerBundle:Menu:update }
     requirements: { _method: post, id: \d+ }
 
+admin_common_menu_manager_delete:
+    path:     /supprimer/{id}
+    defaults: { _controller: AdminCommonMenuManagerBundle:Menu:delete }
+    requirements:
+        id: \d+
 ##
 admin_common_menu_manager_edit_child:
-    path:     /
-    defaults: { _controller: AdminCommonMenuManagerBundle:Menu:index }
+    path:     /edition_enfant/{id}
+    defaults: { _controller: AdminCommonMenuManagerBundle:Menu:editChild }
+    requirements:
+        id: \d+
 
 admin_common_menu_manager_up_child:
     path:     /

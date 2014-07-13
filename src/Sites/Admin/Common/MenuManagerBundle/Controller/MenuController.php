@@ -43,6 +43,28 @@ class MenuController extends Controller
         return $this->render("AdminCommonMenuManagerBundle:Menu:new.html.twig", ["form_errors"=>$errors,"menu"=>$menu]);
     }
 
+    public function deleteAction($id, Request $request)
+    {
+        $token = $request->query->get("_token");
+        $csrfProvider = $this->get("form.csrf_provider");
+
+        if(!$token || !$csrfProvider->isCsrfTokenValid("delete_menu", $token)){
+            throw new AccessDeniedException();
+        }
+
+        $menu = $this->getDoctrine()->getRepository("AdminCommonMenuManagerBundle:Menu")->find($id);
+
+        if(!$menu){
+            throw new EntityNotFoundException();
+        }
+        $name = $menu->getTitle();
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($menu);
+        $em->flush();
+        $this->container->get("session")->getFlashBag()->add("success", "Le menu " . $name . " a bien été supprimé.");
+        return $this->redirect($this->generateUrl("admin_common_menu_manager_homepage"));
+    }
+
     public function createAction(Request $request)
     {
         $csrfProvider = $this->get("form.csrf_provider");
@@ -221,5 +243,27 @@ class MenuController extends Controller
             return $this->redirect($this->generateUrl("admin_common_menu_manager_edit", ["id"=>$parent->getId()]));
         }
 
+    }
+
+    public function editChildAction($id)
+    {
+        $repo = $this->getDoctrine()->getRepository("AdminCommonMenuManagerBundle:Menu");
+        $node = $repo->find($id);
+        if(!$node){
+            throw new EntityNotFoundException();
+        }
+        $parent = $repo->getPath($node)[0];
+        $cont = $this;
+        $html = $repo->childrenHierarchy(
+            $node,
+            false,
+            [
+                "decorate"=>true,
+                "nodeDecorator"=>function($node) use ($cont){
+                    return "<span>".$node["title"]. ": <a href='".$cont->generateUrl("admin_common_menu_manager_edit_child",["id"=>$node["id"]])."'>editer</a> | <a href='".$node["link"]."' target='_blank' >visiter</a> | <a href='".$cont->generateUrl("admin_common_menu_manager_up_child",["id"=>$node["id"]])."'>monter</a> | <a href='".$cont->generateUrl("admin_common_menu_manager_down_child",["id"=>$node["id"]])."'>descendre</a> | <a href='".$cont->generateUrl("admin_common_menu_manager_delete_child",["id"=>$node["id"]])."'>supprimer</a> </span>";
+            }]
+        );
+
+        return $this->render("AdminCommonMenuManagerBundle:Menu:edit_child.html.twig", ["root"=>$parent, "menu"=>$node, "tree"=>$html]);
     }
 }

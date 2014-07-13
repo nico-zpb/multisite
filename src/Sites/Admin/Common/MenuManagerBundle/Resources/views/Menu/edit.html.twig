@@ -15,6 +15,7 @@
             <label class="control-label col-md-2" for="update_menu_form_title">Nom</label>
             <div class="col-md-4">
                 <input type="text" name="update_menu_form[title]" id="update_menu_form_title" value="{{ menu.title }}" class="form-control"/>
+                <span class="help-block">Ce champs est requis. Seuls les caractères de a à z en minuscule, 0 à 9, - et _ sont autorisés.</span>
             </div>
         </div>
 
@@ -42,6 +43,7 @@
             <label class="control-label col-md-2" for="add_child_form_title">Nom*</label>
             <div class="col-md-4">
                 <input type="text" name="add_child_form[title]" id="add_child_form_title" class="form-control" value="{{ child.title }}"/>
+                <span class="help-block">Ce champs est requis. Seuls les caractères de a à z en minuscule, 0 à 9, - et _ sont autorisés.</span>
             </div>
         </div>
 
@@ -65,9 +67,14 @@
     <h3>Entrée du {{ menu.title }}</h3>
 
     {% if tree != null %}
-    <div>
-        {{ tree|raw }}
-    </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div>
+                    {{ tree|raw }}
+                </div>
+            </div>
+        </div>
+
     {% else %}
         <div class="row">
             <div class="col-md-6">
