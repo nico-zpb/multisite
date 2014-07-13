@@ -18,7 +18,7 @@
       (__<  |mm_|mm_|  |mm_|mm_|
 */
 
-namespace Sites\Admin\Common\MenuGeneratorBundle\Entity;
+namespace Sites\Admin\Common\MenuManagerBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 use Gedmo\Tree\Entity\Repository\NestedTreeRepository;

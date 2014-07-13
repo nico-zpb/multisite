@@ -17,7 +17,7 @@
     (_ (_   |   |   |  |   |   |
       (__<  |mm_|mm_|  |mm_|mm_|
 */
-namespace Sites\Admin\Common\MenuGeneratorBundle\Entity;
+namespace Sites\Admin\Common\MenuManagerBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -27,7 +27,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * Menu
  * @Gedmo\Tree(type="nested")
  * @ORM\Table(name="menus")
- * @ORM\Entity(repositoryClass="Sites\Admin\Common\MenuGeneratorBundle\Entity\MenuRepository")
+ * @ORM\Entity(repositoryClass="Sites\Admin\Common\MenuManagerBundle\Entity\MenuRepository")
  */
 class Menu
 {
