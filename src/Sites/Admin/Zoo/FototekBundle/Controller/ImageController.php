@@ -200,34 +200,40 @@ class ImageController extends Controller
         $white = imagecolorallocate($gdImage, 255,255,255);
         imagefill($gdImage,0,0, $white);
         $copyImage = imagecreatefromjpeg($image->getAbsolutePath() . "/" . $this->container->getParameter("zoo_fototek_originals_dirname") . "/" . $image->getName());
+        $thumbIsLandscape = ( $width >= $height ) ? true : false;
 
-        /*if($iniWidth >= $iniHeight){*/
-            //paysage
-            if($iniWidth>=$width){
-                $newHeight = $width  * ($iniHeight/$iniWidth);
-                $destY = 0;
-                if($newHeight != $height){
-                    $destY = ($height - $newHeight) / 2;
+        if($iniWidth>=$iniHeight){
+            // paysage
+            if($thumbIsLandscape){
+                $newHeight = $width * ($iniHeight/$iniWidth);
+                if($newHeight>=$height){
+                    //ok
+                    imagecopyresampled($gdImage, $copyImage, 0,($height-$newHeight)/2,0,0, $width, $newHeight, $iniWidth, $iniHeight);
+                } else {
+                    $newWidth = $height * ($iniWidth/$iniHeight);
+                    imagecopyresampled($gdImage, $copyImage, ($width-$newWidth)/2,0,0,0, $newWidth, $height, $iniWidth, $iniHeight);
                 }
-                imagecopyresampled($gdImage, $copyImage, 0,$destY,0,0, $width, $newHeight, $iniWidth, $iniHeight);
             } else {
-                imagecopyresampled($gdImage, $copyImage, (($width - $iniWidth)/2),(($height-$iniHeight)/2),0,0, $iniWidth, $iniHeight, $iniWidth, $iniHeight);
+                $newWidth = $height * ($iniWidth/$iniHeight);
+                imagecopyresampled($gdImage, $copyImage, ($width-$newWidth)/2,0,0,0, $newWidth, $height, $iniWidth, $iniHeight);
             }
 
-        /*} else {
+        } else {
             //portrait
-            if($iniWidth >= $width){
-                $newHeight = $width  * ($iniHeight/$iniWidth);
-                $destY = 0;
-                if($newHeight != $height){
-                    $destY = ($height - $newHeight) / 2;
-                }
-                imagecopyresampled($gdImage, $copyImage, 0,$destY,0,0, $width, $newHeight, $iniWidth, $iniHeight);
+            if($thumbIsLandscape){
+                $newHeight = $width * ($iniHeight/$iniWidth);
+                imagecopyresampled($gdImage, $copyImage, 0,($height-$newHeight)/2,0,0, $width, $newHeight, $iniWidth, $iniHeight);
             } else {
-                imagecopyresampled($gdImage, $copyImage, (($width - $iniWidth)/2),(($height-$iniHeight)/2),0,0, $iniWidth, $iniHeight, $iniWidth, $iniHeight);
+                $newWidth = $height * ($iniWidth/$iniHeight);
+                if($newWidth>=$width){
+                    //ok
+                    imagecopyresampled($gdImage, $copyImage, ($width-$newWidth)/2,0,0,0, $newWidth, $height, $iniWidth, $iniHeight);
+                } else {
+                    $newHeight = $width * ($iniHeight/$iniWidth);
+                    imagecopyresampled($gdImage, $copyImage, 0,($height-$newHeight)/2,0,0, $width, $newHeight, $iniWidth, $iniHeight);
+                }
             }
-
-        }*/
+        }
         imagejpeg($gdImage, $image->getAbsolutePath() . "/" . $dirname . "/" . $image->getName(), $quality);
         imagedestroy($gdImage);
     }

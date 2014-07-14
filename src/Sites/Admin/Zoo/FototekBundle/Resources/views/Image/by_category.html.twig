@@ -15,11 +15,13 @@
                 <th>Id</th>
                 <th>Nom</th>
                 <th>Titre</th>
+                <th>Visible</th>
                 <th>Position</th>
                 <th colspan="2">Déplacer</th>
                 <th>Largeur</th>
                 <th>Hauteur</th>
                 <th>Editer</th>
+                <th>Archiver</th>
                 <th>Supprimer</th>
             </tr>
             </thead>
@@ -35,13 +37,21 @@
                         <td>{{ image.id }}</td>
                         <td>{{ image.name }}</td>
                         <td>{{ image.title|raw }}</td>
+                        <td>
+                            {% if image.isDisplayed %}
+                                <a href="#" class="btn btn-default"><i class="fa fa-check-square-o"></i></a>
+                            {% else %}
+                                <a href="#" class="btn btn-default"><i class="fa fa-square-o"></i></a>
+                            {% endif %}
+                        </td>
                         <td>{{ image.position }}</td>
                         <td><a href="{{ path("admin_zoo_fototek_image_move_up", {id:image.id}) }}" class="btn btn-default"><i class="fa fa-caret-up"></i></a>&nbsp;<a href="{{ path("admin_zoo_fototek_image_move_down", {id:image.id}) }}" class="btn btn-default"><i class="fa fa-caret-down"></i></a></td>
                         <td></td>
                         <td>{{ image.width }}</td>
                         <td>{{ image.height }}</td>
-                        <td><a href="#"><i class="fa fa-pencil-square-o"></i></a></td>
-                        <td><a href="#" class="delete-alert" data-name="{{ image.name }}"><i class="fa fa-trash-o"></i></a></td>
+                        <td><a href="#" class="btn btn-default"><i class="fa fa-pencil-square-o"></i></a></td>
+                        <td><a class="btn btn-default" href="#"><i class="fa fa-archive"></i></a></td>
+                        <td><a href="#" class="btn btn-default delete-alert" data-name="{{ image.name }}"><i class="fa fa-trash-o"></i></a></td>
                     </tr>
                 {% endfor %}
             {% endif %}
