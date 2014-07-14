@@ -5,3 +5,8 @@ services:
 #    admin_common_menu_manager.example:
 #        class: %admin_common_menu_manager.example.class%
 #        arguments: [@service_id, "plain_value", %parameter%]
+    menumanager.twig.menu_extension:
+        class: Sites\Admin\Common\MenuManagerBundle\Twig\MenuExtension
+        arguments: [@service_container]
+        tags:
+            - { name: twig.extension }
