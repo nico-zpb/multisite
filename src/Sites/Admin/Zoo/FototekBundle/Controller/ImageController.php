@@ -148,13 +148,16 @@ class ImageController extends Controller
         $image->setAbsolutePath($this->container->getParameter("zoo_fototek_base_dir"));
         $image->setWebPath($this->container->getParameter("zoo_fototek_web_dir"));
         $image->setCategory($cat);
+        $pos = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFImage")->getMaxPosition($cat->getId());
+        $pos = ($pos === null) ? 1 : $pos + 1;
+        $image->setPosition($pos);
         $file->move($this->container->getParameter("zoo_fototek_base_dir") . "/" . $this->container->getParameter("zoo_fototek_originals_dirname"), $name);
         $em = $this->getDoctrine()->getManager();
         $em->persist($image);
         $em->flush();
         $this->copyAndRedim($image, $this->container->getParameter("zoo_fototek_mds_dirname"), $this->container->getParameter("zoo_fototek_mr_max_size"), 100);
         $this->copyAndRedim($image, $this->container->getParameter("zoo_fototek_slides_dirname"), $this->container->getParameter("zoo_fototek_slide_max_size"));
-        $this->copyAndRedim($image, $this->container->getParameter("zoo_fototek_thumbnails_dirname"), $this->container->getParameter("zoo_fototek_thumbnail_max_size"));
+        $this->makeThumbnail($image, $this->container->getParameter("zoo_fototek_thumbnails_dirname"), $this->container->getParameter("zoo_fototek_thumbnail_width"), $this->container->getParameter("zoo_fototek_thumbnail_height"));
 
 
 
@@ -182,6 +185,49 @@ class ImageController extends Controller
         $gdImage = imagecreatetruecolor($newWidth, $newHeight);
         $copyImage = imagecreatefromjpeg($image->getAbsolutePath() . "/" . $this->container->getParameter("zoo_fototek_originals_dirname") . "/" . $image->getName());
         imagecopyresampled($gdImage, $copyImage, 0,0,0,0, $newWidth, $newHeight, $width, $height);
+        imagejpeg($gdImage, $image->getAbsolutePath() . "/" . $dirname . "/" . $image->getName(), $quality);
+        imagedestroy($gdImage);
+    }
+
+    private function makeThumbnail(ZFImage $image, $dirname = "originales", $width = 300, $height = 450, $quality = 75)
+    {
+
+
+        $iniWidth = $image->getWidth();
+        $iniHeight = $image->getHeight();
+
+        $gdImage = imagecreatetruecolor($width, $height);
+        $white = imagecolorallocate($gdImage, 255,255,255);
+        imagefill($gdImage,0,0, $white);
+        $copyImage = imagecreatefromjpeg($image->getAbsolutePath() . "/" . $this->container->getParameter("zoo_fototek_originals_dirname") . "/" . $image->getName());
+
+        /*if($iniWidth >= $iniHeight){*/
+            //paysage
+            if($iniWidth>=$width){
+                $newHeight = $width  * ($iniHeight/$iniWidth);
+                $destY = 0;
+                if($newHeight != $height){
+                    $destY = ($height - $newHeight) / 2;
+                }
+                imagecopyresampled($gdImage, $copyImage, 0,$destY,0,0, $width, $newHeight, $iniWidth, $iniHeight);
+            } else {
+                imagecopyresampled($gdImage, $copyImage, (($width - $iniWidth)/2),(($height-$iniHeight)/2),0,0, $iniWidth, $iniHeight, $iniWidth, $iniHeight);
+            }
+
+        /*} else {
+            //portrait
+            if($iniWidth >= $width){
+                $newHeight = $width  * ($iniHeight/$iniWidth);
+                $destY = 0;
+                if($newHeight != $height){
+                    $destY = ($height - $newHeight) / 2;
+                }
+                imagecopyresampled($gdImage, $copyImage, 0,$destY,0,0, $width, $newHeight, $iniWidth, $iniHeight);
+            } else {
+                imagecopyresampled($gdImage, $copyImage, (($width - $iniWidth)/2),(($height-$iniHeight)/2),0,0, $iniWidth, $iniHeight, $iniWidth, $iniHeight);
+            }
+
+        }*/
         imagejpeg($gdImage, $image->getAbsolutePath() . "/" . $dirname . "/" . $image->getName(), $quality);
         imagedestroy($gdImage);
     }
@@ -216,6 +262,7 @@ class ImageController extends Controller
             $this->_move($image, $newPosition);
         }
         //TODO redirect
+        return $this->redirect($this->generateUrl("admin_zoo_fototek_image_get_by_cat_id",["id"=>$image->getCategory()->getId()]));
     }
 
     public function movedownAction($id)
@@ -229,6 +276,7 @@ class ImageController extends Controller
         $newPosition = $pos + 1;
         $this->_move($image, $newPosition);
         //TODO redirect
+        return $this->redirect($this->generateUrl("admin_zoo_fototek_image_get_by_cat_id",["id"=>$image->getCategory()->getId()]));
     }
 
     public function moveAction($id, Request $request)
@@ -253,10 +301,24 @@ class ImageController extends Controller
         $this->_move($image, $form["position"]);
 
         //TODO redirect
+
     }
 
-    private function _move($image, $newPosition)
+    private function _move(ZFImage $image, $newPosition)
     {
+        $repo = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFImage");
+        $em = $this->getDoctrine()->getManager();
 
+        if($newPosition < $image->getPosition()){
+
+            $repo->moveDownImagesGroup($newPosition, $image->getPosition(), $image->getCategory()->getId());
+
+        } else {
+            $repo->moveUpImagesGroup($image->getPosition(), $newPosition, $image->getCategory()->getId());
+
+        }
+        $image->setPosition($newPosition);
+        $em->persist($image);
+        $em->flush();
     }
 }

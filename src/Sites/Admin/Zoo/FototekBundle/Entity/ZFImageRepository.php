@@ -25,4 +25,23 @@ class ZFImageRepository extends EntityRepository
         $query->setParameter('id', $id);
         return $query->getSingleScalarResult();
     }
+
+    public function moveDownImagesGroup($start, $finish, $id)
+    {
+        $stmt = $this->_em->getConnection()->prepare("UPDATE zoo_fototek_images SET position = position+1 WHERE category_id=:id AND position>=:start AND position<:finish");
+        $stmt->bindValue(":id", $id);
+        $stmt->bindValue(":start", $start);
+        $stmt->bindValue(":finish", $finish);
+        $stmt->execute();
+    }
+
+    public function moveUpImagesGroup($start, $finish, $id)
+    {
+        $stmt = $this->_em->getConnection()->prepare("UPDATE zoo_fototek_images AS z SET z.position = z.position-1 WHERE z.category_id=:id AND z.position>:start AND z.position<=:finish");
+        $stmt->bindValue(":id", $id);
+        $stmt->bindValue(":start", $start);
+        $stmt->bindValue(":finish", $finish);
+        $stmt->execute();
+
+    }
 }

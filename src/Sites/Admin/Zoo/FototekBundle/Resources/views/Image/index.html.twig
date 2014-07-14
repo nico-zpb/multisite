@@ -41,6 +41,7 @@
                 <th>Vignette</th>
                 <th>Id</th>
                 <th>Nom</th>
+                <th>Catégorie</th>
                 <th>Titre</th>
                 <th>Position</th>
                 <th>Largeur</th>
@@ -60,6 +61,7 @@
                         <td><img src="{{ thumb_dir ~ image.name}}" alt="" title="{{ image.title|raw }}" width="60"/></td>
                         <td>{{ image.id }}</td>
                         <td>{{ image.name }}</td>
+                        <td><a href="{{ path("admin_zoo_fototek_image_get_by_cat_id", {id: image.category.id}) }}">{{ image.category.name }}</a></td>
                         <td>{{ image.title|raw }}</td>
                         <td>{{ image.position }}</td>
                         <td>{{ image.width }}</td>

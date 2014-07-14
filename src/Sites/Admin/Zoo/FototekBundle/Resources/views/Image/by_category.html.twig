@@ -16,6 +16,7 @@
                 <th>Nom</th>
                 <th>Titre</th>
                 <th>Position</th>
+                <th colspan="2">Déplacer</th>
                 <th>Largeur</th>
                 <th>Hauteur</th>
                 <th>Editer</th>
@@ -30,11 +31,13 @@
             {% else %}
                 {% for image in images %}
                     <tr>
-                        <td><img src="{{ thumb_dir ~ image.name}}" alt="" title="{{ image.title|raw }}" width="60"/></td>
+                        <td><img src="{{ thumb_dir ~ image.name}}" alt="" title="{{ image.title|raw }}" width="30"/></td>
                         <td>{{ image.id }}</td>
                         <td>{{ image.name }}</td>
                         <td>{{ image.title|raw }}</td>
                         <td>{{ image.position }}</td>
+                        <td><a href="{{ path("admin_zoo_fototek_image_move_up", {id:image.id}) }}" class="btn btn-default"><i class="fa fa-caret-up"></i></a>&nbsp;<a href="{{ path("admin_zoo_fototek_image_move_down", {id:image.id}) }}" class="btn btn-default"><i class="fa fa-caret-down"></i></a></td>
+                        <td></td>
                         <td>{{ image.width }}</td>
                         <td>{{ image.height }}</td>
                         <td><a href="#"><i class="fa fa-pencil-square-o"></i></a></td>
@@ -46,6 +49,21 @@
         </table>
     </div>
 
+    {% if images|length>0 %}
+    <div class="row">
+        <div class="col-md-offset-3 col-md-6">
+            <div class="row">
+                {% for image in images %}
+                    <div class="col-md-3">
+                        <div class="thumbnail">
+                            <img src="{{ thumb_dir ~ image.name }}" alt="" title="{{ image.title|raw }}"/>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
 
 {% endblock %}
 {% block footScripts %}

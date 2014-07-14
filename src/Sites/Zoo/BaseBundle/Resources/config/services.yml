@@ -9,9 +9,10 @@ parameters:
     zoo_fototek_archives_dirname: "archives"
     zoo_fototek_allowed_extensions: ["jpeg","jpg","JPEG","JPG"]
     zoo_fototek_allowed_mime_types: [ "image/jpeg", "image/jpg" ]
-    zoo_fototek_mr_max_size: 1600
+    zoo_fototek_mr_max_size: 1024
     zoo_fototek_slide_max_size: 800
-    zoo_fototek_thumbnail_max_size: 400
+    zoo_fototek_thumbnail_width: 120
+    zoo_fototek_thumbnail_height: 180
 
 services:
 #    zoo_base.example:

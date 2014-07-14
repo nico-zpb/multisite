@@ -21,3 +21,15 @@ admin_zoo_fototek_image_filter_by_cat:
     path: /filtre/par_category
     defaults: { _controller: AdminZooFototekBundle:Image:filterbycat }
     requirements: { _method: post }
+
+admin_zoo_fototek_image_move_up:
+    path: /moveup/{id}
+    defaults: { _controller: AdminZooFototekBundle:Image:moveup }
+    requirements:
+        id: \d+
+
+admin_zoo_fototek_image_move_down:
+    path: /movedown/{id}
+    defaults: { _controller: AdminZooFototekBundle:Image:movedown }
+    requirements:
+        id: \d+
