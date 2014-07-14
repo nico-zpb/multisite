@@ -16,6 +16,8 @@
                 <th>Nom</th>
                 <th>Titre</th>
                 <th>Position</th>
+                <th>Largeur</th>
+                <th>Hauteur</th>
                 <th>Editer</th>
                 <th>Supprimer</th>
             </tr>
@@ -28,12 +30,15 @@
             {% else %}
                 {% for image in images %}
                     <tr>
-                        <td></td>
+                        <td><img src="{{ thumb_dir ~ image.name}}" alt="" title="{{ image.title|raw }}" width="60"/></td>
                         <td>{{ image.id }}</td>
                         <td>{{ image.name }}</td>
                         <td>{{ image.title|raw }}</td>
                         <td>{{ image.position }}</td>
-                        <td>#</td>
+                        <td>{{ image.width }}</td>
+                        <td>{{ image.height }}</td>
+                        <td><a href="#"><i class="fa fa-pencil-square-o"></i></a></td>
+                        <td><a href="#" class="delete-alert" data-name="{{ image.name }}"><i class="fa fa-trash-o"></i></a></td>
                     </tr>
                 {% endfor %}
             {% endif %}
@@ -41,5 +46,20 @@
         </table>
     </div>
 
+
+{% endblock %}
+{% block footScripts %}
+    {{ parent() }}
+    <script>
+        $(function(){
+            $(".delete-alert").on("click", function(e){
+                e.preventDefault();
+                var name = $(this).data("name");
+                if(window.confirm("Attention, cette action est irréversible, êtes-vous certain de vouloir continuer et effacer '" + name + "' ?")){
+                    window.location.href = $(this).attr("href");
+                }
+            });
+        });
+    </script>
 
 {% endblock %}

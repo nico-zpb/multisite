@@ -34,7 +34,8 @@ class ImageController extends Controller
     {
         $imgs = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFImage")->findAll();
         $cats = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFCategory")->findAll();
-        return $this->render("AdminZooFototekBundle:Image:index.html.twig",["images"=>$imgs,"categories"=>$cats]);
+        $thumbnailsDir = $this->container->getParameter("zoo_fototek_web_dir") . "/" . $this->container->getParameter("zoo_fototek_thumbnails_dirname") . "/";
+        return $this->render("AdminZooFototekBundle:Image:index.html.twig",["images"=>$imgs,"categories"=>$cats, "thumb_dir"=>$thumbnailsDir]);
     }
 
     public function newAction()
@@ -53,10 +54,10 @@ class ImageController extends Controller
         if(!$cat){
             throw new EntityNotFoundException();
         }
-
+        $thumbnailsDir = $this->container->getParameter("zoo_fototek_web_dir") . "/" . $this->container->getParameter("zoo_fototek_thumbnails_dirname") . "/";
         $images = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFImage")->getAllByCategory($id);
 
-        return $this->render("AdminZooFototekBundle:Image:by_category.html.twig",["category"=>$cat,"images"=>$images]);
+        return $this->render("AdminZooFototekBundle:Image:by_category.html.twig",["category"=>$cat,"images"=>$images, "thumb_dir"=>$thumbnailsDir]);
     }
 
     public function filterbycatAction(Request $request)
@@ -73,10 +74,10 @@ class ImageController extends Controller
         if(!$cat){
             throw new EntityNotFoundException();
         }
-
+        $thumbnailsDir = $this->container->getParameter("zoo_fototek_web_dir") . "/" . $this->container->getParameter("zoo_fototek_thumbnails_dirname") . "/";
         $images = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFImage")->getAllByCategory($form["category"]);
 
-        return $this->render("AdminZooFototekBundle:Image:by_category.html.twig",["category"=>$cat,"images"=>$images]);
+        return $this->render("AdminZooFototekBundle:Image:by_category.html.twig",["category"=>$cat,"images"=>$images, "thumb_dir"=>$thumbnailsDir]);
 
     }
 
@@ -193,7 +194,7 @@ class ImageController extends Controller
 
         // TODO redirection
 
-        return $this->redirect($this->generateUrl("admin_zoo_fototek_homepage"));
+        return $this->redirect($this->generateUrl("admin_zoo_fototek_image_homepage"));
 
     }
 
@@ -204,7 +205,6 @@ class ImageController extends Controller
         $height = $image->getHeight();
         $newWidth = 0;
         $newHeight = 0;
-        $ratio  = 1;
 
         if($width >= $height ){
             $ratio = 1 / ($width / $height);
@@ -219,7 +219,7 @@ class ImageController extends Controller
         }
 
         $gdImage = imagecreatetruecolor($newWidth, $newHeight);
-        $copyImage = imagecreatefromjpeg($image->getAbsolutePath() . "/originales/" . $image->getName());
+        $copyImage = imagecreatefromjpeg($image->getAbsolutePath() . "/" . $this->container->getParameter("zoo_fototek_originals_dirname") . "/" . $image->getName());
         imagecopyresampled($gdImage, $copyImage, 0,0,0,0, $newWidth, $newHeight, $width, $height);
         imagejpeg($gdImage, $image->getAbsolutePath() . "/" . $dirname . "/" . $image->getName(), $quality);
         imagedestroy($gdImage);

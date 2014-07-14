@@ -43,6 +43,8 @@
                 <th>Nom</th>
                 <th>Titre</th>
                 <th>Position</th>
+                <th>Largeur</th>
+                <th>Hauteur</th>
                 <th>Editer</th>
                 <th>Supprimer</th>
             </tr>
@@ -55,11 +57,13 @@
             {% else %}
                 {% for image in images %}
                     <tr>
-                        <td></td>
+                        <td><img src="{{ thumb_dir ~ image.name}}" alt="" title="{{ image.title|raw }}" width="60"/></td>
                         <td>{{ image.id }}</td>
                         <td>{{ image.name }}</td>
                         <td>{{ image.title|raw }}</td>
                         <td>{{ image.position }}</td>
+                        <td>{{ image.width }}</td>
+                        <td>{{ image.height }}</td>
                         <td><a href="#"><i class="fa fa-pencil-square-o"></i></a></td>
                         <td><a href="#" class="delete-alert" data-name="{{ image.name }}"><i class="fa fa-trash-o"></i></a></td>
                     </tr>
