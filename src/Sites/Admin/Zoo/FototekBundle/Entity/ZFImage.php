@@ -41,42 +41,42 @@ class ZFImage
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", length=255)
+     * @ORM\Column(name="title", type="string", length=255, nullable=true)
      */
     private $title;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="width", type="integer")
+     * @ORM\Column(name="width", type="integer", nullable=true)
      */
     private $width;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="height", type="integer")
+     * @ORM\Column(name="height", type="integer", nullable=true)
      */
     private $height;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="extension", type="string", length=10)
+     * @ORM\Column(name="extension", type="string", length=10, nullable=true)
      */
     private $extension;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="count_original", type="integer")
+     * @ORM\Column(name="count_original", type="integer", nullable=true)
      */
     private $countOriginal;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="count_mr", type="integer")
+     * @ORM\Column(name="count_mr", type="integer", nullable=true)
      */
     private $countMr;
 
@@ -105,20 +105,20 @@ class ZFImage
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="displyed_at", type="datetime")
+     * @ORM\Column(name="displayed_at", type="datetime", nullable=true)
      */
-    private $displyedAt;
+    private $displayedAt;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="archived_at", type="datetime")
+     * @ORM\Column(name="archived_at", type="datetime", nullable=true)
      */
     private $archivedAt;
 
     /**
      * @var integer
-     * @ORM\Column(name="position", type="integer")
+     * @ORM\Column(name="position", type="integer", nullable=true)
      */
     private $position;
 
@@ -128,6 +128,24 @@ class ZFImage
      */
     private $category;
 
+    /**
+     * @var string
+     * @ORM\Column(name="absolute_path", type="text", nullable=false)
+     */
+    private $absolutePath;
+
+    /**
+     * @var string
+     * @ORM\Column(name="web_path", type="text", nullable=false)
+     *
+     */
+    private $webPath;
+
+    public function __construct()
+    {
+        $this->setIsArchived(false);
+        $this->setIsDisplayed(false);
+    }
 
     /**
      * Get id
@@ -393,26 +411,26 @@ class ZFImage
     }
 
     /**
-     * Set displyedAt
+     * Set displayedAt
      *
-     * @param \DateTime $displyedAt
+     * @param \DateTime $displayedAt
      * @return ZFImage
      */
-    public function setDisplyedAt($displyedAt)
+    public function setDisplayedAt($displayedAt)
     {
-        $this->displyedAt = $displyedAt;
+        $this->displayedAt = $displayedAt;
 
         return $this;
     }
 
     /**
-     * Get displyedAt
+     * Get displayedAt
      *
      * @return \DateTime
      */
-    public function getDisplyedAt()
+    public function getDisplayedAt()
     {
-        return $this->displyedAt;
+        return $this->displayedAt;
     }
 
     /**
@@ -482,5 +500,51 @@ class ZFImage
     public function getPosition()
     {
         return $this->position;
+    }
+
+    /**
+     * Set absolutePath
+     *
+     * @param string $absolutePath
+     * @return ZFImage
+     */
+    public function setAbsolutePath($absolutePath)
+    {
+        $this->absolutePath = $absolutePath;
+
+        return $this;
+    }
+
+    /**
+     * Get absolutePath
+     *
+     * @return string 
+     */
+    public function getAbsolutePath()
+    {
+        return $this->absolutePath;
+    }
+
+    /**
+     * Set webPath
+     *
+     * @param string $webPath
+     * @return ZFImage
+     */
+    public function setWebPath($webPath)
+    {
+        $this->webPath = $webPath;
+
+        return $this;
+    }
+
+    /**
+     * Get webPath
+     *
+     * @return string 
+     */
+    public function getWebPath()
+    {
+        return $this->webPath;
     }
 }

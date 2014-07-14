@@ -22,6 +22,7 @@ namespace Sites\Admin\Zoo\FototekBundle\Controller;
 
 
 use Doctrine\ORM\EntityNotFoundException;
+use Sites\Admin\Zoo\FototekBundle\Entity\ZFImage;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
@@ -101,8 +102,13 @@ class ImageController extends Controller
         /** @var \Symfony\Component\HttpFoundation\File\UploadedFile $file */
         $file = $request->files->get("new_image_form")["file"];
 
-        if(!$file instanceof UploadedFile){
+        if(!$file instanceof UploadedFile || !$file->isValid()){
             $errors[] = "Pas de fichier à télécharger.";
+        }
+
+        $allowedMimes = $this->container->getParameter("zoo_fototek_allowed_mime_types");
+        if(!in_array($file->getMimeType(), $allowedMimes)){
+            $errors[] = "Le fichier n'est pas du bon type";
         }
 
         if(!empty($form["name"]) && preg_replace('/[a-zA-Z0-9_-]/','',$form["name"]) !== ""){
@@ -119,19 +125,59 @@ class ImageController extends Controller
         }
 
         if(!empty($form["title"])){
-            $form["title"] = trim(htmlentities(strip_tags(preg_replace('/\s\s+/',' ',$form["title"]))), ENT_QUOTES|ENT_HTML5,"UTF-8");
+            $form["title"] = trim(htmlentities(strip_tags(preg_replace('/\s\s+/',' ',$form["title"])), ENT_QUOTES|ENT_HTML5,"UTF-8"));
         }
 
-        $form["title"] .= "&copy; ZooParc de Beauval";
+        $form["title"] .= " &copy; ZooParc de Beauval";
 
         if(!empty($form["date"])){
             $date = new \DateTime("now", new \DateTimeZone("Europe/Paris"));
-            $suffix .= "_" . $date->format("d-m-y") . "_";
+            $suffix .= "_" . $date->format("d-m-y") ;
         }
 
+        $size = getimagesize($file->getRealPath());
+        if(!empty($form["dims"])){
+
+            $suffix .= "_" . $size[0] . "x" . $size[1];
+
+        }
+
+        $name = "";
+        if(!empty($form["name"])){
+            $name = $form["name"] . $suffix . "." . $file->guessExtension();
+        } else {
+            $tmp = $file->getClientOriginalName();
+            if(false !== $pos = strrpos($tmp, ".")){
+                $tmp = substr($tmp, 0, $pos);
+            }
+
+            $name = $tmp . $suffix . "." . $file->guessExtension();
+        }
+
+        $image = new ZFImage();
+        $image->setName($name);
+        if(!empty($form["slug"])){
+            $image->setSlug($form["slug"]);
+        }
+        $image->setTitle(trim($form["title"]));
+        $image->setHeight($size[1]);
+        $image->setWidth($size[0]);
+        $image->setExtension($file->guessExtension());
+        $image->setCountMr(0);
+        $image->setCountOriginal(0);
+        $image->setAbsolutePath($this->container->getParameter("zoo_fototek_base_dir"));
+        $image->setWebPath($this->container->getParameter("zoo_fototek_web_dir"));
+        $image->setCategory($cat);
+        $file->move($this->container->getParameter("zoo_fototek_base_dir") . "/" . $this->container->getParameter("zoo_fototek_originals_dirname"), $name);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($image);
+        $em->flush();
 
 
-
+        $this->copyAndRedim($image, $this->container->getParameter("zoo_fototek_mds_dirname"), $this->container->getParameter("zoo_fototek_mr_max_size"), 100);
+        $this->copyAndRedim($image, $this->container->getParameter("zoo_fototek_slides_dirname"), $this->container->getParameter("zoo_fototek_slide_max_size"));
+        $this->copyAndRedim($image, $this->container->getParameter("zoo_fototek_thumbnails_dirname"), $this->container->getParameter("zoo_fototek_thumbnail_max_size"));
 
 
 
@@ -147,6 +193,36 @@ class ImageController extends Controller
 
         // TODO redirection
 
+        return $this->redirect($this->generateUrl("admin_zoo_fototek_homepage"));
+
+    }
+
+
+    private function copyAndRedim(ZFImage $image, $dirname = "originales", $maxSize = 1000, $quality = 75)
+    {
+        $width = $image->getWidth();
+        $height = $image->getHeight();
+        $newWidth = 0;
+        $newHeight = 0;
+        $ratio  = 1;
+
+        if($width >= $height ){
+            $ratio = 1 / ($width / $height);
+            $newWidth = $maxSize;
+            $newHeight = $maxSize * $ratio;
+        }
+
+        if($width < $height){
+            $ratio = 1 / ($height / $width);
+            $newHeight = $maxSize;
+            $newWidth = $maxSize * $ratio;
+        }
+
+        $gdImage = imagecreatetruecolor($newWidth, $newHeight);
+        $copyImage = imagecreatefromjpeg($image->getAbsolutePath() . "/originales/" . $image->getName());
+        imagecopyresampled($gdImage, $copyImage, 0,0,0,0, $newWidth, $newHeight, $width, $height);
+        imagejpeg($gdImage, $image->getAbsolutePath() . "/" . $dirname . "/" . $image->getName(), $quality);
+        imagedestroy($gdImage);
     }
 
     public function editAction($id)

@@ -58,7 +58,7 @@
                         <td></td>
                         <td>{{ image.id }}</td>
                         <td>{{ image.name }}</td>
-                        <td>{{ image.title }}</td>
+                        <td>{{ image.title|raw }}</td>
                         <td>{{ image.position }}</td>
                         <td><a href="#"><i class="fa fa-pencil-square-o"></i></a></td>
                         <td><a href="#" class="delete-alert" data-name="{{ image.name }}"><i class="fa fa-trash-o"></i></a></td>
