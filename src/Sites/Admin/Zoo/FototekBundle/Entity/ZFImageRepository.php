@@ -18,4 +18,11 @@ class ZFImageRepository extends EntityRepository
         $query->setParameter('id', $id);
         return $query->getResult();
     }
+
+    public function getMaxPosition($id)
+    {
+        $query = $this->_em->createQuery("SELECT MAX(i.position) AS maxi FROM AdminZooFototekBundle:ZFImage i JOIN i.category c WHERE  c.id=:id");
+        $query->setParameter('id', $id);
+        return $query->getSingleScalarResult();
+    }
 }

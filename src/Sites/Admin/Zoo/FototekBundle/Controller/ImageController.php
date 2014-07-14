@@ -85,65 +85,46 @@ class ImageController extends Controller
     {
         $csrfProvider = $this->container->get("form.csrf_provider");
         $form = $request->request->get("new_image_form");
-
         if(!$form["_token"] || !$csrfProvider->isCsrfTokenValid("new_image",$form["_token"])){
             throw new AccessDeniedException();
         }
-
         $cat = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFCategory")->find($form["category"]);
-
         if(!$cat){
             throw new EntityNotFoundException();
         }
-
-        // TODO validation
         $errors = [];
         $suffix = "";
-
         /** @var \Symfony\Component\HttpFoundation\File\UploadedFile $file */
         $file = $request->files->get("new_image_form")["file"];
-
         if(!$file instanceof UploadedFile || !$file->isValid()){
             $errors[] = "Pas de fichier à télécharger.";
         }
-
         $allowedMimes = $this->container->getParameter("zoo_fototek_allowed_mime_types");
         if(!in_array($file->getMimeType(), $allowedMimes)){
             $errors[] = "Le fichier n'est pas du bon type";
         }
-
         if(!empty($form["name"]) && preg_replace('/[a-zA-Z0-9_-]/','',$form["name"]) !== ""){
             $errors[] = "Le champ 'nom' contient des caratères interdits.";
         }
-
         if(!empty($form["slug"]) && preg_replace('/[a-z0-9-]/','',$form["slug"]) !== ""){
             $errors[] = "Le champ 'alias' contient des caratères interdits.";
         }
-
         if($errors){
             $cats = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFCategory")->findAll();
             return $this->render("AdminZooFototekBundle:Image:new.html.twig",["categories"=>$cats,"form_errors"=>$errors]);
         }
-
         if(!empty($form["title"])){
             $form["title"] = trim(htmlentities(strip_tags(preg_replace('/\s\s+/',' ',$form["title"])), ENT_QUOTES|ENT_HTML5,"UTF-8"));
         }
-
         $form["title"] .= " &copy; ZooParc de Beauval";
-
         if(!empty($form["date"])){
             $date = new \DateTime("now", new \DateTimeZone("Europe/Paris"));
             $suffix .= "_" . $date->format("d-m-y") ;
         }
-
         $size = getimagesize($file->getRealPath());
         if(!empty($form["dims"])){
-
             $suffix .= "_" . $size[0] . "x" . $size[1];
-
         }
-
-        $name = "";
         if(!empty($form["name"])){
             $name = $form["name"] . $suffix . "." . $file->guessExtension();
         } else {
@@ -151,10 +132,8 @@ class ImageController extends Controller
             if(false !== $pos = strrpos($tmp, ".")){
                 $tmp = substr($tmp, 0, $pos);
             }
-
             $name = $tmp . $suffix . "." . $file->guessExtension();
         }
-
         $image = new ZFImage();
         $image->setName($name);
         if(!empty($form["slug"])){
@@ -170,32 +149,17 @@ class ImageController extends Controller
         $image->setWebPath($this->container->getParameter("zoo_fototek_web_dir"));
         $image->setCategory($cat);
         $file->move($this->container->getParameter("zoo_fototek_base_dir") . "/" . $this->container->getParameter("zoo_fototek_originals_dirname"), $name);
-
         $em = $this->getDoctrine()->getManager();
         $em->persist($image);
         $em->flush();
-
-
         $this->copyAndRedim($image, $this->container->getParameter("zoo_fototek_mds_dirname"), $this->container->getParameter("zoo_fototek_mr_max_size"), 100);
         $this->copyAndRedim($image, $this->container->getParameter("zoo_fototek_slides_dirname"), $this->container->getParameter("zoo_fototek_slide_max_size"));
         $this->copyAndRedim($image, $this->container->getParameter("zoo_fototek_thumbnails_dirname"), $this->container->getParameter("zoo_fototek_thumbnail_max_size"));
 
 
 
-        // TODO upload
-
-        // TODO get last position
-
-        // TODO save in db
-
-        // TODO crop image
-
-        // TODO flash message
-
-        // TODO redirection
-
+        $this->container->get("session")->getFlashBag()->add("success","L'image '" . $image->getName() . " a bien été enregistrée.");
         return $this->redirect($this->generateUrl("admin_zoo_fototek_image_homepage"));
-
     }
 
 
@@ -205,19 +169,16 @@ class ImageController extends Controller
         $height = $image->getHeight();
         $newWidth = 0;
         $newHeight = 0;
-
         if($width >= $height ){
             $ratio = 1 / ($width / $height);
             $newWidth = $maxSize;
             $newHeight = $maxSize * $ratio;
         }
-
         if($width < $height){
             $ratio = 1 / ($height / $width);
             $newHeight = $maxSize;
             $newWidth = $maxSize * $ratio;
         }
-
         $gdImage = imagecreatetruecolor($newWidth, $newHeight);
         $copyImage = imagecreatefromjpeg($image->getAbsolutePath() . "/" . $this->container->getParameter("zoo_fototek_originals_dirname") . "/" . $image->getName());
         imagecopyresampled($gdImage, $copyImage, 0,0,0,0, $newWidth, $newHeight, $width, $height);
@@ -235,9 +196,11 @@ class ImageController extends Controller
         // TODO update ZFImage
     }
 
-    public function deleteAction($id)
+    public function deleteAction($id, Request $request)
     {
-        // TODO delete ZFImage
+        $csrfProvider = $this->container->get("form.csrf_provider");
+
+
     }
 
     public function moveupAction($id)
