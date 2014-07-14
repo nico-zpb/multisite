@@ -11,13 +11,13 @@
         <table class="table table-striped table-hover">
             <thead>
             <tr>
+                <th></th>
+                <th>#id</th>
                 <th>Vignette</th>
-                <th>Id</th>
+                <th colspan="2">Déplacer</th>
                 <th>Nom</th>
                 <th>Titre</th>
                 <th>Visible</th>
-                <th>Position</th>
-                <th colspan="2">Déplacer</th>
                 <th>Largeur</th>
                 <th>Hauteur</th>
                 <th>Editer</th>
@@ -33,8 +33,11 @@
             {% else %}
                 {% for image in images %}
                     <tr>
-                        <td><img src="{{ thumb_dir ~ image.name}}" alt="" title="{{ image.title|raw }}" width="30"/></td>
+                        <td>{{ image.position }}</td>
                         <td>{{ image.id }}</td>
+                        <td><img src="{{ thumb_dir ~ image.name}}" alt="" title="{{ image.title|raw }}" width="30"/></td>
+                        <td><a href="{{ path("admin_zoo_fototek_image_move_up", {id:image.id}) }}" class="btn btn-default"><i class="fa fa-caret-up"></i></a>&nbsp;<a href="{{ path("admin_zoo_fototek_image_move_down", {id:image.id}) }}" class="btn btn-default"><i class="fa fa-caret-down"></i></a></td>
+                        <td></td>
                         <td>{{ image.name }}</td>
                         <td>{{ image.title|raw }}</td>
                         <td>
@@ -44,9 +47,6 @@
                                 <a href="#" class="btn btn-default"><i class="fa fa-square-o"></i></a>
                             {% endif %}
                         </td>
-                        <td>{{ image.position }}</td>
-                        <td><a href="{{ path("admin_zoo_fototek_image_move_up", {id:image.id}) }}" class="btn btn-default"><i class="fa fa-caret-up"></i></a>&nbsp;<a href="{{ path("admin_zoo_fototek_image_move_down", {id:image.id}) }}" class="btn btn-default"><i class="fa fa-caret-down"></i></a></td>
-                        <td></td>
                         <td>{{ image.width }}</td>
                         <td>{{ image.height }}</td>
                         <td><a href="#" class="btn btn-default"><i class="fa fa-pencil-square-o"></i></a></td>
