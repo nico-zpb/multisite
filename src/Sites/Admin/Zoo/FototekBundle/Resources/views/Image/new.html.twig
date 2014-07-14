@@ -17,8 +17,13 @@
         <div class="col-md-6"></div>
     </div>
 
-    <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+    <form class="form-horizontal" action="{{ path("admin_zoo_fototek_image_create")}}" method="post" enctype="multipart/form-data">
 
+        {% if form_errors|length %}
+            {% for error in form_errors %}
+                <div class="alert alert-danger" role="alert">{{ error }}</div>
+            {% endfor %}
+        {% endif %}
         <div class="form-group">
             <label class="control-label col-md-2" for="new_image_form_file">Fichier</label>
             <div class="col-md-4">

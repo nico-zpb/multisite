@@ -23,6 +23,7 @@ namespace Sites\Admin\Zoo\FototekBundle\Controller;
 
 use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
@@ -41,7 +42,7 @@ class ImageController extends Controller
         if(!$cats){
             $this->container->get("session")->getFlashBag()->add("warning", "Il n'y a pas de catégories enregistrées pour la photothèque. Vous devez en créer au moins une pour pouvoir commencer à 'uploader' des images.");
         }
-        return $this->render("AdminZooFototekBundle:Image:new.html.twig",["categories"=>$cats]);
+        return $this->render("AdminZooFototekBundle:Image:new.html.twig",["form_errors"=>[],"categories"=>$cats]);
     }
 
     public function getbycatidAction($id)
@@ -94,6 +95,45 @@ class ImageController extends Controller
         }
 
         // TODO validation
+        $errors = [];
+        $suffix = "";
+
+        /** @var \Symfony\Component\HttpFoundation\File\UploadedFile $file */
+        $file = $request->files->get("new_image_form")["file"];
+
+        if(!$file instanceof UploadedFile){
+            $errors[] = "Pas de fichier à télécharger.";
+        }
+
+        if(!empty($form["name"]) && preg_replace('/[a-zA-Z0-9_-]/','',$form["name"]) !== ""){
+            $errors[] = "Le champ 'nom' contient des caratères interdits.";
+        }
+
+        if(!empty($form["slug"]) && preg_replace('/[a-z0-9-]/','',$form["slug"]) !== ""){
+            $errors[] = "Le champ 'alias' contient des caratères interdits.";
+        }
+
+        if($errors){
+            $cats = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFCategory")->findAll();
+            return $this->render("AdminZooFototekBundle:Image:new.html.twig",["categories"=>$cats,"form_errors"=>$errors]);
+        }
+
+        if(!empty($form["title"])){
+            $form["title"] = trim(htmlentities(strip_tags(preg_replace('/\s\s+/',' ',$form["title"]))), ENT_QUOTES|ENT_HTML5,"UTF-8");
+        }
+
+        $form["title"] .= "&copy; ZooParc de Beauval";
+
+        if(!empty($form["date"])){
+            $date = new \DateTime("now", new \DateTimeZone("Europe/Paris"));
+            $suffix .= "_" . $date->format("d-m-y") . "_";
+        }
+
+
+
+
+
+
 
         // TODO upload
 
