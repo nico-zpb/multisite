@@ -8,11 +8,11 @@
     <div class="row">
         <div class="col-md-offset-2 col-md-4">
             <div class="alert alert-info">
-                L'image "uploadée" n'est pas automatiquement mise en ligne. Vous devrez changer cet état en appliquant l'action &laquo;mettre en ligne&raquo; dans le listing des images.
+                L'image "uploadée" n'est pas automatiquement mise en ligne. Vous devrez changer cet état en appliquant l'action &laquo;Visible&raquo; dans le listing des images.
             </div>
-            <div class="alert alert-info">
+            {#<div class="alert alert-info">
                 Les dossiers "zippés" ne sont pas construits automatiquement. Vous pouvez le faire dans la section &laquo;zippage&raquo;
-            </div>
+            </div>#}
         </div>
         <div class="col-md-6"></div>
     </div>
@@ -68,11 +68,27 @@
             </div>
         </div>
 
+
+
         <div class="form-group">
             <label class="control-label col-md-2" for="new_image_form_title">Texte de l'attribut 'title'</label>
             <div class="col-md-4">
                 <input type="text" name="new_image_form[title]" id="new_image_form_title" value="" class="form-control"/>
-                <span class="help-block">&laquo; &copy;ZooParc de Beauval &raquo; est ajouté automatiquement.</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="new_image_form_legend">Légende</label>
+            <div class="col-md-4">
+                <textarea name="new_image_form[legend]" id="new_image_form_legend" class="form-control"></textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="new_image_form_copy">Texte du copyright</label>
+            <div class="col-md-4">
+                <input type="text" name="new_image_form[copy]" id="new_image_form_copy" value="" class="form-control"/>
+                <span class="help-block">Texte sans &copy;. Si laissé vide, &laquo; &copy; ZooParc de Beauval &raquo; est enregistré par défaut.</span>
             </div>
         </div>
 

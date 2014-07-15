@@ -11,7 +11,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="thumbnail">
-                        <img src="{{ thumb_dir ~ image.name }}" alt="{{ image.title|raw }}"/>
+                        <img src="{{ thumb_dir ~ image.name }}" title="{{ image.title ~ image.copyright|raw }}"/>
                     </div>
                 </div>
             </div>
@@ -30,13 +30,29 @@
                     <label class="control-label col-md-2" for="update_image_form_slug">Alias (slug)</label>
                     <div class="col-md-10">
                         <input class="form-control" type="text" name="update_image_form[slug]" id="update_image_form_slug" value="{{ image.slug }}"/>
+                        <span class="help-block">Si l'alias est laissé vide, il sera créé automatiquement. Caractères autorisés : a à z en minuscule, 0 à 9 et le tiret.</span>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="control-label col-md-2" for="update_image_form_title">Attr. 'title'</label>
                     <div class="col-md-10">
-                        <input class="form-control" type="text" name="update_image_form[title]" id="update_image_form_title" value="{{ image.title|raw }}"/>
+                        <input class="form-control" type="text" name="update_image_form[title]" id="update_image_form_title" value="{{ image.title }}"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2" for="update_image_form_legend">Légende</label>
+                    <div class="col-md-10">
+                        <textarea name="update_image_form[legend]" id="update_image_form_legend" class="form-control">{{ image.legend }}</textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2" for="update_image_form_copy">Copyright</label>
+                    <div class="col-md-10">
+                        <input type="text" name="update_image_form[copy]" id="update_image_form_copy" class="form-control" value="{{ image.copyright|raw }}" />
+                        <span class="help-block">Texte sans &copy;. Si laissé vide, &laquo; &copy; ZooParc de Beauval &raquo; est enregistré par défaut.</span>
                     </div>
                 </div>
 

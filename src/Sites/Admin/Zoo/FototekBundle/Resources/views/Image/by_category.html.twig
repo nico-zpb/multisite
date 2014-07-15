@@ -15,7 +15,9 @@
                 <th>#id</th>
                 <th>Vignette</th>
                 <th colspan="2">Déplacer</th>
-                <th>Nom</th>
+                <th>Nom du fichier</th>
+                <th>Légende</th>
+                <th>Copyright</th>
                 <th>Attr. 'title'</th>
                 <th>Visible</th>
                 <th>Largeur</th>
@@ -28,18 +30,20 @@
             <tbody>
             {% if images|length <1 %}
                 <tr class="warning">
-                    <td colspan="12">Il n'y a pas d'images enregistrées dans la catégorie &laquo;{{ category.name }}&raquo;</td>
+                    <td colspan="14">Il n'y a pas d'images enregistrées dans la catégorie &laquo;{{ category.name }}&raquo;</td>
                 </tr>
             {% else %}
                 {% for image in images %}
                     <tr>
                         <td>{{ image.position }}</td>
                         <td>{{ image.id }}</td>
-                        <td><img src="{{ thumb_dir ~ image.name}}" alt="" title="{{ image.title|raw }}" width="30"/></td>
+                        <td><img src="{{ thumb_dir ~ image.name}}" alt="" title="{{ image.title ~ image.copyright|raw }}" width="30"/></td>
                         <td><a href="{{ path("admin_zoo_fototek_image_move_up", {id:image.id}) }}" class="btn btn-default"><i class="fa fa-caret-up"></i></a>&nbsp;<a href="{{ path("admin_zoo_fototek_image_move_down", {id:image.id}) }}" class="btn btn-default"><i class="fa fa-caret-down"></i></a></td>
                         <td></td>
                         <td>{{ image.name }}</td>
-                        <td>{{ image.title|raw }}</td>
+                        <td>{{ image.legend }}</td>
+                        <td>{{ image.copyright|raw }}</td>
+                        <td>{{ image.title }}</td>
                         <td>
                             {% if image.isDisplayed %}
                                 <a href="{{ path("admin_zoo_fototek_image_set_invisible", {id:image.id,_token:csrf_token("set_invisible_image"),_from:"cat"}) }}" class="btn btn-default"><i class="fa fa-check-square-o"></i></a>
@@ -67,7 +71,7 @@
                     {% if image.isDisplayed %}
                     <div class="col-md-3">
                         <div class="thumbnail">
-                            <img src="{{ thumb_dir ~ image.name }}" alt="" title="{{ image.title|raw }}"/>
+                            <img src="{{ thumb_dir ~ image.name }}" alt="" title="{{ image.title ~ image.copyright|raw }}"/>
                         </div>
                     </div>
                     {% endif %}

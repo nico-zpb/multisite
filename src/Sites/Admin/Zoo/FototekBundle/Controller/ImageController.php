@@ -113,10 +113,21 @@ class ImageController extends Controller
             $cats = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFCategory")->findAll();
             return $this->render("AdminZooFototekBundle:Image:new.html.twig",["categories"=>$cats,"form_errors"=>$errors]);
         }
+
+        if(!empty($form["legend"])){
+            $form["legend"] = trim(htmlentities(strip_tags(preg_replace('/\s\s+/',' ',$form["legend"])), ENT_QUOTES|ENT_HTML5,"UTF-8"));
+        }
+
         if(!empty($form["title"])){
             $form["title"] = trim(htmlentities(strip_tags(preg_replace('/\s\s+/',' ',$form["title"])), ENT_QUOTES|ENT_HTML5,"UTF-8"));
         }
-        $form["title"] .= " &copy; ZooParc de Beauval";
+
+        if(!empty($form["copy"])){
+            $form["copy"] = " &copy; " . trim(htmlentities(strip_tags(preg_replace('/\s\s+/',' ',$form["copy"])), ENT_QUOTES|ENT_HTML5,"UTF-8"));
+        } else {
+            $form["copy"] = " &copy; ZooParc de Beauval";
+        }
+
         if(!empty($form["date"])){
             $date = new \DateTime("now", new \DateTimeZone("Europe/Paris"));
             $suffix .= "_" . $date->format("d-m-y") ;
@@ -140,6 +151,8 @@ class ImageController extends Controller
             $image->setSlug($form["slug"]);
         }
         $image->setTitle(trim($form["title"]));
+        $image->setLegend($form["legend"]);
+        $image->setCopyright($form["copy"]);
         $image->setHeight($size[1]);
         $image->setWidth($size[0]);
         $image->setExtension($file->guessExtension());

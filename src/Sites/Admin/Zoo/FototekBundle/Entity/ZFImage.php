@@ -141,6 +141,18 @@ class ZFImage
      */
     private $webPath;
 
+    /**
+     * @var string
+     * @ORM\Column(name="legend", type="text", nullable=true)
+     */
+    private $legend;
+
+    /**
+     * @var string
+     * @ORM\Column(name="coypright", type="string")
+     */
+    private $copyright;
+
     public function __construct()
     {
         $this->setIsArchived(false);
@@ -546,5 +558,51 @@ class ZFImage
     public function getWebPath()
     {
         return $this->webPath;
+    }
+
+    /**
+     * Set legend
+     *
+     * @param string $legend
+     * @return ZFImage
+     */
+    public function setLegend($legend)
+    {
+        $this->legend = $legend;
+
+        return $this;
+    }
+
+    /**
+     * Get legend
+     *
+     * @return string 
+     */
+    public function getLegend()
+    {
+        return $this->legend;
+    }
+
+    /**
+     * Set copyright
+     *
+     * @param string $copyright
+     * @return ZFImage
+     */
+    public function setCopyright($copyright)
+    {
+        $this->copyright = $copyright;
+
+        return $this;
+    }
+
+    /**
+     * Get copyright
+     *
+     * @return string 
+     */
+    public function getCopyright()
+    {
+        return $this->copyright;
     }
 }
