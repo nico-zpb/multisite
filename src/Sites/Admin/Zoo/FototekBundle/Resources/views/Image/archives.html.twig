@@ -31,11 +31,11 @@
                 {% for image in images %}
                     <tr>
                         <td>{{ image.id }}</td>
-                        <td><img src="{{ thumb_dir ~ image.name}}" alt="" title="{{ image.title ~ image.copyright|raw }}" width="60"/></td>
+                        <td><img src="{{ thumb_dir ~ image.name}}" alt="" title="{{ image.title}}{{ image.copyright|raw }}" width="60"/></td>
                         <td>{{ image.name }}</td>
                         <td>{{ image.legend }}</td>
                         <td>{{ image.copyright|raw}}</td>
-                        <td>{{ image.title }}</td>
+                        <td>{{ image.title|raw }}</td>
                         <td>{{ image.width }}</td>
                         <td>{{ image.height }}</td>
                         <td><a href="{{ path("admin_zoo_fototek_image_edit", {id:image.id}) }}" class="btn btn-default"><i class="fa fa-pencil-square-o"></i></a></td>

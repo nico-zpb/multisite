@@ -115,15 +115,15 @@ class ImageController extends Controller
         }
 
         if(!empty($form["legend"])){
-            $form["legend"] = trim(htmlentities(strip_tags(preg_replace('/\s\s+/',' ',$form["legend"])), ENT_QUOTES|ENT_HTML5,"UTF-8"));
+            $form["legend"] = trim(strip_tags(preg_replace('/\s\s+/',' ',$form["legend"])));
         }
 
         if(!empty($form["title"])){
-            $form["title"] = trim(htmlentities(strip_tags(preg_replace('/\s\s+/',' ',$form["title"])), ENT_QUOTES|ENT_HTML5,"UTF-8"));
+            $form["title"] = trim(strip_tags(preg_replace('/\s\s+/',' ',$form["title"])));
         }
 
         if(!empty($form["copy"])){
-            $form["copy"] = " &copy; " . trim(htmlentities(strip_tags(preg_replace('/\s\s+/',' ',$form["copy"])), ENT_QUOTES|ENT_HTML5,"UTF-8"));
+            $form["copy"] = " &copy; " . trim(strip_tags(preg_replace('/\s\s+/',' ',$form["copy"])));
         } else {
             $form["copy"] = " &copy; ZooParc de Beauval";
         }
