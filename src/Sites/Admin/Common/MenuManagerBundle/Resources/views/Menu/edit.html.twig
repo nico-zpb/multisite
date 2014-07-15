@@ -75,6 +75,39 @@
             </div>
         </div>
 
+        <h3>Visuel test</h3>
+        <style type="text/css">
+
+            #menu-test ul{
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+            #menu-test>ul:before, #menu-test>ul:after{
+                display: table;
+                content: " ";
+            }
+            #menu-test>ul:after{
+                clear: both;
+            }
+
+            #menu-test > ul > li{
+                float:left;
+
+            }
+            #menu-test  ul  li  a{
+                display: block;
+                padding: 5px;
+                color: #000;
+                text-decoration: none;
+            }
+
+        </style>
+        <div id="menu-test" class="clearfix">
+            {{ generate_menu(menu.title) }}
+        </div>
+
+
     {% else %}
         <div class="row">
             <div class="col-md-6">

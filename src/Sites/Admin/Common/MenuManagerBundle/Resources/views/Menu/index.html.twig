@@ -24,8 +24,8 @@
                     <tr>
                         <td>{{ menu.id }}</td>
                         <td>{{ menu.title }}</td>
-                        <td><a href="{{ path("admin_common_menu_manager_edit", {id:menu.id}) }}"><i class="fa fa-pencil-square-o"></i></a></td>
-                        <td><a href="{{ path("admin_common_menu_manager_delete", {id:menu.id, _token:csrf_token("delete_menu")}) }}" class="delete-alert" data-name="{{ menu.title }}"><i class="fa fa-trash-o"></i></a></td>
+                        <td><a href="{{ path("admin_common_menu_manager_edit", {id:menu.id}) }}" class="btn btn-default"><i class="fa fa-pencil-square-o"></i></a></td>
+                        <td><a href="{{ path("admin_common_menu_manager_delete", {id:menu.id, _token:csrf_token("delete_menu")}) }}" class="delete-alert btn btn-default" data-name="{{ menu.title }}"><i class="fa fa-trash-o"></i></a></td>
                     </tr>
                 {% endfor %}
             {% endif %}
