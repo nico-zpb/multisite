@@ -35,8 +35,8 @@
                         <td>{{ image.width }}</td>
                         <td>{{ image.height }}</td>
                         <td><a href="#" class="btn btn-default"><i class="fa fa-pencil-square-o"></i></a></td>
-                        <td><a href="#" class="btn btn-default"><i class="fa fa-reply"></i></a></td>
-                        <td><a href="#" class="btn btn-default delete-alert" data-name="{{ image.name }}"><i class="fa fa-trash-o"></i></a></td>
+                        <td><a href="{{ path("admin_zoo_fototek_image_remove_from_archives", {id:image.id,_token:csrf_token("remove_from_archives")} )}}" class="btn btn-default"><i class="fa fa-reply"></i></a></td>
+                        <td><a href="{{ path("admin_zoo_fototek_image_delete", {id:image.id,_token:csrf_token("delete_image"),_from:"archives"}) }}" class="btn btn-default delete-alert" data-name="{{ image.name }}"><i class="fa fa-trash-o"></i></a></td>
 
 
 

@@ -285,8 +285,10 @@ class ImageController extends Controller
         $this->container->get("session")->getFlashBag()->add("success", "L'image " . $imgName . " a bien été supprimée.");
         if($origine == "all"){
             return $this->redirect($this->generateUrl("admin_zoo_fototek_image_homepage"));
-        } else {
+        } elseif($origine == "cats") {
             return $this->redirect($this->generateUrl("admin_zoo_fototek_image_get_by_cat_id", ["id"=>$catId]));
+        } else {
+            return $this->redirect($this->generateUrl("admin_zoo_fototek_image_archives_homepage"));
         }
 
     }
@@ -369,12 +371,17 @@ class ImageController extends Controller
         }
         $origine = $request->query->get("_from");
 
-        $em = $this->getDoctrine()->getManager();
-        $image->setIsArchived(true);
-        $em->persist($image);
-        $em->flush();
         $imgName = $image->getName();
         $imgPath = $image->getAbsolutePath();
+        $catId = $image->getCategory()->getId();
+        $imgPos = $image->getPosition();
+
+        $em = $this->getDoctrine()->getManager();
+        $image->setIsArchived(true);
+        $image->setPosition(null);
+        $em->persist($image);
+        $em->flush();
+        $repo->moveUpImagesGroup($imgPos, $repo->getMaxPosition($catId), $catId);
 
         rename($imgPath . "/" . $this->container->getParameter("zoo_fototek_originals_dirname") . "/" . $imgName,$imgPath . "/" . $this->container->getParameter("zoo_fototek_archives_dirname") . "/" . $this->container->getParameter("zoo_fototek_originals_dirname") . "/" . $imgName);
         rename($imgPath . "/" . $this->container->getParameter("zoo_fototek_mds_dirname") . "/" . $imgName,$imgPath . "/" . $this->container->getParameter("zoo_fototek_archives_dirname") . "/" . $this->container->getParameter("zoo_fototek_mds_dirname") . "/" . $imgName);
@@ -391,7 +398,33 @@ class ImageController extends Controller
 
     public function removeFromArchivesAction($id, Request $request)
     {
-        //TODO
+        $csrfProvider = $this->container->get("form.csrf_provider");
+        $token = $request->query->get("_token");
+        if(!$token || !$csrfProvider->isCsrfTokenValid("remove_from_archives", $token)){
+            throw new AccessDeniedException();
+        }
+
+        $repo = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFImage");
+        $image = $repo->find($id);
+        if(!$image){
+            throw new EntityNotFoundException();
+        }
+        $maxPos = $repo->getMaxPosition($image->getCategory()->getId());
+        $em = $this->getDoctrine()->getManager();
+        $image->setIsArchived(false);
+        $image->setPosition($maxPos+1);
+        $em->persist($image);
+        $em->flush();
+        $imgName = $image->getName();
+        $imgPath = $image->getAbsolutePath();
+
+        rename($imgPath . "/" . $this->container->getParameter("zoo_fototek_archives_dirname") . "/" . $this->container->getParameter("zoo_fototek_originals_dirname") . "/" . $imgName, $imgPath . "/" . $this->container->getParameter("zoo_fototek_originals_dirname") . "/" . $imgName);
+        rename($imgPath . "/" . $this->container->getParameter("zoo_fototek_archives_dirname") . "/" . $this->container->getParameter("zoo_fototek_mds_dirname") . "/" . $imgName,$imgPath . "/" . $this->container->getParameter("zoo_fototek_mds_dirname") . "/" . $imgName);
+        rename($imgPath . "/" . $this->container->getParameter("zoo_fototek_archives_dirname") . "/" . $this->container->getParameter("zoo_fototek_slides_dirname") . "/" . $imgName,$imgPath . "/" . $this->container->getParameter("zoo_fototek_slides_dirname") . "/" . $imgName);
+        rename($imgPath . "/" . $this->container->getParameter("zoo_fototek_archives_dirname") . "/" . $this->container->getParameter("zoo_fototek_thumbnails_dirname") . "/" . $imgName,$imgPath . "/" . $this->container->getParameter("zoo_fototek_thumbnails_dirname") . "/" . $imgName);
+
+        $this->container->get("session")->getFlashBag()->add("success", "L'image " . $image->getName() . " desarchivée." );
+        return $this->redirect($this->generateUrl("admin_zoo_fototek_image_archives_homepage"));
     }
 
     public function deleteFromArchiveAction($id, Request $request)
