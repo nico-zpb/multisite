@@ -96,7 +96,7 @@ class CategoryController extends Controller
     public function updateAction($id, Request $request)
     {
         $csrfProvider = $this->container->get("form.csrf_provider");
-        if(empty($request->request->get("update_category_form")["_token"]) || !$csrfProvider->isCsrfTokenValid("new_category", $request->request->get("update_category_form")["_token"])){
+        if(empty($request->request->get("update_category_form")["_token"]) || !$csrfProvider->isCsrfTokenValid("update_category", $request->request->get("update_category_form")["_token"])){
             throw new AccessDeniedException();
         }
         $cat = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFCategory")->find($id);
