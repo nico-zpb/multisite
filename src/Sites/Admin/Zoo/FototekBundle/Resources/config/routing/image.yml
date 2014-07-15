@@ -17,11 +17,17 @@ admin_zoo_fototek_image_delete:
     requirements:
         id: \d+
 
-admin_zoo_fototek_image_delete_archive:
-    path: /supprimer_archive/{id}
-    defaults: { _controller: AdminZooFototekBundle:Image:deleteFromArchive }
+admin_zoo_fototek_image_set_visible:
+    path: /rendre_visible/{id}
+    defaults: { _controller: AdminZooFototekBundle:Image:setVisible }
     requirements:
         id: \d+
+
+admin_zoo_fototek_image_set_invisible:
+   path: /rendre_invisible/{id}
+   defaults: { _controller: AdminZooFototekBundle:Image:setinvisible }
+   requirements:
+       id: \d+
 
 admin_zoo_fototek_image_get_by_cat_id:
     path:     /recherche/par_category_id/{id}
@@ -45,3 +51,27 @@ admin_zoo_fototek_image_move_down:
     defaults: { _controller: AdminZooFototekBundle:Image:movedown }
     requirements:
         id: \d+
+
+admin_zoo_fototek_image_archives_homepage:
+    path: /archives
+    defaults: { _controller: AdminZooFototekBundle:Image:allArchives }
+
+admin_zoo_fototek_image_move_to_archives:
+    path: /mettre_en_archives/{id}
+    defaults: { _controller: AdminZooFototekBundle:Image:moveToArchives }
+    requirements:
+        id: \d+
+
+admin_zoo_fototek_image_remove_from_archives:
+    path: /sortir_des_archives/{id}
+    defaults: { _controller: AdminZooFototekBundle:Image:removeFromArchives }
+    requirements:
+        id: \d+
+
+admin_zoo_fototek_image_delete_archive:
+    path: /supprimer_archive/{id}
+    defaults: { _controller: AdminZooFototekBundle:Image:deleteFromArchive }
+    requirements:
+        id: \d+
+
+

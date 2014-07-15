@@ -14,8 +14,9 @@ class ZFImageRepository extends EntityRepository
 {
     public function getAllByCategory($id)
     {
-        $query = $this->_em->createQuery("SELECT i FROM AdminZooFototekBundle:ZFImage i JOIN i.category c WHERE c.id=:id ORDER BY i.position ASC");
+        $query = $this->_em->createQuery("SELECT i FROM AdminZooFototekBundle:ZFImage i JOIN i.category c WHERE c.id=:id AND i.isArchived=:archived ORDER BY i.position ASC");
         $query->setParameter('id', $id);
+        $query->setParameter('archived', 0);
         return $query->getResult();
     }
 

@@ -32,7 +32,7 @@ class ImageController extends Controller
 {
     public function indexAction()
     {
-        $imgs = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFImage")->findAll();
+        $imgs = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFImage")->findByIsArchived(false);
         $cats = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFCategory")->findAll();
         $thumbnailsDir = $this->container->getParameter("zoo_fototek_web_dir") . "/" . $this->container->getParameter("zoo_fototek_thumbnails_dirname") . "/";
         return $this->render("AdminZooFototekBundle:Image:index.html.twig",["images"=>$imgs,"categories"=>$cats, "thumb_dir"=>$thumbnailsDir]);
@@ -289,6 +289,109 @@ class ImageController extends Controller
             return $this->redirect($this->generateUrl("admin_zoo_fototek_image_get_by_cat_id", ["id"=>$catId]));
         }
 
+    }
+
+    public function setVisibleAction($id, Request $request)
+    {
+        $csrfProvider = $this->container->get("form.csrf_provider");
+        $token = $request->query->get("_token");
+        if(!$token || !$csrfProvider->isCsrfTokenValid("set_visible_image", $token)){
+            throw new AccessDeniedException();
+        }
+
+        $repo = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFImage");
+        $image = $repo->find($id);
+        if(!$image){
+            throw new EntityNotFoundException();
+        }
+        $origine = $request->query->get("_from");
+        $em = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
+        $image->setIsDisplayed(true);
+        $em->persist($image);
+        $em->flush();
+
+        $this->container->get("session")->getFlashBag()->add("success", "Image " . $image->getName() . " mise à jour." );
+        if($origine == "all"){
+            return $this->redirect($this->generateUrl("admin_zoo_fototek_image_homepage"));
+        } else {
+            return $this->redirect($this->generateUrl("admin_zoo_fototek_image_get_by_cat_id", ["id"=>$image->getCategory()->getId()]));
+        }
+    }
+
+    public function setInvisibleAction($id, Request $request)
+    {
+        $csrfProvider = $this->container->get("form.csrf_provider");
+        $token = $request->query->get("_token");
+        if(!$token || !$csrfProvider->isCsrfTokenValid("set_invisible_image", $token)){
+            throw new AccessDeniedException();
+        }
+
+        $repo = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFImage");
+        $image = $repo->find($id);
+        if(!$image){
+            throw new EntityNotFoundException();
+        }
+        $origine = $request->query->get("_from");
+        $em = $this->getDoctrine()->getManager();
+        $image->setIsDisplayed(false);
+        $em->persist($image);
+        $em->flush();
+
+        $this->container->get("session")->getFlashBag()->add("success", "Image " . $image->getName() . " mise à jour." );
+        if($origine == "all"){
+            return $this->redirect($this->generateUrl("admin_zoo_fototek_image_homepage"));
+        } else {
+            return $this->redirect($this->generateUrl("admin_zoo_fototek_image_get_by_cat_id", ["id"=>$image->getCategory()->getId()]));
+        }
+    }
+
+    public function allArchivesAction()
+    {
+        $imgs = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFImage")->findByIsArchived(true);
+        $cats = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFCategory")->findAll();
+        $thumbnailsDir = $this->container->getParameter("zoo_fototek_web_dir") . "/" . $this->container->getParameter("zoo_fototek_archives_dirname") . "/" . $this->container->getParameter("zoo_fototek_thumbnails_dirname") . "/";
+        return $this->render("AdminZooFototekBundle:Image:archives.html.twig",["images"=>$imgs,"categories"=>$cats, "thumb_dir"=>$thumbnailsDir]);
+    }
+
+    public function moveToArchivesAction($id, Request $request)
+    {
+        $csrfProvider = $this->container->get("form.csrf_provider");
+        $token = $request->query->get("_token");
+        if(!$token || !$csrfProvider->isCsrfTokenValid("move_to_archives", $token)){
+            throw new AccessDeniedException();
+        }
+
+        $repo = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFImage");
+        $image = $repo->find($id);
+        if(!$image){
+            throw new EntityNotFoundException();
+        }
+        $origine = $request->query->get("_from");
+
+        $em = $this->getDoctrine()->getManager();
+        $image->setIsArchived(true);
+        $em->persist($image);
+        $em->flush();
+        $imgName = $image->getName();
+        $imgPath = $image->getAbsolutePath();
+
+        rename($imgPath . "/" . $this->container->getParameter("zoo_fototek_originals_dirname") . "/" . $imgName,$imgPath . "/" . $this->container->getParameter("zoo_fototek_archives_dirname") . "/" . $this->container->getParameter("zoo_fototek_originals_dirname") . "/" . $imgName);
+        rename($imgPath . "/" . $this->container->getParameter("zoo_fototek_mds_dirname") . "/" . $imgName,$imgPath . "/" . $this->container->getParameter("zoo_fototek_archives_dirname") . "/" . $this->container->getParameter("zoo_fototek_mds_dirname") . "/" . $imgName);
+        rename($imgPath . "/" . $this->container->getParameter("zoo_fototek_slides_dirname") . "/" . $imgName,$imgPath . "/" . $this->container->getParameter("zoo_fototek_archives_dirname") . "/" . $this->container->getParameter("zoo_fototek_slides_dirname") . "/" . $imgName);
+        rename($imgPath . "/" . $this->container->getParameter("zoo_fototek_thumbnails_dirname") . "/" . $imgName,$imgPath . "/" . $this->container->getParameter("zoo_fototek_archives_dirname") . "/" . $this->container->getParameter("zoo_fototek_thumbnails_dirname") . "/" . $imgName);
+
+        $this->container->get("session")->getFlashBag()->add("success", "L'image " . $image->getName() . " déplacée en archives." );
+        if($origine == "all"){
+            return $this->redirect($this->generateUrl("admin_zoo_fototek_image_homepage"));
+        } else {
+            return $this->redirect($this->generateUrl("admin_zoo_fototek_image_get_by_cat_id", ["id"=>$image->getCategory()->getId()]));
+        }
+    }
+
+    public function removeFromArchivesAction($id, Request $request)
+    {
+        //TODO
     }
 
     public function deleteFromArchiveAction($id, Request $request)

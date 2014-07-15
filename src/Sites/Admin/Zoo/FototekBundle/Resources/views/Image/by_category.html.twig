@@ -16,7 +16,7 @@
                 <th>Vignette</th>
                 <th colspan="2">Déplacer</th>
                 <th>Nom</th>
-                <th>Titre</th>
+                <th>Attr. 'title'</th>
                 <th>Visible</th>
                 <th>Largeur</th>
                 <th>Hauteur</th>
@@ -28,7 +28,7 @@
             <tbody>
             {% if images|length <1 %}
                 <tr class="warning">
-                    <td colspan="7">Il n'y a pas d'images enregistrées dans la catégorie &laquo;{{ category.name }}&raquo;</td>
+                    <td colspan="12">Il n'y a pas d'images enregistrées dans la catégorie &laquo;{{ category.name }}&raquo;</td>
                 </tr>
             {% else %}
                 {% for image in images %}
@@ -42,15 +42,15 @@
                         <td>{{ image.title|raw }}</td>
                         <td>
                             {% if image.isDisplayed %}
-                                <a href="#" class="btn btn-default"><i class="fa fa-check-square-o"></i></a>
+                                <a href="{{ path("admin_zoo_fototek_image_set_invisible", {id:image.id,_token:csrf_token("set_invisible_image"),_from:"cat"}) }}" class="btn btn-default"><i class="fa fa-check-square-o"></i></a>
                             {% else %}
-                                <a href="#" class="btn btn-default"><i class="fa fa-square-o"></i></a>
+                                <a href="{{ path("admin_zoo_fototek_image_set_visible", {id:image.id,_token:csrf_token("set_visible_image"),_from:"cat"}) }}" class="btn btn-default"><i class="fa fa-square-o"></i></a>
                             {% endif %}
                         </td>
                         <td>{{ image.width }}</td>
                         <td>{{ image.height }}</td>
                         <td><a href="#" class="btn btn-default"><i class="fa fa-pencil-square-o"></i></a></td>
-                        <td><a class="btn btn-default" href="#"><i class="fa fa-archive"></i></a></td>
+                        <td><a class="btn btn-default" href="{{ path("admin_zoo_fototek_image_move_to_archives", {id:image.id,_token:csrf_token("move_to_archives"),_from:"cats"})}}"><i class="fa fa-archive"></i></a></td>
                         <td><a href="{{ path("admin_zoo_fototek_image_delete", {id:image.id,_token:csrf_token("delete_image"),_from:"cat"})}}" class="btn btn-default delete-alert" data-name="{{ image.name }}"><i class="fa fa-trash-o"></i></a></td>
                     </tr>
                 {% endfor %}
@@ -64,11 +64,13 @@
         <div class="col-md-offset-3 col-md-6">
             <div class="row">
                 {% for image in images %}
+                    {% if image.isDisplayed %}
                     <div class="col-md-3">
                         <div class="thumbnail">
                             <img src="{{ thumb_dir ~ image.name }}" alt="" title="{{ image.title|raw }}"/>
                         </div>
                     </div>
+                    {% endif %}
                 {% endfor %}
             </div>
         </div>
