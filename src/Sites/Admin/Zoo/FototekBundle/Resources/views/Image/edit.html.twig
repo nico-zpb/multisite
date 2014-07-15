@@ -18,7 +18,11 @@
         </div>
         <div class="col-md-6">
             <form class="form-horizontal" action="{{ path("admin_zoo_fototek_image_update", {id:image.id})}}" method="post">
-
+                {% if form_errors|length %}
+                    {% for error in form_errors %}
+                        <div class="alert alert-danger" role="alert">{{ error }}</div>
+                    {% endfor %}
+                {% endif %}
                 <div class="form-group">
                     <label class="control-label col-md-2" for="update_image_form_name">Nom</label>
                     <div class="col-md-10">

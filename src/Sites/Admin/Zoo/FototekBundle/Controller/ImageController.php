@@ -103,7 +103,7 @@ class ImageController extends Controller
         if(!in_array($file->getMimeType(), $allowedMimes)){
             $errors[] = "Le fichier n'est pas du bon type";
         }
-        if(!empty($form["name"]) && preg_replace('/[a-zA-Z0-9_-]/','',$form["name"]) !== ""){
+        if(!empty($form["name"]) && preg_replace('/[a-zA-Z0-9._-]/','',$form["name"]) !== ""){
             $errors[] = "Le champ 'nom' contient des caratères interdits.";
         }
         if(!empty($form["slug"]) && preg_replace('/[a-z0-9-]/','',$form["slug"]) !== ""){
@@ -261,16 +261,70 @@ class ImageController extends Controller
         $cats = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFCategory")->findAll();
         $thumbnailsDir = $this->container->getParameter("zoo_fototek_web_dir") . "/" . $this->container->getParameter("zoo_fototek_thumbnails_dirname") . "/";
 
-        return $this->render("AdminZooFototekBundle:Image:edit.html.twig", ["image"=>$image,"thumb_dir"=>$thumbnailsDir, "categories"=>$cats]);
+        return $this->render("AdminZooFototekBundle:Image:edit.html.twig", ["image"=>$image,"thumb_dir"=>$thumbnailsDir, "categories"=>$cats, "form_errors"=>[]]);
     }
 
     public function updateAction($id, Request $request)
     {
-        // TODO update ZFImage
-        // token update_image
+        $csrfProvider = $this->container->get("form.csrf_provider");
+        $form = $request->request->get("update_image_form");
+        if(!$form["_token"] || !$csrfProvider->isCsrfTokenValid("update_image",$form["_token"])){
+            throw new AccessDeniedException();
+        }
+        $repo = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFImage");
+        $image = $repo->find($id);
+        if(!$image){
+            throw new EntityNotFoundException();
+        }
+        $cat = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFCategory")->find($form["category"]);
+        if(!$cat){
+            throw new EntityNotFoundException();
+        }
+        $errors = [];
+        if(!empty($form["name"]) && preg_replace('/[a-zA-Z0-9._-]/','',$form["name"]) !== ""){
+            $errors[] = "Le champ 'nom' contient des caratères interdits.";
+        }
+        if(!empty($form["slug"]) && preg_replace('/[a-z0-9-]/','',$form["slug"]) !== ""){
+            $errors[] = "Le champ 'alias' contient des caratères interdits.";
+        }
 
-        var_dump("bla !");
-        die();
+        if($errors){
+            $cats = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFCategory")->findAll();
+            $thumbnailsDir = $this->container->getParameter("zoo_fototek_web_dir") . "/" . $this->container->getParameter("zoo_fototek_thumbnails_dirname") . "/";
+
+            return $this->render("AdminZooFototekBundle:Image:edit.html.twig", ["image"=>$image,"thumb_dir"=>$thumbnailsDir, "categories"=>$cats, "form_errors"=>$errors]);
+        }
+        if(!empty($form["legend"])){
+            $form["legend"] = trim(strip_tags(preg_replace('/\s\s+/',' ',$form["legend"])));
+        }
+
+        if(!empty($form["title"])){
+            $form["title"] = trim(strip_tags(preg_replace('/\s\s+/',' ',$form["title"])));
+        }
+
+        if(!empty($form["copy"])){
+            $form["copy"] = " &copy; " . trim(strip_tags(preg_replace('/\s\s+/',' ',$form["copy"])));
+        } else {
+            $form["copy"] = " &copy; ZooParc de Beauval";
+        }
+
+
+        $image->setName($form["name"]);
+
+        if($form["slug"]){
+            $image->setSlug($form["slug"]);
+        }
+
+        $image->setTitle(trim($form["title"]));
+        $image->setLegend($form["legend"]);
+        $image->setCopyright($form["copy"]);
+        $image->setCategory($cat);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($image);
+        $em->flush();
+
+        $this->container->get("session")->getFlashBag()->add("success","L'image '" . $image->getName() . " a bien été mise à jour.");
+        return $this->redirect($this->generateUrl("admin_zoo_fototek_image_homepage"));
     }
 
     public function deleteAction($id, Request $request)

@@ -69,7 +69,7 @@
             <div class="row">
                 {% for image in images %}
                     {% if image.isDisplayed %}
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="thumbnail">
                             <img src="{{ thumb_dir ~ image.name }}" alt="" title="{{ image.title|raw}}{{ image.copyright|raw }}"/>
                         </div>
