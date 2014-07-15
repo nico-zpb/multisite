@@ -353,10 +353,18 @@ class ImageController extends Controller
         $em->flush();
 
         // remove img from dirs
-        unlink($imgPath . "/" . $this->container->getParameter("zoo_fototek_originals_dirname") . "/" . $imgName);
-        unlink($imgPath . "/" . $this->container->getParameter("zoo_fototek_mds_dirname") . "/" . $imgName);
-        unlink($imgPath . "/" . $this->container->getParameter("zoo_fototek_slides_dirname") . "/" . $imgName);
-        unlink($imgPath . "/" . $this->container->getParameter("zoo_fototek_thumbnails_dirname") . "/" . $imgName);
+        if($origine == "archives"){
+            unlink($imgPath . "/" . $this->container->getParameter("zoo_fototek_archives_dirname") . "/" . $this->container->getParameter("zoo_fototek_originals_dirname") . "/" . $imgName);
+            unlink($imgPath . "/" . $this->container->getParameter("zoo_fototek_archives_dirname") . "/" . $this->container->getParameter("zoo_fototek_mds_dirname") . "/" . $imgName);
+            unlink($imgPath . "/" . $this->container->getParameter("zoo_fototek_archives_dirname") . "/" . $this->container->getParameter("zoo_fototek_slides_dirname") . "/" . $imgName);
+            unlink($imgPath . "/" . $this->container->getParameter("zoo_fototek_archives_dirname") . "/" . $this->container->getParameter("zoo_fototek_thumbnails_dirname") . "/" . $imgName);
+        } else {
+            unlink($imgPath . "/" . $this->container->getParameter("zoo_fototek_originals_dirname") . "/" . $imgName);
+            unlink($imgPath . "/" . $this->container->getParameter("zoo_fototek_mds_dirname") . "/" . $imgName);
+            unlink($imgPath . "/" . $this->container->getParameter("zoo_fototek_slides_dirname") . "/" . $imgName);
+            unlink($imgPath . "/" . $this->container->getParameter("zoo_fototek_thumbnails_dirname") . "/" . $imgName);
+        }
+
 
         // update positions
         $repo->moveUpImagesGroup($imgPos, $repo->getMaxPosition($catId), $catId);

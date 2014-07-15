@@ -24,6 +24,18 @@
                 <div class="alert alert-danger" role="alert">{{ error }}</div>
             {% endfor %}
         {% endif %}
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="new_image_form_category">Catégorie</label>
+            <div class="col-md-4">
+                <select class="form-control" name="new_image_form[category]" id="new_image_form_category">
+                    {% for cat in categories %}
+                        <option value="{{ cat.id }}">{{ cat.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
         <div class="form-group">
             <label class="control-label col-md-2" for="new_image_form_file">Fichier</label>
             <div class="col-md-4">
@@ -68,8 +80,6 @@
             </div>
         </div>
 
-
-
         <div class="form-group">
             <label class="control-label col-md-2" for="new_image_form_title">Texte de l'attribut 'title'</label>
             <div class="col-md-4">
@@ -89,17 +99,6 @@
             <div class="col-md-4">
                 <input type="text" name="new_image_form[copy]" id="new_image_form_copy" value="" class="form-control"/>
                 <span class="help-block">Texte sans &copy;. Si laissé vide, &laquo; &copy; ZooParc de Beauval &raquo; est enregistré par défaut.</span>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2" for="new_image_form_category">Catégorie</label>
-            <div class="col-md-4">
-                <select class="form-control" name="new_image_form[category]" id="new_image_form_category">
-                    {% for cat in categories %}
-                        <option value="{{ cat.id }}">{{ cat.name }}</option>
-                    {% endfor %}
-                </select>
             </div>
         </div>
 
