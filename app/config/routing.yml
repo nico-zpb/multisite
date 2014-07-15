@@ -1,3 +1,8 @@
+admin_zoo_blog:
+    resource: "@AdminZooBlogBundle/Resources/config/routing.yml"
+    host: admin.zooparc.local
+    prefix:   /zoo
+
 admin_common_menu_manager:
     resource: "@AdminCommonMenuManagerBundle/Resources/config/routing.yml"
     host: admin.zooparc.local

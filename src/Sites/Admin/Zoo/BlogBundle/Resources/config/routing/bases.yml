@@ -1,0 +1,3 @@
+admin_zoo_blog_homepage:
+    path:     /
+    defaults: { _controller: AdminZooBlogBundle:Default:index }

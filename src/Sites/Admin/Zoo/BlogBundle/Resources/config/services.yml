@@ -1,0 +1,7 @@
+parameters:
+#    admin_zoo_blog.example.class: Sites\Admin\Zoo\BlogBundle\Example
+
+services:
+#    admin_zoo_blog.example:
+#        class: %admin_zoo_blog.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
