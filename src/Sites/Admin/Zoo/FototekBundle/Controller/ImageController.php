@@ -251,13 +251,53 @@ class ImageController extends Controller
     public function deleteAction($id, Request $request)
     {
         $csrfProvider = $this->container->get("form.csrf_provider");
+        $token = $request->query->get("_token");
+        if(!$token || !$csrfProvider->isCsrfTokenValid("delete_image", $token)){
+            throw new AccessDeniedException();
+        }
 
+        $repo = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFImage");
+        $image = $repo->find($id);
+        if(!$image){
+            throw new EntityNotFoundException();
+        }
+        $origine = $request->query->get("_from");
 
+        $imgName = $image->getName();
+        $catId = $image->getCategory()->getId();
+        $imgPos = $image->getPosition();
+        $imgPath = $image->getAbsolutePath();
+
+        // remove img from db
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($image);
+        $em->flush();
+
+        // remove img from dirs
+        unlink($imgPath . "/" . $this->container->getParameter("zoo_fototek_originals_dirname") . "/" . $imgName);
+        unlink($imgPath . "/" . $this->container->getParameter("zoo_fototek_mds_dirname") . "/" . $imgName);
+        unlink($imgPath . "/" . $this->container->getParameter("zoo_fototek_slides_dirname") . "/" . $imgName);
+        unlink($imgPath . "/" . $this->container->getParameter("zoo_fototek_thumbnails_dirname") . "/" . $imgName);
+
+        // update positions
+        $repo->moveUpImagesGroup($imgPos, $repo->getMaxPosition($catId), $catId);
+
+        $this->container->get("session")->getFlashBag()->add("success", "L'image " . $imgName . " a bien été supprimée.");
+        if($origine == "all"){
+            return $this->redirect($this->generateUrl("admin_zoo_fototek_image_homepage"));
+        } else {
+            return $this->redirect($this->generateUrl("admin_zoo_fototek_image_get_by_cat_id", ["id"=>$catId]));
+        }
+
+    }
+
+    public function deleteFromArchiveAction($id, Request $request)
+    {
+        //TODO
     }
 
     public function moveupAction($id)
     {
-        // TODO moveup ZFImage
         $image = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFImage")->find($id);
         if(!$image){
             throw new EntityNotFoundException();
@@ -267,21 +307,21 @@ class ImageController extends Controller
             $newPosition = $pos - 1;
             $this->_move($image, $newPosition);
         }
-        //TODO redirect
         return $this->redirect($this->generateUrl("admin_zoo_fototek_image_get_by_cat_id",["id"=>$image->getCategory()->getId()]));
     }
 
     public function movedownAction($id)
     {
-        // TODO movedown ZFImage
         $image = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFImage")->find($id);
         if(!$image){
             throw new EntityNotFoundException();
         }
         $pos = $image->getPosition();
+        $lastPos = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFImage")->getMaxPosition($image->getCategory()->getId());
         $newPosition = $pos + 1;
-        $this->_move($image, $newPosition);
-        //TODO redirect
+        if($newPosition <= $lastPos){
+            $this->_move($image, $newPosition);
+        }
         return $this->redirect($this->generateUrl("admin_zoo_fototek_image_get_by_cat_id",["id"=>$image->getCategory()->getId()]));
     }
 

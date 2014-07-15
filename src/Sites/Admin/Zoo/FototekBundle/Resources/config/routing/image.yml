@@ -11,6 +11,18 @@ admin_zoo_fototek_image_create:
     defaults: { _controller: AdminZooFototekBundle:Image:create }
     requirements: { _method: post }
 
+admin_zoo_fototek_image_delete:
+    path: /supprimer/{id}
+    defaults: { _controller: AdminZooFototekBundle:Image:delete }
+    requirements:
+        id: \d+
+
+admin_zoo_fototek_image_delete_archive:
+    path: /supprimer_archive/{id}
+    defaults: { _controller: AdminZooFototekBundle:Image:deleteFromArchive }
+    requirements:
+        id: \d+
+
 admin_zoo_fototek_image_get_by_cat_id:
     path:     /recherche/par_category_id/{id}
     defaults: { _controller: AdminZooFototekBundle:Image:getbycatid }
