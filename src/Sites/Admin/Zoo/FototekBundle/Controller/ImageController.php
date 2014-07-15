@@ -248,7 +248,7 @@ class ImageController extends Controller
         $cats = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFCategory")->findAll();
         $thumbnailsDir = $this->container->getParameter("zoo_fototek_web_dir") . "/" . $this->container->getParameter("zoo_fototek_thumbnails_dirname") . "/";
 
-        return $this->render("AdminZooFototekBundle:Image:edit.html.twig", ["image"=>$image,"thumbs_dir"=>$thumbnailsDir, "categories"=>$cats]);
+        return $this->render("AdminZooFototekBundle:Image:edit.html.twig", ["image"=>$image,"thumb_dir"=>$thumbnailsDir, "categories"=>$cats]);
     }
 
     public function updateAction($id, Request $request)

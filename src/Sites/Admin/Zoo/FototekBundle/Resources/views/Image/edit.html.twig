@@ -7,6 +7,15 @@
 
     <h2>Edition de &laquo;{{ image.name }}&raquo;</h2>
     <div class="row">
+        <div class="col-md-2">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="thumbnail">
+                        <img src="{{ thumb_dir ~ image.name }}" alt="{{ image.title|raw }}"/>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="col-md-6">
             <form class="form-horizontal" action="{{ path("admin_zoo_fototek_image_update", {id:image.id})}}" method="post">
 
@@ -51,7 +60,7 @@
                 </div>
             </form>
         </div>
-        <div class="col-md-6 col-sm-6"></div>
+
     </div>
 
 {% endblock %}
