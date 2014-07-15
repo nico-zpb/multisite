@@ -514,10 +514,6 @@ class ImageController extends Controller
         return $this->redirect($this->generateUrl("admin_zoo_fototek_image_archives_homepage"));
     }
 
-    public function deleteFromArchiveAction($id, Request $request)
-    {
-        //TODO
-    }
 
     public function moveupAction($id)
     {

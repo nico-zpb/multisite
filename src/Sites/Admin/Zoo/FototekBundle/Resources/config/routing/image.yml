@@ -79,10 +79,5 @@ admin_zoo_fototek_image_remove_from_archives:
     requirements:
         id: \d+
 
-admin_zoo_fototek_image_delete_archive:
-    path: /supprimer_archive/{id}
-    defaults: { _controller: AdminZooFototekBundle:Image:deleteFromArchive }
-    requirements:
-        id: \d+
 
 
