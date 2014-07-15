@@ -1,0 +1,57 @@
+{% extends "AdminZooFototekBundle:Layouts:master.html.twig" %}
+
+{% set page_title = "Photothèque - Zoo - Gestion des images - Edition" %}
+
+
+{% block content%}
+
+    <h2>Edition de &laquo;{{ image.name }}&raquo;</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <form class="form-horizontal" action="{{ path("admin_zoo_fototek_image_update", {id:image.id})}}" method="post">
+
+                <div class="form-group">
+                    <label class="control-label col-md-2" for="update_image_form_name">Nom</label>
+                    <div class="col-md-10">
+                        <input class="form-control" type="text" name="update_image_form[name]" id="update_image_form_name" value="{{ image.name }}"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2" for="update_image_form_slug">Alias (slug)</label>
+                    <div class="col-md-10">
+                        <input class="form-control" type="text" name="update_image_form[slug]" id="update_image_form_slug" value="{{ image.slug }}"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2" for="update_image_form_title">Attr. 'title'</label>
+                    <div class="col-md-10">
+                        <input class="form-control" type="text" name="update_image_form[title]" id="update_image_form_title" value="{{ image.title|raw }}"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2" for="update_image_form_category">Catégorie</label>
+                    <div class="col-md-10">
+                        <select name="update_image_form[category]" id="update_image_form_category" class="form-control">
+                            {% for cat in categories %}
+                                <option value="{{ cat.id }}" {% if cat.id == image.category.id %} selected="selected" {% endif %}>{{ cat.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <input name="update_image_form[_token]" type="hidden" value="{{ csrf_token("update_image")}}"/>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <button class="btn btn-primary">Mettre à jour</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6 col-sm-6"></div>
+    </div>
+
+{% endblock %}

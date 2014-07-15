@@ -49,7 +49,7 @@
                         </td>
                         <td>{{ image.width }}</td>
                         <td>{{ image.height }}</td>
-                        <td><a href="#" class="btn btn-default"><i class="fa fa-pencil-square-o"></i></a></td>
+                        <td><a href="{{ path("admin_zoo_fototek_image_edit", {id:image.id}) }}" class="btn btn-default"><i class="fa fa-pencil-square-o"></i></a></td>
                         <td><a class="btn btn-default" href="{{ path("admin_zoo_fototek_image_move_to_archives", {id:image.id,_token:csrf_token("move_to_archives"),_from:"cats"})}}"><i class="fa fa-archive"></i></a></td>
                         <td><a href="{{ path("admin_zoo_fototek_image_delete", {id:image.id,_token:csrf_token("delete_image"),_from:"cat"})}}" class="btn btn-default delete-alert" data-name="{{ image.name }}"><i class="fa fa-trash-o"></i></a></td>
                     </tr>

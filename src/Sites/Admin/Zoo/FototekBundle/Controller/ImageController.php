@@ -240,12 +240,24 @@ class ImageController extends Controller
 
     public function editAction($id)
     {
-        // TODO edit ZFImage
+        $repo = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFImage");
+        $image = $repo->find($id);
+        if(!$image){
+            throw new EntityNotFoundException();
+        }
+        $cats = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFCategory")->findAll();
+        $thumbnailsDir = $this->container->getParameter("zoo_fototek_web_dir") . "/" . $this->container->getParameter("zoo_fototek_thumbnails_dirname") . "/";
+
+        return $this->render("AdminZooFototekBundle:Image:edit.html.twig", ["image"=>$image,"thumbs_dir"=>$thumbnailsDir, "categories"=>$cats]);
     }
 
     public function updateAction($id, Request $request)
     {
         // TODO update ZFImage
+        // token update_image
+
+        var_dump("bla !");
+        die();
     }
 
     public function deleteAction($id, Request $request)
