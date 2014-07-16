@@ -10,3 +10,14 @@ admin_zoo_blog_category_create:
     path: /creation
     defaults: { _controller: AdminZooBlogBundle:ZBCategory:create }
     requirements: { _method: post }
+
+admin_zoo_blog_category_edit:
+    path: /edition/{id}
+    defaults: { _controller: AdminZooBlogBundle:ZBCategory:edit }
+    requirements:
+        id: \d+
+
+admin_zoo_blog_category_update:
+    path: /maj/{id}
+    defaults: { _controller: AdminZooBlogBundle:ZBCategory:update }
+    requirements: { _method: post, id: \d+ }

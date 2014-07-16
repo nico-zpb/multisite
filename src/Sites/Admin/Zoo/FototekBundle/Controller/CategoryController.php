@@ -50,6 +50,7 @@ class CategoryController extends Controller
         $form = $request->request->get("new_category_form");
         $errors = [];
         $slug = null;
+        $form["name"] = trim(preg_replace('/\s\s+/'," ",$form["name"]));
         if(empty($form["name"])){
             $errors[] = "Le champs 'nom' est manquant.";
         }
@@ -67,9 +68,9 @@ class CategoryController extends Controller
         if($catExists){
             $errors[] = "Il existe déjà une catégorie du même nom.";
         }
-        $name = trim(preg_replace('/\s\s+/'," ",$form["name"]));
+
         $cat = new ZFCategory();
-        $cat->setName($name);
+        $cat->setName($form["name"]);
         if($form["slug"] != ""){
             $cat->setSlug($form["slug"]);
         }
@@ -105,6 +106,7 @@ class CategoryController extends Controller
         }
         $errors = [];
         $form = $request->request->get("update_category_form");
+        $form["name"] = trim(preg_replace('/\s\s+/'," ",$form["name"]));
         if(empty($form["name"])){
             $errors[] = "Le champs 'nom' est manquant.";
         }
@@ -112,18 +114,21 @@ class CategoryController extends Controller
             if(preg_replace("/[a-zA-Z0-9éèêàçùëïôâ'!?, _-]/",'',$form["name"]) != ""){
                 $errors[] = "Le champs 'nom' contient des caractères interdits.";
             }
+            if($form["name"] != $cat->getName()){
+                $catExists = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFCategory")->findOneByName($form["name"]);
+                if($catExists){
+                    $errors[] = "Il existe déjà une catégorie du même nom.";
+                }
+            }
         }
         if(!empty($form["slug"])){
             if(preg_replace("/[a-z0-9-]/",'',$form["slug"]) != ""){
                 $errors[] = "Le champs 'alias' contient des caractères interdits.";
             }
         }
-        $catExists = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFCategory")->findOneByName($form["name"]);
-        if($catExists){
-            $errors[] = "Il existe déjà une catégorie du même nom.";
-        }
-        $name = trim(preg_replace('/\s\s+/'," ",$form["name"]));
-        $cat->setName($name);
+
+
+        $cat->setName($form["name"]);
         if($form["slug"] != ""){
             $cat->setSlug($form["slug"]);
         }
