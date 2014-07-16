@@ -1,0 +1,3 @@
+admin_zoo_blog_post_new:
+    path: /rediger
+    defaults: { _controller: AdminZooBlogBundle:ZBPost:new }

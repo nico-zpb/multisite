@@ -33,7 +33,7 @@ class ImageController extends Controller
     public function indexAction()
     {
         $imgs = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFImage")->findByIsArchived(false);
-        $cats = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFCategory")->findAll();
+        $cats = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFCategory")->findAllAlphaOrdered();
         $thumbnailsDir = $this->container->getParameter("zoo_fototek_web_dir") . "/" . $this->container->getParameter("zoo_fototek_thumbnails_dirname") . "/";
         return $this->render("AdminZooFototekBundle:Image:index.html.twig",["images"=>$imgs,"categories"=>$cats, "thumb_dir"=>$thumbnailsDir]);
     }
@@ -110,7 +110,7 @@ class ImageController extends Controller
             $errors[] = "Le champ 'alias' contient des caratères interdits.";
         }
         if($errors){
-            $cats = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFCategory")->findAll();
+            $cats = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFCategory")->findAllAlphaOrdered();
             return $this->render("AdminZooFototekBundle:Image:new.html.twig",["categories"=>$cats,"form_errors"=>$errors]);
         }
 
@@ -258,7 +258,7 @@ class ImageController extends Controller
         if(!$image){
             throw new EntityNotFoundException();
         }
-        $cats = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFCategory")->findAll();
+        $cats = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFCategory")->findAllAlphaOrdered();
         $thumbnailsDir = $this->container->getParameter("zoo_fototek_web_dir") . "/" . $this->container->getParameter("zoo_fototek_thumbnails_dirname") . "/";
 
         return $this->render("AdminZooFototekBundle:Image:edit.html.twig", ["image"=>$image,"thumb_dir"=>$thumbnailsDir, "categories"=>$cats, "form_errors"=>[]]);
@@ -289,7 +289,7 @@ class ImageController extends Controller
         }
 
         if($errors){
-            $cats = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFCategory")->findAll();
+            $cats = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFCategory")->findAllAlphaOrdered();
             $thumbnailsDir = $this->container->getParameter("zoo_fototek_web_dir") . "/" . $this->container->getParameter("zoo_fototek_thumbnails_dirname") . "/";
 
             return $this->render("AdminZooFototekBundle:Image:edit.html.twig", ["image"=>$image,"thumb_dir"=>$thumbnailsDir, "categories"=>$cats, "form_errors"=>$errors]);
@@ -438,7 +438,7 @@ class ImageController extends Controller
     public function allArchivesAction()
     {
         $imgs = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFImage")->findByIsArchived(true);
-        $cats = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFCategory")->findAll();
+        $cats = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFCategory")->findAllAlphaOrdered();
         $thumbnailsDir = $this->container->getParameter("zoo_fototek_web_dir") . "/" . $this->container->getParameter("zoo_fototek_archives_dirname") . "/" . $this->container->getParameter("zoo_fototek_thumbnails_dirname") . "/";
         return $this->render("AdminZooFototekBundle:Image:archives.html.twig",["images"=>$imgs,"categories"=>$cats, "thumb_dir"=>$thumbnailsDir]);
     }

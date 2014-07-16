@@ -31,7 +31,7 @@ class CategoryController extends Controller
 {
     public function indexAction()
     {
-        $cats = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFCategory")->findAll();
+        $cats = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFCategory")->findAllAlphaOrdered();
         return $this->render("AdminZooFototekBundle:Category:index.html.twig", ["categories"=>$cats]);
     }
 
