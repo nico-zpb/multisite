@@ -95,24 +95,26 @@
         (function(){
             tinymce.init({
                 selector: "textarea#new_post_form_body",
-                menubar : false,
+                menubar: "tools table format view insert edit",
                 statusbar : false,
                 resize: false,
                 language : 'fr_FR',
-                plugins: 'image preview fullscreen link',
-                toolbar: "undo redo | styleselect | bold italic | link image | preview fullscreen",
+                plugins: 'image preview fullscreen link code table',
+                toolbar: false,
+                /*toolbar: "undo redo | styleselect | tools | bold italic | link image | preview fullscreen",*/
                 /*tools: "inserttable",
                 contextmenu: "link image inserttable",*/
                 height: 350
             });
             tinymce.init({
                 selector: "textarea#new_post_form_excerpt",
-                menubar : false,
+                menubar: "tools table format view insert edit",
                 statusbar : false,
                 resize: false,
                 language : 'fr_FR',
-                plugins: 'image preview fullscreen link',
-                toolbar: "undo redo | styleselect | bold italic | link image | preview fullscreen code",
+                plugins: 'image preview fullscreen link code table',
+                toolbar: false,
+                /*toolbar: "undo redo | styleselect | bold italic | link image | preview fullscreen code",*/
                 height: 150
             });
         })();
