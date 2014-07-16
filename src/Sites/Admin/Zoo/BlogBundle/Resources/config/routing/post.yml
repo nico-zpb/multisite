@@ -1,3 +1,8 @@
 admin_zoo_blog_post_new:
     path: /rediger
     defaults: { _controller: AdminZooBlogBundle:ZBPost:new }
+
+admin_zoo_blog_post_create:
+    path: /creation
+    defaults: { _controller: AdminZooBlogBundle:ZBPost:create }
+    requirements: { _method: post }

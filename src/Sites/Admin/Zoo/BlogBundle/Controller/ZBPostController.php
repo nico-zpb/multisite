@@ -37,7 +37,9 @@ class ZBPostController extends Controller
 
     public function createAction(Request $request)
     {
-
+        $form = $request->request->get("new_post_form");
+        var_dump($form);
+        die();
     }
 
 

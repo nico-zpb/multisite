@@ -5,7 +5,7 @@
 
 {% block content %}
 
-    <form action="" method="post">
+    <form action="{{ path("admin_zoo_blog_post_create") }}" method="post">
         <div class="row">
             <div class="col-md-8">
                 <div class="form-group">
@@ -24,7 +24,7 @@
                     <label for="new_post_form_excerpt">Extrait de l'article</label>
                     <textarea name="new_post_form[excerpt]" id="new_post_form_excerpt" class="form-control"></textarea>
                 </div>
-
+                <input name="new_post_form[_token]" type="hidden" value="{{ csrf_token("new_post") }}"/>
             </div>
             <div class="col-md-4">
                 <div class="panel panel-default">
@@ -40,21 +40,43 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Enregistrer le brouillon</button>
+                    <button type="submit" class="btn btn-primary" value="save_draft" name="new_post_form[submit]">Enregistrer le brouillon</button>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Enregistrer et publier</button>
+                    <button type="submit" class="btn btn-primary" value="save_publish" name="new_post_form[submit]">Enregistrer et publier</button>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Enregistrer et publier à la une</button>
+                    <button type="submit" class="btn btn-primary" value="save_front" name="new_post_form[submit]">Enregistrer et publier à la une</button>
                 </div>
                 <div class="panel panel-default">
-                    <div class="panel-heading">Publication différée</div>
+                    <div class="panel-heading"><label >Publication différée</label></div>
                     <div class="panel-body">
-                        date / heure {# TODO #}
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Enregistrer</button>
+                        <h5>Date</h5>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input class="form-control" type="text" name="new_post_form[delay_year]" id="new_post_form_delay_year" placeholder="yyyy"/>
+                            </div>
+                            <div class="col-md-4">
+                                <input class="form-control" type="text" name="new_post_form[delay_month]" id="new_post_form_delay_month" placeholder="mm"/>
+                            </div>
+                            <div class="col-md-4">
+                                <input class="form-control" type="text" name="new_post_form[delay_day]" id="new_post_form_delay_day" placeholder="jj"/>
+                            </div>
                         </div>
+                        <h5>Heure</h5>
+                        <div class="row">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-3">
+                                <input class="form-control" type="text" name="new_post_form[delay_hour]" id="new_post_form_delay_day" placeholder="hh"/>
+                            </div>
+                            <div class="col-md-3">
+                                <input class="form-control" type="text" name="new_post_form[delay_min]" id="new_post_form_delay_day" placeholder="mm"/>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <button type="submit" class="btn btn-primary " value="save_delayed" name="new_post_form[submit]">Enregistrer et publier plus tard</button>
                     </div>
                 </div>
             </div>
