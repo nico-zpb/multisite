@@ -2,5 +2,92 @@
 {% set page_title = "Actualités - Zoo" %}
 
 {% block content %}
+    {% if categories|length <1 %}
+
+        <div class="alert alert-warning">
+            <strong>Attention ! </strong> Il n'y a pas de catégories enregistrées pour les articles. Vous devez en créer au moins une pour pouvoir commencer vos rédactions.
+            <a href="#"><i class="fa fa-hand-o-right"></i> Ajouter une catégorie.</a> {# TODO #}
+        </div>
+
+
+    {% else %}
+        <h3>Brouillons</h3>
+
+        <div class="table-responsive">
+            <table class="table table-hover table-striped">
+                <thead>
+                <tr>
+                    <th>#id</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if drafts|length < 1 %}
+                    <tr class="warning">
+                        <td>Il n'y a pas d'articles en cours d'écriture. <a href="#"><i class="fa fa-hand-o-right"></i> Ecrire</a></td>
+                    </tr>
+                {% else %}
+                    {% for draft in drafts %}
+                        <tr>
+                            <td>{{ draft.id }}</td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+
+        <h3>Articles publiés</h3>
+
+        <div class="row">
+            <div class="col-sm-4 col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Filtrer par catégorie
+                    </div>
+                    <div class="panel-body">
+                        <form class="form-inline" method="post" action=""> {# TODO #}
+                            <div class="form-group">
+                                <select class="form-control" name="filter_by_category_form[category]" id="filter_by_category_form_category">
+                                    {% for cat in categories %}
+                                        <option value="{{ cat.id }}">{{ cat.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <input name="filter_by_category_form[_token]" type="hidden" value="{{ csrf_token("filter_by_category") }}"/>
+                            <button type="submit" class="btn btn-default">Filtrer</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4 col-md-4"></div>
+            <div class="col-sm-4 col-md-4"></div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-hover table-striped">
+                <thead>
+                <tr>
+                    <th>#id</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if published|length < 1 %}
+                    <tr class="warning">
+                        <td>Il n'y a pas d'articles publiés. <a href="#"><i class="fa fa-hand-o-right"></i> Ecrire</a></td>
+                    </tr>
+                {% else %}
+                    {% for pub in published %}
+                        <tr>
+                            <td>{{ pub.id }}</td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+
+    {% endif %}
+
+
 
 {% endblock %}

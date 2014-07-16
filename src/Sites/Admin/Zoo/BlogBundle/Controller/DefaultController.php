@@ -8,6 +8,16 @@ class DefaultController extends Controller
 {
     public function indexAction()
     {
-        return $this->render('AdminZooBlogBundle:Default:index.html.twig');
+        $categories = $this->getDoctrine()->getRepository("AdminZooBlogBundle:ZBCategory")->findAllAlphaOrdered();
+        if($categories){
+            $draftPosts = $this->getDoctrine()->getRepository("AdminZooBlogBundle:ZBPost")->findByIsDraft(true);
+            //TODO pagination des posts : http://doctrine-orm.readthedocs.org/en/latest/reference/query-builder.html#limiting-the-result
+            $publishedPosts = $this->getDoctrine()->getRepository("AdminZooBlogBundle:ZBPost")->findByIsPublished(true);
+        } else {
+            $draftPosts = [];
+            $publishedPosts = [];
+        }
+
+        return $this->render('AdminZooBlogBundle:Default:index.html.twig', ["drafts"=>$draftPosts, "published"=>$publishedPosts, "categories"=>$categories]);
     }
 }

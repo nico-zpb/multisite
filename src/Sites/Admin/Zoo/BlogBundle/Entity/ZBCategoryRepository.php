@@ -12,4 +12,9 @@ use Doctrine\ORM\EntityRepository;
  */
 class ZBCategoryRepository extends EntityRepository
 {
+    public function findAllAlphaOrdered()
+    {
+        $qb = $this->createQueryBuilder("c")->orderBy("c.name", "ASC");
+        return $qb->getQuery()->getResult();
+    }
 }
