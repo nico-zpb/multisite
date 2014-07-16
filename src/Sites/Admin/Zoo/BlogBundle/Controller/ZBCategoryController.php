@@ -147,4 +147,23 @@ class ZBCategoryController extends Controller
         $this->container->get("session")->getFlashBag()->add("success", "La catégorie " . $cat->getName() . " a bien été mise à jour.");
         return $this->redirect($this->generateUrl("admin_zoo_blog_category_homepage"));
     }
+
+    public function deleteAction($id, Request $request)
+    {
+        $csrfProvider = $this->container->get("form.csrf_provider");
+        $token = $request->query->get("_token");
+        if(!$token || !$csrfProvider->isCsrfTokenValid("delete_category",$token)){
+            throw new AccessDeniedException();
+        }
+        $cat = $this->getDoctrine()->getRepository("AdminZooBlogBundle:ZBCategory")->find($id);
+        if(!$cat){
+            throw new EntityNotFoundException();
+        }
+        $name = $cat->getName();
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($cat);
+        $em->flush();
+        $this->container->get("session")->getFlashBag()->add("success", "La catégorie " . $name . " a bien été supprimer.");
+        return $this->redirect($this->generateUrl("admin_zoo_blog_category_homepage"));
+    }
 } 

@@ -29,8 +29,8 @@
                         <td>{{ cat.id }}</td>
                         <td>{{ cat.name }}</td>
                         <td>{{ cat.slug }}</td>
-                        <td><a href="{{ path("admin_zoo_blog_category_edit", {id:entity.id, _token:csrf_token("edit_category")}) }}" class="btn btn-default"><i class="fa fa-pencil-square-o"></i></a></td> {# TODO #}
-                        <td><a href="#" class="btn btn-default delete-alert" data-name="{{ cat.name }}"><i class="fa fa-trash-o"></i></a></td> {# TODO #}
+                        <td><a href="{{ path("admin_zoo_blog_category_edit", {id:cat.id, _token:csrf_token("edit_category")}) }}" class="btn btn-default"><i class="fa fa-pencil-square-o"></i></a></td> {# TODO #}
+                        <td><a href="{{ path("admin_zoo_blog_category_delete", {id:cat.id, _token:csrf_token("delete_category")}) }}" class="btn btn-default delete-alert" data-name="{{ cat.name }}"><i class="fa fa-trash-o"></i></a></td> {# TODO #}
                     </tr>
                 {% endfor %}
             {% endif %}
