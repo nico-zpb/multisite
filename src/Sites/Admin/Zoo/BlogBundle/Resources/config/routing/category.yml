@@ -5,3 +5,8 @@ admin_zoo_blog_category_homepage:
 admin_zoo_blog_category_new:
     path: /nouvelle
     defaults: { _controller: AdminZooBlogBundle:ZBCategory:new }
+
+admin_zoo_blog_category_create:
+    path: /creation
+    defaults: { _controller: AdminZooBlogBundle:ZBCategory:create }
+    requirements: { _method: post }

@@ -16,12 +16,14 @@
                     <label class="col-md-2 control-label" for="new_category_form_name">Nom*</label>
                     <div class="col-md-8">
                         <input class="form-control" type="text" name="new_category_form[name]" id="new_category_form_name" required="required" value="{{ entity.name }}"/>
+                        <span class="help-block">Champs requis.</span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-2 control-label" for="new_category_form_slug">Alias (slug) </label><button type="button" class="btn btn-primary" data-toggle="popover" title="aide" data-content="Non requis, si laissé vide, sera créé automatiquement. Seuls les lettres minuscules de a à z, les chiffres et le tiret sont acceptés."><i class="fa fa-question-circle"></i></button>
+                    <label class="col-md-2 control-label" for="new_category_form_slug">Alias (slug) </label>
                     <div class="col-md-8">
                         <input class="form-control" type="text" name="new_category_form[slug]" id="new_category_form_slug" value="{{ entity.slug }}"/>
+                        <span class="help-block">Si l'alias est laissé vide, il sera créé automatiquement. Caractères autorisés : a à z en minuscule, 0 à 9 et le tiret.</span>
                     </div>
                 </div>
                 <input name="new_category_form[_token]" type="hidden" value="{{ csrf_token("new_category") }}"/>
@@ -42,12 +44,4 @@
 
 
 {% endblock %}
-{% block footScripts %}
-    {{ parent() }}
-    <script>
-        $(function(){
-            $("[data-toggle='popover']").popover();
-        });
-    </script>
 
-{% endblock %}
