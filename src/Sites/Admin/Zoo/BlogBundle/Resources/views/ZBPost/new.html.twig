@@ -2,7 +2,10 @@
 
 {% set page_title = "Actualités - Zoo - Rédiger un article" %}
 {% set short_page_title = "new_post" %}
+{% block headLinks %}
+    {{ parent() }}
 
+{% endblock %}
 {% block content %}
 
     <form action="{{ path("admin_zoo_blog_post_create") }}" method="post">
@@ -84,4 +87,34 @@
 
     </form>
 
+{% endblock %}
+{% block footScripts %}
+    {{ parent() }}
+    <script src="/js/admin/vendor/tinymce/tinymce.min.js"></script>
+    <script>
+        (function(){
+            tinymce.init({
+                selector: "textarea#new_post_form_body",
+                menubar : false,
+                statusbar : false,
+                resize: false,
+                language : 'fr_FR',
+                plugins: 'image preview fullscreen link',
+                toolbar: "undo redo | styleselect | bold italic | link image | preview fullscreen",
+                /*tools: "inserttable",
+                contextmenu: "link image inserttable",*/
+                height: 350
+            });
+            tinymce.init({
+                selector: "textarea#new_post_form_excerpt",
+                menubar : false,
+                statusbar : false,
+                resize: false,
+                language : 'fr_FR',
+                plugins: 'image preview fullscreen link',
+                toolbar: "undo redo | styleselect | bold italic | link image | preview fullscreen code",
+                height: 150
+            });
+        })();
+    </script>
 {% endblock %}

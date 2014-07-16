@@ -24,7 +24,9 @@ body {
 .navbar-fixed-top {
   border: 0;
 }
-
+.navbar-fixed-top, .navbar-fixed-bottom{
+    z-index: 90;
+}
 /*
  * Sidebar
  */
@@ -39,7 +41,7 @@ body {
     top: 51px;
     bottom: 0;
     left: 0;
-    z-index: 1000;
+    z-index: 50;
     display: block;
     padding: 20px;
     overflow-x: hidden;

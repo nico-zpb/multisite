@@ -8,7 +8,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * ZBPost
  *
- * @ORM\Table()
+ * @ORM\Table(name="zoo_blog_posts")
  * @ORM\Entity(repositoryClass="Sites\Admin\Zoo\BlogBundle\Entity\ZBPostRepository")
  */
 class ZBPost
@@ -107,6 +107,12 @@ class ZBPost
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id", nullable=false)
      */
     private $category;
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(name="toBePublishedAt", type="datetime", nullable=true)
+     */
+    private $toBePublishedAt;
 
     public function __construct()
     {
@@ -402,5 +408,28 @@ class ZBPost
     public function getCategory()
     {
         return $this->category;
+    }
+
+    /**
+     * Set toBePublishedAt
+     *
+     * @param \DateTime $toBePublishedAt
+     * @return ZBPost
+     */
+    public function setToBePublishedAt($toBePublishedAt)
+    {
+        $this->toBePublishedAt = $toBePublishedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get toBePublishedAt
+     *
+     * @return \DateTime 
+     */
+    public function getToBePublishedAt()
+    {
+        return $this->toBePublishedAt;
     }
 }

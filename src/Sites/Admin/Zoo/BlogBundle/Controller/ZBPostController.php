@@ -22,6 +22,7 @@ namespace Sites\Admin\Zoo\BlogBundle\Controller;
 
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
 
 class ZBPostController extends Controller
@@ -37,7 +38,11 @@ class ZBPostController extends Controller
 
     public function createAction(Request $request)
     {
+        $csrfProvider = $this->container->get("form.csrf_provider");
         $form = $request->request->get("new_post_form");
+        if(!$form["_token"] || !$csrfProvider->isCsrfTokenValid("new_post",$form["_token"])){
+            throw new AccessDeniedException();
+        }
         var_dump($form);
         die();
     }
