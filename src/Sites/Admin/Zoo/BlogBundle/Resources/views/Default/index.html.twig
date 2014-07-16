@@ -23,7 +23,7 @@
                 <tbody>
                 {% if drafts|length < 1 %}
                     <tr class="warning">
-                        <td>Il n'y a pas d'articles en cours d'écriture. <a href="#"><i class="fa fa-hand-o-right"></i> Ecrire</a></td>
+                        <td>Il n'y a pas d'articles en cours d'écriture. <a href="{{ path("admin_zoo_blog_post_new") }}"><i class="fa fa-hand-o-right"></i> Ecrire</a></td>
                     </tr>
                 {% else %}
                     {% for draft in drafts %}
@@ -73,7 +73,7 @@
                 <tbody>
                 {% if published|length < 1 %}
                     <tr class="warning">
-                        <td>Il n'y a pas d'articles publiés. <a href="#"><i class="fa fa-hand-o-right"></i> Ecrire</a></td>
+                        <td>Il n'y a pas d'articles publiés. <a href="{{ path("admin_zoo_blog_post_new") }}"><i class="fa fa-hand-o-right"></i> Ecrire</a></td>
                     </tr>
                 {% else %}
                     {% for pub in published %}

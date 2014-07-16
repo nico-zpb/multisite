@@ -9,34 +9,55 @@
 {% block content %}
 
     <form action="{{ path("admin_zoo_blog_post_create") }}" method="post">
+        {% if form_errors|length %}
+            {% for error in form_errors %}
+                <div class="alert alert-danger" role="alert">{{ error }}</div>
+            {% endfor %}
+        {% endif %}
         <div class="row">
             <div class="col-md-8">
                 <div class="form-group">
                     <label for="new_post_form_title">Titre de l'article</label>
-                    <input type="text" name="new_post_form[title]" id="new_post_form_title" class="form-control"/>
+                    <input type="text" name="new_post_form[title]" id="new_post_form_title" class="form-control" value="{{ post.title }}"/>
+                    <span class="help-block">Champ requis. Caractères autorisés: a-z,A-Z,0-9,é,è,ê,à,ç,ù,ë,ï,ô,â,',!,?, ,_,- vigule, point-virgule, point </span>
                 </div>
                 <div class="form-group">
                     <label for="new_post_form_slug">Alias</label>
-                    <input type="text" name="new_post_form[slug]" id="new_post_form_slug" class="form-control"/>
+                    <input type="text" name="new_post_form[slug]" id="new_post_form_slug" class="form-control" value="{{ post.slug }}"/>
+                    <span class="help-block">Si le nom est laissé vide, le nom original du fichier sera utilisé. Caractères autorisés : a à z, A à Z, 0 à 9, - et _</span>
                 </div>
                 <div class="form-group">
                     <label for="new_post_form_body">Corps de l'article</label>
-                    <textarea name="new_post_form[body]" id="new_post_form_body" class="form-control"></textarea>
+                    <textarea name="new_post_form[body]" id="new_post_form_body" class="form-control">{{ post.body }}</textarea>
                 </div>
                 <div class="form-group">
                     <label for="new_post_form_excerpt">Extrait de l'article</label>
-                    <textarea name="new_post_form[excerpt]" id="new_post_form_excerpt" class="form-control"></textarea>
+                    <textarea name="new_post_form[excerpt]" id="new_post_form_excerpt" class="form-control">{{ post.excerpt }}</textarea>
                 </div>
                 <input name="new_post_form[_token]" type="hidden" value="{{ csrf_token("new_post") }}"/>
             </div>
             <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading"><label>Etat de l'article</label></div>
+                    <div class="panel-body">
+                        {% if post.isDraft %}
+                            <h3 class="text-danger">Brouillon</h3>
+                        {% elseif post.isPublished %}
+                            <h3 class="text-danger">Publié</h3>
+                        {% elseif post.isDelayed %}
+                            <h3 class="text-danger">Publication différée</h3>
+                        {% else %}
+                            <h3 class="text-danger"> inconnu ?</h3>
+                        {% endif %}
+                    </div>
+                </div>
                 <div class="panel panel-default">
                     <div class="panel-heading"><label for="new_post_form_category">Catégorie</label></div>
                     <div class="panel-body">
                         <div class="form-group">
                             <select class="form-control" name="new_post_form[category]" id="new_post_form_category">
                                 {% for cat in categories %}
-                                    <option value="{{ cat.id }}">{{ cat.name }}</option>
+                                    <option value="{{ cat.id }}" {% if post.category != null and post.category.id == cat.id %}selected="selected"{% endif %}>{{ cat.name }}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -52,28 +73,28 @@
                     <button type="submit" class="btn btn-primary" value="save_front" name="new_post_form[submit]">Enregistrer et publier à la une</button>
                 </div>
                 <div class="panel panel-default">
-                    <div class="panel-heading"><label >Publication différée</label></div>
+                    <div class="panel-heading"><label >Publication différée</label> <span class="text-danger">Non fonctionnel !</span></div>
                     <div class="panel-body">
                         <h5>Date</h5>
                         <div class="row">
                             <div class="col-md-4">
-                                <input class="form-control" type="text" name="new_post_form[delay_year]" id="new_post_form_delay_year" placeholder="yyyy"/>
+                                <input class="form-control" type="text" name="new_post_form[delay_year]" id="new_post_form_delay_year" placeholder="yyyy" {% if post.toBePublishedAt != null %}value="{{ post.toBePublishedAt|date("Y") }}"{% endif %}/>
                             </div>
                             <div class="col-md-4">
-                                <input class="form-control" type="text" name="new_post_form[delay_month]" id="new_post_form_delay_month" placeholder="mm"/>
+                                <input class="form-control" type="text" name="new_post_form[delay_month]" id="new_post_form_delay_month" placeholder="mm" {% if post.toBePublishedAt != null %}value="{{ post.toBePublishedAt|date("m") }}"{% endif %}/>
                             </div>
                             <div class="col-md-4">
-                                <input class="form-control" type="text" name="new_post_form[delay_day]" id="new_post_form_delay_day" placeholder="jj"/>
+                                <input class="form-control" type="text" name="new_post_form[delay_day]" id="new_post_form_delay_day" placeholder="jj" {% if post.toBePublishedAt != null %}value="{{ post.toBePublishedAt|date("d") }}"{% endif %}/>
                             </div>
                         </div>
                         <h5>Heure</h5>
                         <div class="row">
                             <div class="col-md-3"></div>
                             <div class="col-md-3">
-                                <input class="form-control" type="text" name="new_post_form[delay_hour]" id="new_post_form_delay_day" placeholder="hh"/>
+                                <input class="form-control" type="text" name="new_post_form[delay_hour]" id="new_post_form_delay_day" placeholder="hh" {% if post.toBePublishedAt != null %}value="{{ post.toBePublishedAt|date("H") }}"{% endif %}/>
                             </div>
                             <div class="col-md-3">
-                                <input class="form-control" type="text" name="new_post_form[delay_min]" id="new_post_form_delay_day" placeholder="mm"/>
+                                <input class="form-control" type="text" name="new_post_form[delay_min]" id="new_post_form_delay_day" placeholder="mm" {% if post.toBePublishedAt != null %}value="{{ post.toBePublishedAt|date("i") }}"{% endif %}/>
                             </div>
                             <div class="col-md-3"></div>
                         </div>
@@ -101,9 +122,6 @@
                 language : 'fr_FR',
                 plugins: 'image preview fullscreen link code table',
                 toolbar: false,
-                /*toolbar: "undo redo | styleselect | tools | bold italic | link image | preview fullscreen",*/
-                /*tools: "inserttable",
-                contextmenu: "link image inserttable",*/
                 height: 350
             });
             tinymce.init({
@@ -114,7 +132,6 @@
                 language : 'fr_FR',
                 plugins: 'image preview fullscreen link code table',
                 toolbar: false,
-                /*toolbar: "undo redo | styleselect | bold italic | link image | preview fullscreen code",*/
                 height: 150
             });
         })();
