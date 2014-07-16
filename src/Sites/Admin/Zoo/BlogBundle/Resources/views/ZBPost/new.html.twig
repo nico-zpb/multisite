@@ -5,4 +5,61 @@
 
 {% block content %}
 
+    <form action="" method="post">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label for="new_post_form_title">Titre de l'article</label>
+                    <input type="text" name="new_post_form[title]" id="new_post_form_title" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label for="new_post_form_slug">Alias</label>
+                    <input type="text" name="new_post_form[slug]" id="new_post_form_slug" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label for="new_post_form_body">Corps de l'article</label>
+                    <textarea name="new_post_form[body]" id="new_post_form_body" class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="new_post_form_excerpt">Extrait de l'article</label>
+                    <textarea name="new_post_form[excerpt]" id="new_post_form_excerpt" class="form-control"></textarea>
+                </div>
+
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading"><label for="new_post_form_category">Catégorie</label></div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <select class="form-control" name="new_post_form[category]" id="new_post_form_category">
+                                {% for cat in categories %}
+                                    <option value="{{ cat.id }}">{{ cat.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Enregistrer le brouillon</button>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Enregistrer et publier</button>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Enregistrer et publier à la une</button>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">Publication différée</div>
+                    <div class="panel-body">
+                        date / heure {# TODO #}
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Enregistrer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+
 {% endblock %}

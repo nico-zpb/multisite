@@ -7,17 +7,13 @@
         <div class="col-sm-3 col-md-2">
             <a class="btn btn-primary btn-lg" href=""><i class="fa fa-pencil"></i> Ecrire</a>
             <hr/>
-            {#<ul class="nav nav-sidebar">
-                <li><a href="{{ path("admin_zoo_fototek_homepage") }}"><i class="fa fa-home"></i> Photothèque Zoo</a></li>
-            </ul>
-            <hr/>#}
             <h4><i class="fa fa-file-text-o"></i> Articles</h4>
             <ul class="nav nav-sidebar">
                 <li {% if short_page_title == "all_posts" %}class="active" {% endif %}><a href="{{ path("admin_zoo_blog_homepage") }}"><i class="fa fa-list-ul"></i> Liste</a></li>
                 <li {% if short_page_title == "new_post" %}class="active" {% endif %}><a href="{{ path("admin_zoo_blog_post_new") }}"><i class="fa fa-pencil"></i> Ecrire</a></li>
-                <li><a href=""><i class="fa fa-archive"></i> Archives</a></li>
-                <li><a href=""><i class="fa fa-trash-o"></i> Corbeille</a></li>
-                <li><a href="#"><i class="fa fa-signal"></i> Statistiques</a></li>
+                <li><a href=""><i class="fa fa-archive"></i> Archives</a></li> {# TODO #}
+                <li><a href=""><i class="fa fa-trash-o"></i> Corbeille</a></li> {# TODO #}
+                <li><a href="#"><i class="fa fa-signal"></i> Statistiques</a></li> {# TODO #}
             </ul>
             <h4><i class="fa fa-tags"></i> Catégories</h4>
             <ul class="nav nav-sidebar">

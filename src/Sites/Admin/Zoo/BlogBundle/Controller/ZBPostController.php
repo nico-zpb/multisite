@@ -22,6 +22,7 @@ namespace Sites\Admin\Zoo\BlogBundle\Controller;
 
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 class ZBPostController extends Controller
 {
@@ -33,4 +34,11 @@ class ZBPostController extends Controller
         $categories = $this->getDoctrine()->getRepository("AdminZooBlogBundle:ZBCategory")->findAllAlphaOrdered();
         return $this->render("AdminZooBlogBundle:ZBPost:new.html.twig", ["categories"=>$categories]);
     }
+
+    public function createAction(Request $request)
+    {
+
+    }
+
+
 } 
