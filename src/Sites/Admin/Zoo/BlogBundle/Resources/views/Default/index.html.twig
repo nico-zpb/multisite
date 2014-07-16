@@ -11,38 +11,53 @@
 
 
     {% else %}
-        <h3>Brouillons</h3>
+        <div class="page-header">
+            <h3>Brouillons</h3>
+        </div>
+
 
         <div class="table-responsive">
             <table class="table table-hover table-striped">
                 <thead>
                 <tr>
                     <th>#id</th>
+                    <th>date de création</th>
+                    <th>Titre</th>
+                    <th>Catégorie</th>
+                    <th>Editer</th>
+                    <th>Mettre à la corbeille</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% if drafts|length < 1 %}
                     <tr class="warning">
-                        <td>Il n'y a pas d'articles en cours d'écriture. <a href="{{ path("admin_zoo_blog_post_new") }}"><i class="fa fa-hand-o-right"></i> Ecrire</a></td>
+                        <td colspan="6">Il n'y a pas d'articles en cours d'écriture. <a href="{{ path("admin_zoo_blog_post_new") }}"><i class="fa fa-hand-o-right"></i> Ecrire</a></td>
                     </tr>
                 {% else %}
                     {% for draft in drafts %}
                         <tr>
                             <td>{{ draft.id }}</td>
+                            <td>{{ draft.createdAt|date("d-m-Y") }}</td>
+                            <td>{{ draft.title }}</td>
+                            <td><a href="#">{{ draft.category.name }}</a></td>
+                            <td><a class="btn btn-default" href="#"><i class="fa fa-pencil-square-o"></i></a></td>
+                            <td><a class="btn btn-default" href="#"><i class="fa fa-trash-o"></i></a></td>
                         </tr>
                     {% endfor %}
                 {% endif %}
                 </tbody>
             </table>
         </div>
-
-        <h3>Articles publiés</h3>
+        <hr/>
+        <div class="page-header">
+            <h3>Articles publiés</h3>
+        </div>
 
         <div class="row">
             <div class="col-sm-4 col-md-4">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Filtrer par catégorie
+                        <i class="fa fa-filter"></i> Filtrer par catégorie
                     </div>
                     <div class="panel-body">
                         <form class="form-inline" method="post" action=""> {# TODO #}
@@ -59,7 +74,22 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-4 col-md-4"></div>
+            <div class="col-sm-4 col-md-4">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-trophy"></i> Article à la une
+                        </div>
+                        <div class="panel-body">
+                            {% if alaune != null %}
+                                &laquo;{{ alaune.title }}&raquo; <a href="#"><i class="fa fa-hand-o-right"></i> Editer</a>
+                            {% else %}
+                                Il n'y a pas d'article à la une.
+                            {% endif %}
+                        </div>
+                    </div>
+
+            </div>
             <div class="col-sm-4 col-md-4"></div>
         </div>
 
@@ -68,17 +98,31 @@
                 <thead>
                 <tr>
                     <th>#id</th>
+                    <th>date de publication</th>
+                    <th>Titre</th>
+                    <th>Catégorie</th>
+                    <th>Mettre "à la une"</th>
+                    <th>retirer de la publication</th>
+                    <th>Editer</th>
+                    <th>Mettre à la corbeille</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% if published|length < 1 %}
                     <tr class="warning">
-                        <td>Il n'y a pas d'articles publiés. <a href="{{ path("admin_zoo_blog_post_new") }}"><i class="fa fa-hand-o-right"></i> Ecrire</a></td>
+                        <td colspan="8">Il n'y a pas d'articles publiés. <a href="{{ path("admin_zoo_blog_post_new") }}"><i class="fa fa-hand-o-right"></i> Ecrire</a></td>
                     </tr>
                 {% else %}
                     {% for pub in published %}
                         <tr>
                             <td>{{ pub.id }}</td>
+                            <td>{{ pub.publishedAt|date("d-m-Y") }}</td>
+                            <td>{{ pub.title }}</td>
+                            <td><a href="#">{{ pub.category.name }}</a></td>
+                            <td><a href="#" class="btn btn-default"><i class="fa fa-trophy"></i></a></td>
+                            <td><a class="btn btn-default" href="#"><i class="fa fa-eye-slash"></i></a></td>
+                            <td><a class="btn btn-default" href="#"><i class="fa fa-pencil-square-o"></i></a></td>
+                            <td><a class="btn btn-default" href="#"><i class="fa fa-trash-o"></i></a></td>
                         </tr>
                     {% endfor %}
                 {% endif %}

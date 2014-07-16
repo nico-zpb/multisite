@@ -40,7 +40,7 @@ class ZBPost
     /**
      * @var string
      *
-     * @ORM\Column(name="excerpt", type="text")
+     * @ORM\Column(name="excerpt", type="text",nullable=true)
      */
     private $excerpt;
 
@@ -55,7 +55,7 @@ class ZBPost
     /**
      * @var string
      *
-     * @ORM\Column(name="body", type="text")
+     * @ORM\Column(name="body", type="text", nullable=true)
      */
     private $body;
 
@@ -90,8 +90,7 @@ class ZBPost
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="publishedAt", type="datetime")
-     * @Gedmo\Timestampable(on="change", field="isPublished", value=true)
+     * @ORM\Column(name="publishedAt", type="datetime", nullable=true)
      */
     private $publishedAt;
 
@@ -426,7 +425,7 @@ class ZBPost
     /**
      * Get toBePublishedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getToBePublishedAt()
     {
