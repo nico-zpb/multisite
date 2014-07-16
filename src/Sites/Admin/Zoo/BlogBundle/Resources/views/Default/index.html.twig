@@ -82,7 +82,7 @@
                         </div>
                         <div class="panel-body">
                             {% if alaune != null %}
-                                &laquo;{{ alaune.title }}&raquo; <a href="#"><i class="fa fa-hand-o-right"></i> Editer</a>
+                                &laquo; {{ alaune.title }} &raquo; <a href="#" class="btn btn-default"><i class="fa fa-hand-o-right"></i> Editer</a>
                             {% else %}
                                 Il n'y a pas d'article à la une.
                             {% endif %}
@@ -102,7 +102,7 @@
                     <th>Titre</th>
                     <th>Catégorie</th>
                     <th>Mettre "à la une"</th>
-                    <th>retirer de la publication</th>
+                    <th>Archiver</th>
                     <th>Editer</th>
                     <th>Mettre à la corbeille</th>
                 </tr>
@@ -120,7 +120,7 @@
                             <td>{{ pub.title }}</td>
                             <td><a href="#">{{ pub.category.name }}</a></td>
                             <td><a href="#" class="btn btn-default"><i class="fa fa-trophy"></i></a></td>
-                            <td><a class="btn btn-default" href="#"><i class="fa fa-eye-slash"></i></a></td>
+                            <td><a class="btn btn-default" href="#"><i class="fa fa-archive"></i></a></td>
                             <td><a class="btn btn-default" href="#"><i class="fa fa-pencil-square-o"></i></a></td>
                             <td><a class="btn btn-default" href="#"><i class="fa fa-trash-o"></i></a></td>
                         </tr>

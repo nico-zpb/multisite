@@ -78,29 +78,29 @@
                         <h5>Date</h5>
                         <div class="row">
                             <div class="col-md-4">
-                                <input class="form-control" type="text" name="new_post_form[delay_year]" id="new_post_form_delay_year" placeholder="yyyy" {% if post.toBePublishedAt != null %}value="{{ post.toBePublishedAt|date("Y") }}"{% endif %}/>
+                                <input class="form-control" type="text" name="new_post_form[delay_year]" id="new_post_form_delay_year" placeholder="yyyy" {% if post.toBePublishedAt != null %}value="{{ post.toBePublishedAt|date("Y") }}"{% endif %} disabled="disabled"/>
                             </div>
                             <div class="col-md-4">
-                                <input class="form-control" type="text" name="new_post_form[delay_month]" id="new_post_form_delay_month" placeholder="mm" {% if post.toBePublishedAt != null %}value="{{ post.toBePublishedAt|date("m") }}"{% endif %}/>
+                                <input class="form-control" type="text" name="new_post_form[delay_month]" id="new_post_form_delay_month" placeholder="mm" {% if post.toBePublishedAt != null %}value="{{ post.toBePublishedAt|date("m") }}"{% endif %} disabled="disabled"/>
                             </div>
                             <div class="col-md-4">
-                                <input class="form-control" type="text" name="new_post_form[delay_day]" id="new_post_form_delay_day" placeholder="jj" {% if post.toBePublishedAt != null %}value="{{ post.toBePublishedAt|date("d") }}"{% endif %}/>
+                                <input class="form-control" type="text" name="new_post_form[delay_day]" id="new_post_form_delay_day" placeholder="jj" {% if post.toBePublishedAt != null %}value="{{ post.toBePublishedAt|date("d") }}"{% endif %} disabled="disabled"/>
                             </div>
                         </div>
                         <h5>Heure</h5>
                         <div class="row">
                             <div class="col-md-3"></div>
                             <div class="col-md-3">
-                                <input class="form-control" type="text" name="new_post_form[delay_hour]" id="new_post_form_delay_day" placeholder="hh" {% if post.toBePublishedAt != null %}value="{{ post.toBePublishedAt|date("H") }}"{% endif %}/>
+                                <input class="form-control" type="text" name="new_post_form[delay_hour]" id="new_post_form_delay_day" placeholder="hh" {% if post.toBePublishedAt != null %}value="{{ post.toBePublishedAt|date("H") }}"{% endif %}  disabled="disabled"/>
                             </div>
                             <div class="col-md-3">
-                                <input class="form-control" type="text" name="new_post_form[delay_min]" id="new_post_form_delay_day" placeholder="mm" {% if post.toBePublishedAt != null %}value="{{ post.toBePublishedAt|date("i") }}"{% endif %}/>
+                                <input class="form-control" type="text" name="new_post_form[delay_min]" id="new_post_form_delay_day" placeholder="mm" {% if post.toBePublishedAt != null %}value="{{ post.toBePublishedAt|date("i") }}"{% endif %}  disabled="disabled"/>
                             </div>
                             <div class="col-md-3"></div>
                         </div>
                     </div>
                     <div class="panel-footer">
-                        <button type="submit" class="btn btn-primary " value="save_delayed" name="new_post_form[submit]">Enregistrer et publier plus tard</button>
+                        <button type="submit" class="btn btn-primary disabled" value="save_delayed" name="new_post_form[submit]" disabled="disabled">Enregistrer et publier plus tard</button>
                     </div>
                 </div>
             </div>
