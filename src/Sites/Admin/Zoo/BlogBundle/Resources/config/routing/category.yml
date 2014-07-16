@@ -1,0 +1,7 @@
+admin_zoo_blog_category_homepage:
+    path: /
+    defaults: { _controller: AdminZooBlogBundle:ZBCategory:index }
+
+admin_zoo_blog_category_new:
+    path: /nouvelle
+    defaults: { _controller: AdminZooBlogBundle:ZBCategory:new }

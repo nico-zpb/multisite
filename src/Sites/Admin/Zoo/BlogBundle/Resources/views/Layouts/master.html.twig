@@ -1,5 +1,5 @@
 {% extends "AdminCommonBaseBundle:Layouts:master.html.twig" %}
-
+{% set short_page_title = ( short_page_title is defined) ? short_page_title : "" %}
 {% block main %}
 
 
@@ -21,8 +21,8 @@
             </ul>
             <h4><i class="fa fa-tags"></i> Catégories</h4>
             <ul class="nav nav-sidebar">
-                <li><a href=""><i class="fa fa-list-ul"></i> Liste</a></li>
-                <li><a href=""><i class="fa fa-plus-square-o"></i> Nouvelle catégorie</a></li>
+                <li {% if short_page_title == "all_cats" %}class="active" {% endif %}><a href="{{ path("admin_zoo_blog_category_homepage") }}"><i class="fa fa-list-ul"></i> Liste</a></li>
+                <li {% if short_page_title == "new_cat" %}class="active" {% endif %}><a href=""><i class="fa fa-plus-square-o"></i> Nouvelle catégorie</a></li>
             </ul>
         </div>
         <div class="col-sm-9 col-md-10">

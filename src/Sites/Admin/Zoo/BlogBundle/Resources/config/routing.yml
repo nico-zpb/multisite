@@ -1,3 +1,7 @@
 admin_zoo_blog_bases_routes:
     resource: "@AdminZooBlogBundle/Resources/config/routing/bases.yml"
     prefix:     /actus
+
+admin_zoo_blog_category_routes:
+    resource: "@AdminZooBlogBundle/Resources/config/routing/category.yml"
+    prefix:     /actus/categories
