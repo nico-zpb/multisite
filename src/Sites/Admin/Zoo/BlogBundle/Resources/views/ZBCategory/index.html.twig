@@ -5,5 +5,51 @@
 
 {% block content %}
 
+    <div class="table-responsive">
+        <table class="table table-hover table-striped">
+            <thead>
+            <tr>
+                <th>#id</th>
+                <th>Nom</th>
+                <th>Alias</th>
+                <th>Editer</th>
+                <th>Supprimer</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if categories|length <1 %}
+                <tr class="warning">
+                    <td colspan="5">
+                        Il n'y a pas de catégories enregistées. <a href="{{ path("admin_zoo_blog_category_new") }}"><i class="fa fa-hand-o-right"></i> Créer</a>
+                    </td>
+                </tr>
+            {% else %}
+                {% for cat in categories %}
+                    <tr>
+                        <td>{{ cat.id }}</td>
+                        <td>{{ cat.name }}</td>
+                        <td>{{ cat.slug }}</td>
+                        <td><a href="#" class="btn btn-default"><i class="fa fa-pencil-square-o"></i></a></td> {# TODO #}
+                        <td><a href="#" class="btn btn-default delete-alert" data-name="{{ cat.name }}"><i class="fa fa-trash-o"></i></a></td> {# TODO #}
+                    </tr>
+                {% endfor %}
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+{% block footScripts %}
+    {{ parent() }}
+    <script>
+        $(function(){
+            $(".delete-alert").on("click", function(e){
+                e.preventDefault();
+                var name = $(this).data("name");
+                if(window.confirm("Attention, cette action est irréversible, êtes-vous certain de vouloir continuer et effacer '" + name + "' ?")){
+                    window.location.href = $(this).attr("href");
+                }
+            });
+        });
+    </script>
 
 {% endblock %}
