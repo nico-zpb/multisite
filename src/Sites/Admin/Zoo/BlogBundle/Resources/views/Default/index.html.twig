@@ -25,6 +25,7 @@
                     <th>Titre</th>
                     <th>Catégorie</th>
                     <th>Editer</th>
+                    <th>Publier</th>
                     <th>Mettre à la corbeille</th>
                 </tr>
                 </thead>
@@ -41,6 +42,7 @@
                             <td>{{ draft.title }}</td>
                             <td><a href="#">{{ draft.category.name }}</a></td>
                             <td><a class="btn btn-default" href="#"><i class="fa fa-pencil-square-o"></i></a></td>
+                            <td><a class="btn btn-default" href="#"><i class="fa fa-share"></i></a></td>
                             <td><a class="btn btn-default" href="#"><i class="fa fa-trash-o"></i></a></td>
                         </tr>
                     {% endfor %}
@@ -119,7 +121,11 @@
                             <td>{{ pub.publishedAt|date("d-m-Y") }}</td>
                             <td>{{ pub.title }}</td>
                             <td><a href="#">{{ pub.category.name }}</a></td>
-                            <td><a href="#" class="btn btn-default"><i class="fa fa-trophy"></i></a></td>
+                            {% if pub.isFront == true %}
+                                <td><span class="btn btn-default disabled"><i class="fa fa-trophy"></i></span></td>
+                            {% else %}
+                                <td><a href="#" class="btn btn-default"><i class="fa fa-trophy"></i></a></td>
+                            {% endif %}
                             <td><a class="btn btn-default" href="#"><i class="fa fa-archive"></i></a></td>
                             <td><a class="btn btn-default" href="#"><i class="fa fa-pencil-square-o"></i></a></td>
                             <td><a class="btn btn-default" href="#"><i class="fa fa-trash-o"></i></a></td>

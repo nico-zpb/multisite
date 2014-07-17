@@ -96,7 +96,7 @@ class ZBPostController extends Controller
 
         if($errors){
             $categories = $this->getDoctrine()->getRepository("AdminZooBlogBundle:ZBCategory")->findAllAlphaOrdered();
-            return $this->render("AdminZooBlogBundle:ZBPost:new.html.twig", ["form_errors"=>$errors, "categories"=>$categories]);
+            return $this->render("AdminZooBlogBundle:ZBPost:new.html.twig", ["form_errors"=>$errors, "categories"=>$categories, "post"=>$post]);
         }
         $em = $this->getDoctrine()->getManager();
         if($form["submit"] == "save_publish"){
