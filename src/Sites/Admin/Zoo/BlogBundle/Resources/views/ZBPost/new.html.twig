@@ -1,6 +1,6 @@
 {% extends "AdminZooBlogBundle:Layouts:master.html.twig" %}
 
-{% set page_title = "Actualités - Zoo - Rédiger un article" %}
+{% set page_title = "Actualités - Zoo/Beauval Nature - Rédiger un article" %}
 {% set short_page_title = "new_post" %}
 {% block headLinks %}
     {{ parent() }}
@@ -69,9 +69,28 @@
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary" value="save_publish" name="new_post_form[submit]">Enregistrer et publier</button>
                 </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary" value="save_front" name="new_post_form[submit]">Enregistrer et publier à la une</button>
+                <div class="panel panel-default">
+                    <div class="panel-heading"><label>Enregistrer "à la une"</label></div>
+                    <div class="panel-body">
+                        <div class="checkbox">
+                            <label for="new_post_form">
+                                <input type="checkbox" id="new_post_form_front_zoo" name="new_post_form[isfront]" checked="checked"> "A la une" du zoo
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label for="new_post_form">
+                                <input type="checkbox" id="new_post_form_front_bn" name="new_post_form[isfrontbn]"> "A la une" de Beauval Nature
+                            </label>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary" value="save_front" name="new_post_form[submit]">Enregistrer et publier à la une</button>
+                        </div>
+                    </div>
                 </div>
+
+
+
                 <div class="panel panel-default">
                     <div class="panel-heading"><label >Publication différée</label> <span class="text-danger">Non fonctionnel !</span></div>
                     <div class="panel-body">

@@ -80,7 +80,7 @@
 
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <i class="fa fa-trophy"></i> Article à la une
+                            <i class="fa fa-trophy"></i> Article "à la une" du Zoo
                         </div>
                         <div class="panel-body">
                             {% if alaune != null %}
@@ -92,7 +92,20 @@
                     </div>
 
             </div>
-            <div class="col-sm-4 col-md-4"></div>
+            <div class="col-sm-4 col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <i class="fa fa-trophy"></i> Article "à la une" de Beauval Nature
+                    </div>
+                    <div class="panel-body">
+                        {% if alaunebn != null %}
+                            &laquo; {{ alaunebn.title }} &raquo; <a href="#" class="btn btn-default"><i class="fa fa-hand-o-right"></i> Editer</a>
+                        {% else %}
+                            Il n'y a pas d'article à la une.
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="table-responsive">
@@ -103,7 +116,7 @@
                     <th>date de publication</th>
                     <th>Titre</th>
                     <th>Catégorie</th>
-                    <th>Mettre "à la une"</th>
+                    <th colspan="2">Mettre "à la une"</th>
                     <th>Archiver</th>
                     <th>Editer</th>
                     <th>Mettre à la corbeille</th>
@@ -112,7 +125,7 @@
                 <tbody>
                 {% if published|length < 1 %}
                     <tr class="warning">
-                        <td colspan="8">Il n'y a pas d'articles publiés. <a href="{{ path("admin_zoo_blog_post_new") }}"><i class="fa fa-hand-o-right"></i> Ecrire</a></td>
+                        <td colspan="9">Il n'y a pas d'articles publiés. <a href="{{ path("admin_zoo_blog_post_new") }}"><i class="fa fa-hand-o-right"></i> Ecrire</a></td>
                     </tr>
                 {% else %}
                     {% for pub in published %}
@@ -122,10 +135,19 @@
                             <td>{{ pub.title }}</td>
                             <td><a href="#">{{ pub.category.name }}</a></td>
                             {% if pub.isFront == true %}
-                                <td><span class="btn btn-default disabled"><i class="fa fa-trophy"></i></span></td>
+                                <td><span class="btn btn-default disabled">Zoo</span></td>
                             {% else %}
-                                <td><a href="#" class="btn btn-default"><i class="fa fa-trophy"></i></a></td>
+                                <td><a href="#" class="btn btn-default">Zoo</a></td>
                             {% endif %}
+
+                            {% if pub.isFrontBN == true %}
+                                <td><span class="btn btn-default disabled">B.Nature</span></td>
+                            {% else %}
+                                <td><a href="#" class="btn btn-default">B.Nature</a></td>
+                            {% endif %}
+
+
+
                             <td><a class="btn btn-default" href="#"><i class="fa fa-archive"></i></a></td>
                             <td><a class="btn btn-default" href="#"><i class="fa fa-pencil-square-o"></i></a></td>
                             <td><a class="btn btn-default" href="#"><i class="fa fa-trash-o"></i></a></td>

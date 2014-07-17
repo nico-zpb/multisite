@@ -102,6 +102,13 @@ class ZBPost
     private $isFront;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="isFrontBN", type="boolean")
+     */
+    private $isFrontBN;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Sites\Admin\Zoo\BlogBundle\Entity\ZBCategory")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id", nullable=false)
      */
@@ -120,6 +127,7 @@ class ZBPost
         $this->isDelayed = false;
         $this->isDropped = false;
         $this->isFront = false;
+        $this->isFrontBN = false;
     }
 
 
@@ -430,5 +438,28 @@ class ZBPost
     public function getToBePublishedAt()
     {
         return $this->toBePublishedAt;
+    }
+
+    /**
+     * Set isFrontBN
+     *
+     * @param boolean $isFrontBN
+     * @return ZBPost
+     */
+    public function setIsFrontBN($isFrontBN)
+    {
+        $this->isFrontBN = $isFrontBN;
+
+        return $this;
+    }
+
+    /**
+     * Get isFrontBN
+     *
+     * @return boolean 
+     */
+    public function getIsFrontBN()
+    {
+        return $this->isFrontBN;
     }
 }

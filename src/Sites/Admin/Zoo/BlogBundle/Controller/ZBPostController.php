@@ -79,6 +79,11 @@ class ZBPostController extends Controller
                 $errors[] = "Vous ne pouvez pas publier un article sans résumé.";
             }
         }
+        if($form["submit"] == "save_front"){
+            if(empty($form["isfront"]) && empty($form["isfrontbn"])){
+                $errors[] = "Précisez à quelle 'une' vous voulez mettre votre article";
+            }
+        }
 
         //TODO validation date différé
 
@@ -109,12 +114,23 @@ class ZBPostController extends Controller
             $post->setIsDraft(false);
             $post->setIsPublished(true);
             $post->setPublishedAt(new \DateTime("now", new \DateTimeZone("Europe/Paris")));
-            $lastFrontPost = $this->getDoctrine()->getRepository("AdminZooBlogBundle:ZBPost")->findOneByIsFront(true);
-            if($lastFrontPost){
-                $lastFrontPost->setIsFront(false);
-                $em->persist($lastFrontPost);
+            if(!empty($form["isfront"])){
+                $lastFrontPost = $this->getDoctrine()->getRepository("AdminZooBlogBundle:ZBPost")->findOneByIsFront(true);
+                if($lastFrontPost){
+                    $lastFrontPost->setIsFront(false);
+                    $em->persist($lastFrontPost);
+                }
+                $post->setIsFront(true);
             }
-            $post->setIsFront(true);
+            if(!empty($form["isfrontbn"])){
+                $lastFrontBNPost = $this->getDoctrine()->getRepository("AdminZooBlogBundle:ZBPost")->findOneByIsFrontBN(true);
+                if($lastFrontBNPost){
+                    $lastFrontBNPost->setIsFrontBN(false);
+                    $em->persist($lastFrontBNPost);
+                }
+                $post->setIsFrontBN(true);
+            }
+
         }
 
         if($form["submit"] == "save_delayed"){
