@@ -1,0 +1,7 @@
+parameters:
+#    admin_common_mediatek.example.class: Sites\Admin\Common\MediatekBundle\Example
+
+services:
+#    admin_common_mediatek.example:
+#        class: %admin_common_mediatek.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

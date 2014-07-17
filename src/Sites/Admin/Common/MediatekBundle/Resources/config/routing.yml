@@ -1,0 +1,3 @@
+admin_common_mediatek_routes:
+    resource: "@AdminCommonMediatekBundle/Resources/config/routing/base.yml"
+    prefix:     /mediatheque
