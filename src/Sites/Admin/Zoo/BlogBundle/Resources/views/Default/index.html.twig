@@ -1,5 +1,5 @@
 {% extends "AdminZooBlogBundle:Layouts:master.html.twig" %}
-{% set page_title = "Actualités - Zoo" %}
+{% set page_title = "Actualités - Zoo / Beauval Nature" %}
 {% set short_page_title = "all_posts" %}
 {% block content %}
     {% if categories|length <1 %}
@@ -116,7 +116,8 @@
                     <th>date de publication</th>
                     <th>Titre</th>
                     <th>Catégorie</th>
-                    <th colspan="2">Mettre "à la une"</th>
+                    <th>"à la une" Zoo</th>
+                    <th>"à la une" Beauval Nature</th>
                     <th>Archiver</th>
                     <th>Editer</th>
                     <th>Mettre à la corbeille</th>
@@ -135,15 +136,15 @@
                             <td>{{ pub.title }}</td>
                             <td><a href="#">{{ pub.category.name }}</a></td>
                             {% if pub.isFront == true %}
-                                <td><span class="btn btn-default disabled">Zoo</span></td>
+                                <td><a href="#" class="btn btn-default"><i class="fa fa-check-square-o"></i></a></td>
                             {% else %}
-                                <td><a href="#" class="btn btn-default">Zoo</a></td>
+                                <td><a href="#" class="btn btn-default"><i class="fa fa-square-o"></i></a></td>
                             {% endif %}
 
                             {% if pub.isFrontBN == true %}
-                                <td><span class="btn btn-default disabled">B.Nature</span></td>
+                                <td><a href="#" class="btn btn-default"><i class="fa fa-check-square-o"></i></a></td>
                             {% else %}
-                                <td><a href="#" class="btn btn-default">B.Nature</a></td>
+                                <td><a href="#" class="btn btn-default"><i class="fa fa-square-o"></i></a></td>
                             {% endif %}
 
 
