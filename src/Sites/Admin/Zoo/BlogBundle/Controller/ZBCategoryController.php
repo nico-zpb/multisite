@@ -94,7 +94,7 @@ class ZBCategoryController extends Controller
         }
         $cat = $this->getDoctrine()->getRepository("AdminZooBlogBundle:ZBCategory")->find($id);
         if(!$cat){
-            throw new EntityNotFoundException();
+            throw $this->createNotFoundException();
         }
         return $this->render("AdminZooBlogBundle:ZBCategory:edit.html.twig", ["form_errors"=>[], "entity"=>$cat]);
     }
@@ -108,7 +108,7 @@ class ZBCategoryController extends Controller
         }
         $cat = $this->getDoctrine()->getRepository("AdminZooBlogBundle:ZBCategory")->find($id);
         if(!$cat){
-            throw new EntityNotFoundException();
+            throw $this->createNotFoundException();
         }
         $errors= [];
         $form["name"] = trim(preg_replace('/\s\s+/'," ",$form["name"]));
@@ -157,7 +157,7 @@ class ZBCategoryController extends Controller
         }
         $cat = $this->getDoctrine()->getRepository("AdminZooBlogBundle:ZBCategory")->find($id);
         if(!$cat){
-            throw new EntityNotFoundException();
+            throw $this->createNotFoundException();
         }
         $name = $cat->getName();
         $em = $this->getDoctrine()->getManager();

@@ -4,6 +4,7 @@ namespace Sites\Admin\Zoo\BlogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * ZBPost
@@ -120,8 +121,15 @@ class ZBPost
      */
     private $toBePublishedAt;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Sites\Admin\Zoo\BlogBundle\Entity\ZBTag", inversedBy="posts")
+     * @ORM\JoinTable(name="zoo_blog_posts_tags")
+     */
+    private $tags;
+
     public function __construct()
     {
+        $this->tags = new ArrayCollection();
         $this->isDraft = true;
         $this->isPublished = false;
         $this->isDelayed = false;
@@ -461,5 +469,38 @@ class ZBPost
     public function getIsFrontBN()
     {
         return $this->isFrontBN;
+    }
+
+    /**
+     * Add tags
+     *
+     * @param ZBTag $tags
+     * @return ZBPost
+     */
+    public function addTag(ZBTag $tags)
+    {
+        $this->tags[] = $tags;
+
+        return $this;
+    }
+
+    /**
+     * Remove tags
+     *
+     * @param ZBTag $tags
+     */
+    public function removeTag(ZBTag $tags)
+    {
+        $this->tags->removeElement($tags);
+    }
+
+    /**
+     * Get tags
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTags()
+    {
+        return $this->tags;
     }
 }
