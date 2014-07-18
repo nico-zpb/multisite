@@ -5,3 +5,8 @@ admin_zoo_blog_tag_homepage:
 admin_zoo_blog_tag_new:
     path: /nouveau
     defaults: { _controller: AdminZooBlogBundle:ZBTag:new }
+
+admin_zoo_blog_tag_create:
+    path: /creation
+    defaults: { _controller: AdminZooBlogBundle:ZBTag:create }
+    requirements: { _method: post }

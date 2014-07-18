@@ -49,7 +49,9 @@ class ZBCategoryController extends Controller
             throw new AccessDeniedException();
         }
         $errors= [];
-        $form["name"] = trim(preg_replace('/\s\s+/'," ",$form["name"]));
+        if(array_key_exists("name", $form)){
+            $form["name"] = trim(preg_replace('/\s\s+/'," ",$form["name"]));
+        }
         if(empty($form["name"])){
             $errors[] = "Le champs 'nom' est manquant.";
         }

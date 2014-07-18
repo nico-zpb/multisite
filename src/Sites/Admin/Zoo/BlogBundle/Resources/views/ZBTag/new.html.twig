@@ -3,5 +3,39 @@
 {% set short_page_title = "new_tag" %}
 
 {% block content %}
+    <div class="row">
+        <div class="col-md-6 col-sm-6">
+            <form class="form-horizontal" action="{{ path("admin_zoo_blog_tag_create") }}" method="post">
+                {% if form_errors|length>0 %}
+                    {% for error in form_errors %}
+                        <div class="alert alert-danger" role="alert">{{ error }}</div>
+                    {% endfor %}
+                {% endif %}
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="new_tag_form_name">Nom</label>
+                    <div class="col-md-8">
+                        <input class="form-control" type="text" name="new_tag_form[name]" id="new_tag_form_name" required="required" value="{{ entity.name }}"/>
+                        <span class="help-block">Champs requis.</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="new_tag_form_slug">Alias (slug) </label>
+                    <div class="col-md-8">
+                        <input class="form-control" type="text" name="new_tag_form[slug]" id="new_tag_form_slug" value="{{ entity.slug }}"/>
+                        <span class="help-block">Si l'alias est laissé vide, il sera créé automatiquement. Caractères autorisés : a à z en minuscule, 0 à 9 et le tiret.</span>
+                    </div>
+                </div>
+                <input name="new_tag_form[_token]" type="hidden" value="{{ csrf_token("new_tag") }}"/>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-8">
+                        <button class="btn btn-primary" type="submit">Enregistrer</button>
+                    </div>
+                </div>
 
+            </form>
+        </div>
+        <div class="col-md-6 col-sm-6">
+
+        </div>
+    </div>
 {% endblock %}
