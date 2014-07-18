@@ -133,6 +133,12 @@ class ZBPost
      */
     private $view_counter;
 
+    /**
+     * @var string
+     * @ORM\Column(name="long_id", type="string", length=8, nullable=false)
+     */
+    private $longId;
+
     public function __construct()
     {
         $this->tags = new ArrayCollection();
@@ -143,6 +149,8 @@ class ZBPost
         $this->isFront = false;
         $this->isFrontBN = false;
         $this->view_counter = 0;
+        $longId = md5((new \DateTime("now", new \DateTimeZone("Europe/Paris")))->getTimestamp() . uniqid());
+        $this->longId = substr($longId, 0, 8);
     }
 
 
@@ -471,7 +479,7 @@ class ZBPost
     /**
      * Get isFrontBN
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsFrontBN()
     {
@@ -504,7 +512,7 @@ class ZBPost
     /**
      * Get tags
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getTags()
     {
@@ -527,10 +535,33 @@ class ZBPost
     /**
      * Get view_counter
      *
-     * @return integer 
+     * @return integer
      */
     public function getViewCounter()
     {
         return $this->view_counter;
+    }
+
+    /**
+     * Set longId
+     *
+     * @param string $longId
+     * @return ZBPost
+     */
+    public function setLongId($longId)
+    {
+        $this->longId = $longId;
+
+        return $this;
+    }
+
+    /**
+     * Get longId
+     *
+     * @return string 
+     */
+    public function getLongId()
+    {
+        return $this->longId;
     }
 }

@@ -39,7 +39,7 @@
                 {% else %}
                     {% for draft in drafts %}
                         <tr>
-                            <td>{{ draft.id }}</td>
+                            <td>{{ draft.longId }}</td>
                             <td>{{ draft.createdAt|date("d-m-Y, H:i") }}</td>
                             <td>{{ draft.title }}</td>
                             <td><a href="#">{{ draft.category.name }}</a></td>
@@ -166,7 +166,7 @@
                 {% else %}
                     {% for pub in published %}
                         <tr>
-                            <td>{{ pub.id }}</td>
+                            <td>{{ pub.longId }}</td>
                             <td>{{ pub.publishedAt|date("d-m-Y, H:i") }}</td>
                             <td>{{ pub.viewCounter }}</td>
                             <td>{{ pub.title }}</td>
