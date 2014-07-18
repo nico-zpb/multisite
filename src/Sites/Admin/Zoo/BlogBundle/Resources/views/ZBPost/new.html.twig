@@ -69,7 +69,7 @@
                     <div class="panel-heading"><label for="new_post_form_tags">Mots-clés</label></div>
                     <div class="panel-body">
                         <div class="form-group">
-                            <select class="form-control" name="new_post_form[tags]" id="new_post_form_tags" multiple="multiple">
+                            <select class="form-control" name="new_post_form[tags][]" id="new_post_form_tags" multiple="multiple">
                                 {% for tag in tags %}
                                     <option value="{{ tag.id }}" >{{ tag.name }}</option>
                                 {% endfor %}

@@ -22,6 +22,7 @@ namespace Sites\Admin\Zoo\BlogBundle\Controller;
 
 
 use Sites\Admin\Zoo\BlogBundle\Entity\ZBPost;
+use Sites\Admin\Zoo\BlogBundle\Entity\ZBTag;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,6 +42,8 @@ class ZBPostController extends Controller
 
     public function createAction(Request $request)
     {
+        /*var_dump($request->request->all());
+        die();*/
         $csrfProvider = $this->container->get("form.csrf_provider");
         $form = $request->request->get("new_post_form");
         if(!$form["_token"] || !$csrfProvider->isCsrfTokenValid("new_post",$form["_token"])){
@@ -85,11 +88,40 @@ class ZBPostController extends Controller
                 $errors[] = "Précisez à quelle 'une' vous voulez mettre votre article";
             }
         }
+        $em = $this->getDoctrine()->getManager();
+        $post = new ZBPost();
         //TODO validation des mots cles
+        if(array_key_exists("tags", $form)){
+            foreach($form["tags"] as $k=>$v){
+                $t = $this->getDoctrine()->getRepository("AdminZooBlogBundle:ZBTag")->find($v);
+                if(!$t){
+                    throw $this->createNotFoundException();
+                }
+                $post->addTag($t);
+            }
+        }
+
+        if(!empty($form["newtags"])){
+            $form["newtags"] = trim(preg_replace('/\s\s+/'," ",$form["newtags"]));
+            $tags = explode(";", $form["newtags"]);
+
+            foreach($tags as $k=>$v){
+                $v = trim(preg_replace('/\s\s+/'," ",$v));
+                if($v){
+                    if(preg_replace("/[a-zA-Z0-9éèêàçùûëïôâ'!?, _-]/",'',$v) == ""){
+                        $tag = new ZBTag();
+                        $tag->setName($v);
+                        $em->persist($tag);
+                        $post->addTag($tag);
+                    }
+                }
+            }
+            $em->flush();
+        }
 
         //TODO validation date différé
 
-        $post = new ZBPost();
+
         $post->setTitle($form['title']);
         if($form["slug"]){
             $post->setSlug($form["slug"]);
