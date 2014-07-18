@@ -40,7 +40,7 @@
                     {% for draft in drafts %}
                         <tr>
                             <td>{{ draft.id }}</td>
-                            <td>{{ draft.createdAt|date("d-m-Y") }}</td>
+                            <td>{{ draft.createdAt|date("d-m-Y, H:i") }}</td>
                             <td>{{ draft.title }}</td>
                             <td><a href="#">{{ draft.category.name }}</a></td>
                             {% if draft.tags|length > 0 %}
