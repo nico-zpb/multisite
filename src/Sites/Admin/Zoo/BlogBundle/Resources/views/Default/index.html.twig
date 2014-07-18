@@ -57,7 +57,7 @@
         </div>
 
         <div class="row">
-            <div class="col-sm-4 col-md-4">
+            <div class="col-sm-3 col-md-3">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <i class="fa fa-filter"></i> Filtrer par catégorie
@@ -77,23 +77,45 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-4 col-md-4">
-
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <i class="fa fa-trophy"></i> Article "à la une" du Zoo
-                        </div>
-                        <div class="panel-body">
-                            {% if alaune != null %}
-                                &laquo; {{ alaune.title }} &raquo; <a href="#" class="btn btn-default"><i class="fa fa-hand-o-right"></i> Editer</a>
-                            {% else %}
-                                Il n'y a pas d'article à la une.
-                            {% endif %}
-                        </div>
+            <div class="col-sm-3 col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <i class="fa fa-filter"></i> Filtrer par mot-clé
                     </div>
-
+                    <div class="panel-body">
+                        {% if tags|length > 0 %}
+                        <form class="form-inline" method="post" action=""> {# TODO #}
+                            <div class="form-group">
+                                <select class="form-control" name="filter_by_tag_form[tag]" id="filter_by_tag_form_category">
+                                    {% for tag in tags %}
+                                        <option value="{{ tag.id }}">{{ tag.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <input name="filter_by_tag_form[_token]" type="hidden" value="{{ csrf_token("filter_by_tag") }}"/>
+                            <button type="submit" class="btn btn-default">Filtrer</button>
+                        </form>
+                        {% else %}
+                        <p>Il n'y a pas de mots-clés enregistrés. <a href="{{ path("admin_zoo_blog_tag_new") }}"><i class="fa fa-hand-o-right"></i> Créer</a></p>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
-            <div class="col-sm-4 col-md-4">
+            <div class="col-sm-3 col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <i class="fa fa-trophy"></i> Article "à la une" du Zoo
+                    </div>
+                    <div class="panel-body">
+                        {% if alaune != null %}
+                            &laquo; {{ alaune.title }} &raquo; <a href="#" class="btn btn-default"><i class="fa fa-hand-o-right"></i> Editer</a>
+                        {% else %}
+                            Il n'y a pas d'article à la une.
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3 col-md-3">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <i class="fa fa-trophy"></i> Article "à la une" de Beauval Nature
@@ -117,6 +139,7 @@
                     <th>date de publication</th>
                     <th>Titre</th>
                     <th>Catégorie</th>
+                    <th>Mots-clés</th>
                     <th>"à la une" Zoo</th>
                     <th>"à la une" Beauval Nature</th>
                     <th>Archiver</th>
@@ -135,7 +158,16 @@
                             <td>{{ pub.id }}</td>
                             <td>{{ pub.publishedAt|date("d-m-Y") }}</td>
                             <td>{{ pub.title }}</td>
-                            <td><a href="#">{{ pub.category.name }}</a></td>
+                            <td><a href="#">{{ pub.category.name }}</a></td> {# TODO #}
+                            {% if pub.tags|length > 0 %}
+                                <td>
+                                    {% for tag in pub.tags %}
+                                        <a href="#">{{ tag.name}}</a> {% if loop.last %} - {% endif %}
+                                    {% endfor %}
+                                </td>
+                            {% else %}
+                                <td> - </td>
+                            {% endif %}
                             {% if pub.isFront == true %}
                                 <td><a href="#" class="btn btn-default"><i class="fa fa-check-square-o"></i></a></td>
                             {% else %}

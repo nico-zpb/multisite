@@ -16,7 +16,7 @@
         {% endif %}
         <div class="row">
             <div class="col-md-8">
-                <p class="text-danger">Incorporation de la mediatheque. choisir une image, upload d'une image</p> {# TODO à nretirer #}
+                <p class="text-danger">Incorporation de la mediatheque. choisir une image, upload d'une image</p> {# TODO à retirer #}
                 <div class="form-group">
                     <label for="new_post_form_title">Titre de l'article</label>
                     <input type="text" name="new_post_form[title]" id="new_post_form_title" class="form-control" value="{{ post.title }}"/>
@@ -59,6 +59,19 @@
                             <select class="form-control" name="new_post_form[category]" id="new_post_form_category">
                                 {% for cat in categories %}
                                     <option value="{{ cat.id }}" {% if post.category != null and post.category.id == cat.id %}selected="selected"{% endif %}>{{ cat.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading"><label for="new_post_form_tags">Mots-clés</label></div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <select class="form-control" name="new_post_form[tags]" id="new_post_form_tags" multiple="multiple">
+                                {% for tag in tags %}
+                                    <option value="{{ tag.id }}" >{{ tag.name }}</option>
                                 {% endfor %}
                             </select>
                         </div>

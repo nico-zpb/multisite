@@ -34,8 +34,9 @@ class ZBPostController extends Controller
     public function newAction()
     {
         $categories = $this->getDoctrine()->getRepository("AdminZooBlogBundle:ZBCategory")->findAllAlphaOrdered();
+        $tags = $this->getDoctrine()->getRepository("AdminZooBlogBundle:ZBTag")->findAllAlphaOrdered();
         $post = new ZBPost();
-        return $this->render("AdminZooBlogBundle:ZBPost:new.html.twig", ["form_errors"=>[], "categories"=>$categories, "post"=>$post]);
+        return $this->render("AdminZooBlogBundle:ZBPost:new.html.twig", ["form_errors"=>[], "categories"=>$categories, "post"=>$post, "tags"=>$tags]);
     }
 
     public function createAction(Request $request)
