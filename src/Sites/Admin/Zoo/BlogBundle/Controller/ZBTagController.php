@@ -88,4 +88,23 @@ class ZBTagController extends Controller
         $this->container->get("session")->getFlashBag()->add("success", "Le mot-clé " . $tag->getName() . " a bien été enregistré.");
         return $this->redirect($this->generateUrl("admin_zoo_blog_tag_homepage"));
     }
-} 
+
+    public function editAction($id, Request $request)
+    {
+        $csrfProvider = $this->container->get("form.csrf_provider");
+        $token = $request->query->get("_token");
+        if(!$token || !$csrfProvider->isCsrfTokenValid("edit_tag",$token)){
+            throw new AccessDeniedException();
+        }
+        $tag = $this->getDoctrine()->getRepository("AdminZooBlogBundle:ZBTag")->find($id);
+        if(!$tag){
+            throw $this->createNotFoundException();
+        }
+        return $this->render("AdminZooBlogBundle:ZBTag:edit.html.twig", ["form_errors"=>[], "entity"=>$tag]);
+    }
+
+    public function updateAction($id, Request $request)
+    {
+
+    }
+}

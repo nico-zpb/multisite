@@ -10,3 +10,14 @@ admin_zoo_blog_tag_create:
     path: /creation
     defaults: { _controller: AdminZooBlogBundle:ZBTag:create }
     requirements: { _method: post }
+
+admin_zoo_blog_tag_edit:
+    path: /edition/{id}
+    defaults: { _controller: AdminZooBlogBundle:ZBTag:edit }
+    requirements:
+        id: \d+
+
+admin_zoo_blog_tag_update:
+    path: /maj/{id}
+    defaults: { _controller: AdminZooBlogBundle:ZBTag:update }
+    requirements: { _method: post, id: \d+ }
