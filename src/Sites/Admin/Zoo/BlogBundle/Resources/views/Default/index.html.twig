@@ -52,7 +52,7 @@
                             {% else %}
                                 <td> - </td>
                             {% endif %}
-                            <td><a class="btn btn-default" href="#"><i class="fa fa-pencil-square-o"></i></a></td>
+                            <td><a class="btn btn-default" href="{{ path("admin_zoo_blog_post_edit", {id:draft.id, _token:csrf_token("edit_post")})}}"><i class="fa fa-pencil-square-o"></i></a></td>
                             <td><a class="btn btn-default" href="#"><i class="fa fa-share"></i></a></td>
                             <td><a class="btn btn-default" href="#"><i class="fa fa-trash-o"></i></a></td>
                         </tr>
@@ -193,7 +193,7 @@
 
 
                             <td><a class="btn btn-default" href="#"><i class="fa fa-archive"></i></a></td>
-                            <td><a class="btn btn-default" href="#"><i class="fa fa-pencil-square-o"></i></a></td>
+                            <td><a class="btn btn-default" href="{{ path("admin_zoo_blog_post_edit", {id:pub.id, _token:csrf_token("edit_post")})}}"><i class="fa fa-pencil-square-o"></i></a></td>
                             <td><a class="btn btn-default" href="#"><i class="fa fa-trash-o"></i></a></td>
                         </tr>
                     {% endfor %}

@@ -147,5 +147,16 @@ class ZBPostController extends Controller
         return $this->redirect($this->generateUrl("admin_zoo_blog_homepage"));
     }
 
+    public function editAction($id, Request $request)
+    {
+
+        $post = $this->getDoctrine()->getRepository("AdminZooBlogBundle:ZBPost")->find($id);
+        if(!$post){
+            throw $this->createNotFoundException();
+        }
+
+        return $this->render("AdminZooBlogBundle:ZBPost:edit.html.twig", ["post"=>$post]);
+    }
+
 
 }
