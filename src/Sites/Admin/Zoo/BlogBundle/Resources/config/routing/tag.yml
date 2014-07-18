@@ -21,3 +21,9 @@ admin_zoo_blog_tag_update:
     path: /maj/{id}
     defaults: { _controller: AdminZooBlogBundle:ZBTag:update }
     requirements: { _method: post, id: \d+ }
+
+admin_zoo_blog_tag_delete:
+    path: /supprimer/{id}
+    defaults: { _controller: AdminZooBlogBundle:ZBTag:delete }
+    requirements:
+        id: \d+

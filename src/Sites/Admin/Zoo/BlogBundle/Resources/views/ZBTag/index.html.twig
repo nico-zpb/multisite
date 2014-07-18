@@ -28,7 +28,7 @@
                     <td>{{ tag.name }}</td>
                     <td>{{ tag.slug }}</td>
                     <td><a href="{{ path("admin_zoo_blog_tag_edit", {id:tag.id, _token:csrf_token("edit_tag")}) }}" class="btn btn-default"><i class="fa fa-pencil-square-o"></i></a></td>
-                    <td><a href="#" class="btn btn-default delete-alert" data-name="{{ tag.name }}"><i class="fa fa-trash-o"></i></a></td>
+                    <td><a href="{{ path("admin_zoo_blog_tag_delete", {id:tag.id, _token:csrf_token("delete_tag")}) }}" class="btn btn-default delete-alert" data-name="{{ tag.name }}"><i class="fa fa-trash-o"></i></a></td>
                 </tr>
             {% endfor %}
         {% endif %}

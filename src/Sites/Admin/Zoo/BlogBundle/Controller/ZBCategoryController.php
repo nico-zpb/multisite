@@ -58,7 +58,7 @@ class ZBCategoryController extends Controller
 
         if(!empty($form["name"])){
 
-            if(preg_replace("/[a-zA-Z0-9éèêàçùëïôâ'!?, _-]/",'',$form["name"]) != ""){
+            if(preg_replace("/[a-zA-Z0-9éèêàçùûëïôâ'!?, _-]/",'',$form["name"]) != ""){
                 $errors[] = "Le champs 'nom' contient des caractères interdits.";
             }
         }
@@ -113,13 +113,15 @@ class ZBCategoryController extends Controller
             throw $this->createNotFoundException();
         }
         $errors= [];
-        $form["name"] = trim(preg_replace('/\s\s+/'," ",$form["name"]));
+        if(array_key_exists("name", $form)){
+            $form["name"] = trim(preg_replace('/\s\s+/'," ",$form["name"]));
+        }
         if(empty($form["name"])){
             $errors[] = "Le champs 'nom' est manquant.";
         }
         if(!empty($form["name"])){
 
-            if(preg_replace("/[a-zA-Z0-9éèêàçùëïôâ'!?, _-]/",'',$form["name"]) != ""){
+            if(preg_replace("/[a-zA-Z0-9éèêàçùûëïôâ'!?, _-]/",'',$form["name"]) != ""){
                 $errors[] = "Le champs 'nom' contient des caractères interdits.";
             }
             if($form["name"] != $cat->getName()){
@@ -165,7 +167,7 @@ class ZBCategoryController extends Controller
         $em = $this->getDoctrine()->getManager();
         $em->remove($cat);
         $em->flush();
-        $this->container->get("session")->getFlashBag()->add("success", "La catégorie " . $name . " a bien été supprimer.");
+        $this->container->get("session")->getFlashBag()->add("success", "La catégorie " . $name . " a bien été supprimée.");
         return $this->redirect($this->generateUrl("admin_zoo_blog_category_homepage"));
     }
 } 
