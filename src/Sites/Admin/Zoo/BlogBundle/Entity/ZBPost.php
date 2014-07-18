@@ -127,6 +127,12 @@ class ZBPost
      */
     private $tags;
 
+    /**
+     * @var integer
+     * @ORM\Column(name="view_counter", type="integer")
+     */
+    private $view_counter;
+
     public function __construct()
     {
         $this->tags = new ArrayCollection();
@@ -136,6 +142,7 @@ class ZBPost
         $this->isDropped = false;
         $this->isFront = false;
         $this->isFrontBN = false;
+        $this->view_counter = 0;
     }
 
 
@@ -502,5 +509,28 @@ class ZBPost
     public function getTags()
     {
         return $this->tags;
+    }
+
+    /**
+     * Set view_counter
+     *
+     * @param integer $viewCounter
+     * @return ZBPost
+     */
+    public function setViewCounter($viewCounter)
+    {
+        $this->view_counter = $viewCounter;
+
+        return $this;
+    }
+
+    /**
+     * Get view_counter
+     *
+     * @return integer 
+     */
+    public function getViewCounter()
+    {
+        return $this->view_counter;
     }
 }

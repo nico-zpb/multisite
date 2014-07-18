@@ -147,6 +147,7 @@
                 <tr>
                     <th>#id</th>
                     <th>date de publication</th>
+                    <th>nbre de vue</th>
                     <th>Titre</th>
                     <th>Catégorie</th>
                     <th>Mots-clés</th>
@@ -166,7 +167,8 @@
                     {% for pub in published %}
                         <tr>
                             <td>{{ pub.id }}</td>
-                            <td>{{ pub.publishedAt|date("d-m-Y") }}</td>
+                            <td>{{ pub.publishedAt|date("d-m-Y, H:i") }}</td>
+                            <td>{{ pub.viewCounter }}</td>
                             <td>{{ pub.title }}</td>
                             <td><a href="#">{{ pub.category.name }}</a></td> {# TODO #}
                             {% if pub.tags|length > 0 %}
