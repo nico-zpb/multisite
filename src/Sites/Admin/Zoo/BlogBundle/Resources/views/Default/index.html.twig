@@ -25,6 +25,7 @@
                     <th>date de création</th>
                     <th>Titre</th>
                     <th>Catégorie</th>
+                    <th>Mots-clés</th>
                     <th>Editer</th>
                     <th>Publier</th>
                     <th>Mettre à la corbeille</th>
@@ -42,6 +43,15 @@
                             <td>{{ draft.createdAt|date("d-m-Y") }}</td>
                             <td>{{ draft.title }}</td>
                             <td><a href="#">{{ draft.category.name }}</a></td>
+                            {% if draft.tags|length > 0 %}
+                            <td>
+                                {% for tag in draft.tags %}
+                                    <a href="#">{{ tag.name}}</a> {% if loop.last %} - {% endif %}
+                                {% endfor %}
+                            </td>
+                            {% else %}
+                                <td> - </td>
+                            {% endif %}
                             <td><a class="btn btn-default" href="#"><i class="fa fa-pencil-square-o"></i></a></td>
                             <td><a class="btn btn-default" href="#"><i class="fa fa-share"></i></a></td>
                             <td><a class="btn btn-default" href="#"><i class="fa fa-trash-o"></i></a></td>

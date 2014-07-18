@@ -20,7 +20,7 @@
                 <div class="form-group">
                     <label for="new_post_form_title">Titre de l'article</label>
                     <input type="text" name="new_post_form[title]" id="new_post_form_title" class="form-control" value="{{ post.title }}"/>
-                    <span class="help-block">Champ requis. Caractères autorisés: a-z,A-Z,0-9,é,è,ê,à,ç,ù,ë,ï,ô,â,',!,?, ,_,- vigule, point-virgule, point </span>
+                    <span class="help-block">Champ requis. Caractères autorisés: a-z,A-Z,0-9,é,è,ê,ë,à,â,ç,ù,û,ï,ô,',!,?,_,-, espace, vigule, point-virgule, point </span>
                 </div>
                 <div class="form-group">
                     <label for="new_post_form_slug">Alias</label>
@@ -74,6 +74,11 @@
                                     <option value="{{ tag.id }}" >{{ tag.name }}</option>
                                 {% endfor %}
                             </select>
+                        </div>
+                        <p>Créer de nouveaux mots-clés :</p>
+                        <div class="form-group">
+                            <textarea class="form-control" name="new_post_form[newtags]" id="new_post_form_newtags"></textarea>
+                            <span class="help-block">Lister vos nouveaux mots-clés en les séparant par des points-virgules.</span>
                         </div>
                     </div>
                 </div>

@@ -64,7 +64,7 @@ class ZBPostController extends Controller
         }
         if(!empty($form["title"])){
 
-            if(preg_replace("/[a-zA-Z0-9éèêàçùëïôâ'!?.,; _-]/",'',$form["title"]) != ""){
+            if(preg_replace("/[a-zA-Z0-9éèêàçùûëïôâ'!?.,; _-]/",'',$form["title"]) != ""){
                 $errors[] = "Le titre de votre article contient des caractères interdits.";
             }
 
@@ -85,6 +85,7 @@ class ZBPostController extends Controller
                 $errors[] = "Précisez à quelle 'une' vous voulez mettre votre article";
             }
         }
+        //TODO validation des mots cles
 
         //TODO validation date différé
 
