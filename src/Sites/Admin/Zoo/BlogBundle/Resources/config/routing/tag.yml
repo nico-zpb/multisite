@@ -1,0 +1,7 @@
+admin_zoo_blog_tag_homepage:
+    path: /
+    defaults: { _controller: AdminZooBlogBundle:ZBTag:index }
+
+admin_zoo_blog_tag_new:
+    path: /nouveau
+    defaults: { _controller: AdminZooBlogBundle:ZBTag:new }

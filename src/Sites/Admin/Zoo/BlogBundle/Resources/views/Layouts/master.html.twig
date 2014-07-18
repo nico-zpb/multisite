@@ -20,6 +20,11 @@
                 <li {% if short_page_title == "all_cats" %}class="active" {% endif %}><a href="{{ path("admin_zoo_blog_category_homepage") }}"><i class="fa fa-list-ul"></i> Liste</a></li>
                 <li {% if short_page_title == "new_cat" %}class="active" {% endif %}><a href="{{ path("admin_zoo_blog_category_new") }}"><i class="fa fa-plus-square-o"></i> Nouvelle catégorie</a></li>
             </ul>
+            <h4><i class="fa fa-tags"></i> Mots-clés</h4>
+            <ul class="nav nav-sidebar">
+                <li {% if short_page_title == "all_tags" %}class="active" {% endif %}><a href="{{ path("admin_zoo_blog_tag_homepage") }}"><i class="fa fa-list-ul"></i> Liste</a></li>
+                <li {% if short_page_title == "new_tag" %}class="active" {% endif %}><a href="{{ path("admin_zoo_blog_tag_new") }}"><i class="fa fa-plus-square-o"></i> Nouveau mot-clé</a></li>
+            </ul>
         </div>
         <div class="col-sm-9 col-md-10">
             {% block content %}{% endblock %}

@@ -9,3 +9,7 @@ admin_zoo_blog_category_routes:
 admin_zoo_blog_post_routes:
     resource: "@AdminZooBlogBundle/Resources/config/routing/post.yml"
     prefix:     /actus/posts
+
+admin_zoo_blog_tag_routes:
+    resource: "@AdminZooBlogBundle/Resources/config/routing/tag.yml"
+    prefix:     /actus/tags
