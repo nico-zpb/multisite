@@ -11,11 +11,8 @@ class DefaultController extends Controller
         $categories = $this->getDoctrine()->getRepository("AdminZooBlogBundle:ZBCategory")->findAllAlphaOrdered();
         $maxPage = $this->getDoctrine()->getRepository("AdminZooBlogBundle:ZBPost")->getNumPageForPublishedByDate(10);
         if($categories){
-            //$draftPosts = $this->getDoctrine()->getRepository("AdminZooBlogBundle:ZBPost")->findByIsDraft(true);
             $draftPosts = $this->getDoctrine()->getRepository("AdminZooBlogBundle:ZBPost")->getAllDraftOrderedByDate();
             $tags = $this->getDoctrine()->getRepository("AdminZooBlogBundle:ZBTag")->findAllAlphaOrdered();
-            //TODO pagination des posts : http://doctrine-orm.readthedocs.org/en/latest/reference/query-builder.html#limiting-the-result
-            //$publishedPosts = $this->getDoctrine()->getRepository("AdminZooBlogBundle:ZBPost")->findByIsPublished(true);
             $publishedPosts = $this->getDoctrine()->getRepository("AdminZooBlogBundle:ZBPost")->getAllPublishedOrderedByDate($page,10,$maxPage);
             $front = $this->getDoctrine()->getRepository("AdminZooBlogBundle:ZBPost")->findOneByIsFront(true);
             $frontBN = $this->getDoctrine()->getRepository("AdminZooBlogBundle:ZBPost")->findOneByIsFrontBN(true);

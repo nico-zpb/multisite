@@ -42,8 +42,6 @@ class ZBPostController extends Controller
 
     public function createAction(Request $request)
     {
-        /*var_dump($request->request->all());
-        die();*/
         $csrfProvider = $this->container->get("form.csrf_provider");
         $form = $request->request->get("new_post_form");
         if(!$form["_token"] || !$csrfProvider->isCsrfTokenValid("new_post",$form["_token"])){
@@ -90,7 +88,6 @@ class ZBPostController extends Controller
         }
         $em = $this->getDoctrine()->getManager();
         $post = new ZBPost();
-        //TODO validation des mots cles
         if(array_key_exists("tags", $form)){
             foreach($form["tags"] as $k=>$v){
                 $t = $this->getDoctrine()->getRepository("AdminZooBlogBundle:ZBTag")->find($v);
