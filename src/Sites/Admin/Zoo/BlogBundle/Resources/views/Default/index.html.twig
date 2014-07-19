@@ -5,6 +5,38 @@
 
 
 {% block content %}
+
+    <div class="page-header">
+        <h2>Recherches</h2>
+    </div>
+    <div class="row">
+        <div class="col-md-12 ">
+            <p style="padding: 15px;" class="bg-info">
+                Aide à la recherche, ajouter ce bookmarklet à votre barre de favoris par cliquer-déposer : <a href="javascript:(function(){var s=document.createElement('script');s.type='text/javascript';s.src='/js/helpers/reveal.js';document.getElementsByTagName('head')[0].appendChild(s);})();">reveal ids</a>
+            </p>
+
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Rechercher par id
+                </div>
+                <div class="panel-body">
+                    <form class="form-inline" method="post" action=""> {# TODO #}
+                        <div class="form-group">
+                            <input type="text" name="search_by_id_form[longid]" id="search_by_id_form_longid" class="form-control"/>
+                        </div>
+                        <input name="search_by_id_form[_token]" type="hidden" value="{{ csrf_token("search_by_id") }}"/>
+                        <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+        <div class="col-md-3"></div>
+        <div class="col-md-3"></div>
+    </div>
+    <hr/>
     {% if categories|length <1 %}
 
         <div class="alert alert-warning">
@@ -15,7 +47,7 @@
 
     {% else %}
         <div class="page-header">
-            <h3>Brouillons</h3>
+            <h2>Brouillons</h2>
             <p class="text-danger">Incorporation de la mediatheque. choisir une image, upload d'une image</p> {# TODO à nretirer #}
         </div>
 
@@ -66,7 +98,7 @@
         </div>
         <hr/>
         <div class="page-header">
-            <h3>Articles publiés</h3>
+            <h2>Articles publiés</h2>
         </div>
 
         <div class="row">
