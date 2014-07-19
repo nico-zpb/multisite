@@ -1,0 +1,39 @@
+{% extends "ZooTestsBundle:Layouts:master.html.twig" %}
+{% block main %}
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <div class="page-header">
+            <h1>Actualités dans {{ category.name }}</h1>
+        </div>
+    </div>
+</div>
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="page-header">
+                <h3>Les Articles</h3>
+            </div>
+            {%  for post in posts %}
+                <!-- start {{ post.longId }} -->
+                <div class="post-title">
+                    <h1>{{ post.title }} <small>{{ post.publishedAt|date("d/m/Y") }}</small></h1>
+                </div>
+                <div class="post-metas">
+                    <a href="#">{{ post.category.name }}</a>
+                </div>
+                <div class="post-body">
+                    {{ post.excerpt|raw }}
+                </div>
+                <div class="post-nav">
+                    <a class="btn btn-primary" href="{{ path("zoo_tests_blog_show", {slug:post.slug}) }}">Lire la suite &raquo;</a>
+                </div>
+
+
+                <!-- end {{ post.longId }} -->
+                <hr/>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

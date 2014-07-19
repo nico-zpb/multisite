@@ -12,3 +12,8 @@ zoo_tests_blog_show:
     defaults: { _controller: ZooTestsBundle:Blog:show}
     requirements:
         slug: "[a-z0-9-]+"
+zoo_tests_blog_show_by_category:
+    path: /blog/lire/categorie/{slug}
+    defaults: { _controller: ZooTestsBundle:Blog:showByCategory }
+    requirements:
+        slug: "[a-z0-9-]+"

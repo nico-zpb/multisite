@@ -83,6 +83,11 @@ class ZBPostRepository extends EntityRepository
 
     public function getAllPublishedByCategoryAndOrderedByDate($id)
     {
+        if(is_string($id)){
+            $query = $this->_em->createQuery("SELECT t FROM AdminZooBlogBundle:ZBPost t JOIN t.category c WHERE c.slug=:slug AND t.isPublished=1 ORDER BY t.publishedAt ASC");
+            $query->setParameter("slug", $id);
+            return $query->getResult();
+        }
         $query = $this->_em->createQuery("SELECT t FROM AdminZooBlogBundle:ZBPost t JOIN t.category c WHERE c.id=:id AND t.isPublished=1 ORDER BY t.publishedAt ASC");
         $query->setParameter("id", $id);
         return $query->getResult();

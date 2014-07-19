@@ -51,4 +51,14 @@ class BlogController extends Controller
         }
         return $this->render("ZooTestsBundle:Blog:show.html.twig", ["post"=>$post]);
     }
+
+    public function showByCategoryAction($slug)
+    {
+        $category = $this->getDoctrine()->getRepository("AdminZooBlogBundle:ZBCategory")->findOneBySlug($slug);
+        if(!$category){
+            throw $this->createNotFoundException();
+        }
+        $posts = $this->getDoctrine()->getRepository("AdminZooBlogBundle:ZBPost")->getAllPublishedByCategoryAndOrderedByDate($slug);
+        return $this->render("ZooTestsBundle:Blog:showByCategory.html.twig", ["posts"=>$posts,"category"=>$category]);
+    }
 }
