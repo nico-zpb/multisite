@@ -6,6 +6,11 @@
     {% block headLinks %}
         <link rel="stylesheet" href="/css/admin/bootstrap.min.css"/>
     {% endblock %}
+    {% block headScripts%}
+        <script>
+            var startTime = (new Date()).getTime();
+        </script>
+    {% endblock %}
 </head>
 <body>
 <div class="container">
@@ -18,6 +23,18 @@
 {% block footScripts %}
     <script src="/js/vendor/jquery-2.1.1.min.js"></script>
     <script src="/js/vendor/bootstrap.min.js"></script>
+    <script>
+        var endTime = (new Date()).getTime();
+        var loadingTime = Math.round(((endTime - startTime)/1000)*100)/100;
+        var stat = document.createElement("div");
+        stat.classList.add("bg-info");
+        stat.style.position = "absolute";
+        stat.style.bottom = 50 + "px";
+        stat.style.left = 0 + "px";
+        stat.style.zIndex = 10000;
+        stat.innerHTML = "chargement : " + loadingTime + " secondes.";
+        document.body.appendChild(stat);
+    </script>
 {% endblock %}
 </body>
 </html>
