@@ -141,6 +141,29 @@
             </div>
         </div>
 
+        {%  if maxPage>1 %}
+        <div style="text-align: center;">
+            <ul class="pagination">
+                {% if currentPage==1 %}
+                    <li class="disabled"><a href="#">&laquo;</a></li>
+                {% else %}
+                    <li><a href="{{ path("admin_zoo_blog_homepage", {page:1}) }}">&laquo;</a></li>
+                {%  endif %}
+                {% for p in 1..maxPage %}
+                    {% if p==currentPage %}
+                        <li class="disabled"><a href="#">{{ p }}</a></li>
+                    {% else %}
+                        <li><a href="{{ path("admin_zoo_blog_homepage", {page:p}) }}">{{ p }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if currentPage == maxPage %}
+                    <li class="disabled"><a href="#">&raquo;</a></li>
+                {% else %}
+                    <li><a href="{{ path("admin_zoo_blog_homepage", {page:maxPage}) }}">&raquo;</a></li>
+                {%  endif %}
+            </ul>
+        </div>
+        {%  endif %}
         <div class="table-responsive">
             <table class="table table-hover table-striped">
                 <thead>
@@ -191,9 +214,6 @@
                             {% else %}
                                 <td><a href="#" class="btn btn-default"><i class="fa fa-square-o"></i></a></td>
                             {% endif %}
-
-
-
                             <td><a class="btn btn-default" href="#"><i class="fa fa-archive"></i></a></td>
                             <td><a class="btn btn-default" href="{{ path("admin_zoo_blog_post_edit", {id:pub.id, _token:csrf_token("edit_post")})}}"><i class="fa fa-pencil-square-o"></i></a></td>
                             <td><a class="btn btn-default" href="#"><i class="fa fa-trash-o"></i></a></td>
@@ -203,7 +223,29 @@
                 </tbody>
             </table>
         </div>
-
+        {%  if maxPage>1 %}
+            <div style="text-align: center;">
+                <ul class="pagination">
+                    {% if currentPage==1 %}
+                        <li class="disabled"><a href="#">&laquo;</a></li>
+                    {% else %}
+                        <li><a href="{{ path("admin_zoo_blog_homepage", {page:1}) }}">&laquo;</a></li>
+                    {%  endif %}
+                    {% for p in 1..maxPage %}
+                        {% if p==currentPage %}
+                            <li class="disabled"><a href="#">{{ p }}</a></li>
+                        {% else %}
+                            <li><a href="{{ path("admin_zoo_blog_homepage", {page:p}) }}">{{ p }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if currentPage == maxPage %}
+                        <li class="disabled"><a href="#">&raquo;</a></li>
+                    {% else %}
+                        <li><a href="{{ path("admin_zoo_blog_homepage", {page:maxPage}) }}">&raquo;</a></li>
+                    {%  endif %}
+                </ul>
+            </div>
+        {%  endif %}
     {% endif %}
 
 
