@@ -1,5 +1,7 @@
 {% set page_title = ( page_title is defined) ? page_title : "Dashboard" %}
 {% set active_sidenav = ( active_sidenav is defined) ? active_sidenav : "Dashboard" %}
+{%  set active_site = (active_site is defined ) ? active_site : "default" %}
+
 <!doctype html>
 <html lang="fr">
 <head>
@@ -60,9 +62,9 @@
                 </ul>
                 <h3><i class="fa fa-university"></i> Zoo</h3>
                 <ul class="sidenav">
-                    <li><a href="#"><i class="fa fa-files-o"></i> Pages</a></li>
-                    <li {% if active_sidenav == "fototek_zoo" %}class="active"{% endif %}><a href="{{ path("admin_zoo_fototek_homepage") }}"><i class="fa fa-picture-o"></i> Photothèque</a></li>
-                    <li><a href="#"><i class="fa fa-bar-chart-o"></i> Statistiques</a></li>
+                    <li class="bg-zoo"><a href="#"><i class="fa fa-files-o"></i> Pages</a></li>
+                    <li class="bg-zoo {% if active_sidenav == "fototek_zoo" %}active{% endif %}"><a href="{{ path("admin_zoo_fototek_homepage") }}"><i class="fa fa-picture-o"></i> Photothèque</a></li>
+                    <li class="bg-zoo"><a href="#"><i class="fa fa-bar-chart-o"></i> Statistiques</a></li>
                 </ul>
                 <h3><i class="fa fa-globe"></i> Beauval Nature</h3>
                 <ul class="sidenav">
@@ -87,27 +89,27 @@
                 </ul>
                 <h3><i class="fa fa-building"></i> Jardins de Beauval</h3>
                 <ul class="sidenav">
-                    <li><a href="#"><i class="fa fa-files-o"></i> Pages</a></li>
-                    <li><a href="#"><i class="fa fa-picture-o"></i> Photothèque</a></li>
-                    <li><a href="#"><i class="fa fa-bar-chart-o"></i> Statistiques</a></li>
+                    <li class="bg-jardins"><a href="#"><i class="fa fa-files-o"></i> Pages</a></li>
+                    <li class="bg-jardins"><a href="#"><i class="fa fa-picture-o"></i> Photothèque</a></li>
+                    <li class="bg-jardins"><a href="#"><i class="fa fa-bar-chart-o"></i> Statistiques</a></li>
                 </ul>
                 <h3><i class="fa fa-building"></i> Hameaux de Beauval</h3>
                 <ul class="sidenav">
-                    <li><a href="#"><i class="fa fa-files-o"></i> Pages</a></li>
-                    <li><a href="#"><i class="fa fa-picture-o"></i> Photothèque</a></li>
-                    <li><a href="#"><i class="fa fa-bar-chart-o"></i> Statistiques</a></li>
+                    <li class="bg-hameaux"><a href="#"><i class="fa fa-files-o"></i> Pages</a></li>
+                    <li class="bg-hameaux"><a href="#"><i class="fa fa-picture-o"></i> Photothèque</a></li>
+                    <li class="bg-hameaux"><a href="#"><i class="fa fa-bar-chart-o"></i> Statistiques</a></li>
                 </ul>
                 <h3><i class="fa fa-building"></i> Pagodes de Beauval</h3>
                 <ul class="sidenav">
-                    <li><a href="#"><i class="fa fa-files-o"></i> Pages</a></li>
-                    <li><a href="#"><i class="fa fa-picture-o"></i> Photothèque</a></li>
-                    <li><a href="#"><i class="fa fa-bar-chart-o"></i> Statistiques</a></li>
+                    <li class="bg-pagodes"><a href="#"><i class="fa fa-files-o"></i> Pages</a></li>
+                    <li class="bg-pagodes"><a href="#"><i class="fa fa-picture-o"></i> Photothèque</a></li>
+                    <li class="bg-pagodes"><a href="#"><i class="fa fa-bar-chart-o"></i> Statistiques</a></li>
                 </ul>
             </div>
         </div>
     </div>
 </div>
-<div id="main">
+<div id="main" class="{{ active_site }}">
     <div id="content">
         <div class="container-fluid">
             <div class="row">
