@@ -1,3 +1,8 @@
+zoo_tests:
+    resource: "@ZooTestsBundle/Resources/config/routing.yml"
+    host: zoobeauval.local
+    prefix:   /tests
+
 admin_common_mediatek:
     resource: "@AdminCommonMediatekBundle/Resources/config/routing.yml"
     host: admin.zooparc.local

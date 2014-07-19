@@ -48,6 +48,27 @@ class ZBPostRepository extends EntityRepository
         return $query->getResult();
     }
 
+    public function getALaUneZoo()
+    {
+        $qb = $this->createQueryBuilder("p")
+            ->where("p.isPublished = :isPublished")
+            ->andWhere("p.isFront = :isFront")
+            ->setParameter("isPublished", true)
+            ->setParameter("isFront", true);
+        $query = $qb->getQuery();
+        return $query->getOneOrNullResult();
+    }
+
+    public function getLastPost()
+    {
+        $qb = $this->createQueryBuilder("p")
+            ->where("p.isPublished = :isPublished")
+            ->orderBy("p.publishedAt", "DESC")
+            ->setParameter("isPublished", true);
+        $query = $qb->getQuery();
+        return $query->getFirstResult();
+    }
+
     public function getAllDraftOrderedByDate()
     {
 

@@ -1,0 +1,7 @@
+parameters:
+#    zoo_tests.example.class: Sites\Zoo\TestsBundle\Example
+
+services:
+#    zoo_tests.example:
+#        class: %zoo_tests.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

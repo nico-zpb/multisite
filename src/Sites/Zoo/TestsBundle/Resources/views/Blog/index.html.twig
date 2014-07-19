@@ -1,0 +1,49 @@
+{% extends "ZooTestsBundle:Layouts:master.html.twig" %}
+{% block main %}
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <div class="page-header">
+            <h3>A la une</h3>
+        </div>
+        <!-- start {{ frontPost.longId }} -->
+        <div class="post-title">
+            <h1>{{ frontPost.title }}</h1>
+        </div>
+        <div class="post-body">
+            {{ frontPost.excerpt|raw }}
+        </div>
+        <div class="post-nav">
+            <a class="btn btn-primary" href="{{ path("zoo_tests_blog_show", {slug:frontPost.slug}) }}">Lire la suite &raquo;</a>
+        </div>
+
+        <!-- end {{ frontPost.longId }} -->
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <div class="page-header">
+            <h3>Les Articles</h3>
+        </div>
+        {%  for post in posts %}
+            <!-- start {{ post.longId }} -->
+            <div class="post-title">
+                <h1>{{ post.title }} <small>{{ post.publishedAt|date("d/m/Y") }}</small></h1>
+            </div>
+            <div class="post-body">
+                {{ post.excerpt|raw }}
+            </div>
+            <div class="post-nav">
+                <a class="btn btn-primary" href="{{ path("zoo_tests_blog_show", {slug:post.slug}) }}">Lire la suite &raquo;</a>
+            </div>
+
+
+            <!-- end {{ post.longId }} -->
+            <hr/>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

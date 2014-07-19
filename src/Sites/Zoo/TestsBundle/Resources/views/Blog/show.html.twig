@@ -1,0 +1,19 @@
+{% extends "ZooTestsBundle:Layouts:master.html.twig" %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+
+                <!-- start {{ post.longId }} -->
+                <div class="post-title">
+                    <h1>{{ post.title }} <small>{{ post.publishedAt|date("d/m/Y") }}</small></h1>
+                </div>
+                <div class="post-body">
+                    {{ post.body|raw }}
+                </div>
+
+
+                <!-- end {{ post.longId }} -->
+        </div>
+    </div>
+{% endblock %}

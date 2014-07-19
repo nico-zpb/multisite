@@ -1,0 +1,14 @@
+zoo_tests_homepage:
+    path:     /
+    defaults: { _controller: ZooTestsBundle:Default:index }
+
+zoo_tests_blog_homepage:
+    path: /blog/{page}
+    defaults: { _controller: ZooTestsBundle:Blog:index, page: 1}
+    requirements:
+        page: \d+
+zoo_tests_blog_show:
+    path: /blog/lire/{slug}
+    defaults: { _controller: ZooTestsBundle:Blog:show}
+    requirements:
+        slug: "[a-z0-9-]+"
