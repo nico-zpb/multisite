@@ -24,9 +24,6 @@ body {
 .navbar-fixed-top {
   border: 0;
 }
-.navbar-fixed-top, .navbar-fixed-bottom{
-    z-index: 90;
-}
 /*
  * Sidebar
  */
