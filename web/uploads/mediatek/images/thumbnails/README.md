@@ -1,1 +1,1 @@
-#Médiathèque images originales
+#Médiathèque images thumbnails
