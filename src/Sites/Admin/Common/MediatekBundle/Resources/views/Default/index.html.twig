@@ -2,5 +2,70 @@
 {% set page_title = "Médiathèque" %}
 
 {% block content %}
-Admin Common Mediatek bundle
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Vignette</th>
+                    <th>Id</th>
+                    <th>Nom du fichier</th>
+                    <th>Url</th>
+                    <th>Alias (slug)</th>
+                    <th>Copyright</th>
+                    <th>Arrt. 'title'</th>
+                    <th>Largeur</th>
+                    <th>Hauteur</th>
+                    <th>Mots-clés</th>
+                    <th>Editer</th>
+                    <th>Supprimer</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if images|length<1 %}
+                    <tr class="warning">
+                        <td colspan="11">Il n'y a aucune images enregistées dans la médiathèque. <a href="{{ path("admin_common_mediatek_image_new") }}"><i class="fa fa-hand-o-right"></i> Upload</a></td>
+                    </tr>
+                {% else %}
+                    {% for img in images %}
+                    <tr>
+                        <td></td>
+                        <td>{{ img.id }}</td>
+                        <td>{{ img.filename}}</td>
+                        <td><a href="{{ img.webPath }}/{{ img.filename }}" target="_blank">{{ img.webPath }}/{{ img.filename }}</a></td>
+                        <td>{{ img.slug }}</td>
+                        <td>{{ img.copyright }}</td>
+                        <td>{{ img.title }}</td>
+                        <td>{{ img.width }}</td>
+                        <td>{{ img.height }}</td>
+                        <td>
+                            {% if img.tags|length>0 %}
+                            {% for t in img.tags %}
+                                <a href="#">{{ tag.name}}</a> {% if loop.last %} - {% endif %}
+                            {% endfor %}
+                            {% else %} - {% endif %}
+                        </td>
+                        <td><a class="btn btn-default" href="#"><i class="fa fa-pencil-square-o"></i></a></td>
+                        <td><a class="btn btn-default delete-alert" href="#" data-name="{{ img.name }}"><i class="fa fa-trash-o"></i></a></td>
+                    </tr>
+                    {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+{% block footScripts %}
+    {{ parent() }}
+    <script>
+        $(function(){
+            $(".delete-alert").on("click", function(e){
+                e.preventDefault();
+                var name = $(this).data("name");
+                if(window.confirm("Attention, cette action est irréversible, êtes-vous certain de vouloir continuer et effacer '" + name + "' ?")){
+                    window.location.href = $(this).attr("href");
+                }
+            });
+        });
+    </script>
+
 {% endblock %}

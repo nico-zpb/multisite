@@ -12,4 +12,12 @@ use Doctrine\ORM\EntityRepository;
  */
 class DocumentRepository extends EntityRepository
 {
+    public function findAllAlphaOrdered($type = "")
+    {
+        if(!$type){
+            return null;
+        }
+        $qb = $this->createQueryBuilder("d")->where("d.docType=:doctype")->orderBy("d.filename", "ASC")->setParameter("doctype", $type);
+        return $qb->getQuery()->getResult();
+    }
 }
