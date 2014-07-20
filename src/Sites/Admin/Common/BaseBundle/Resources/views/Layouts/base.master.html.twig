@@ -1,10 +1,10 @@
 {% extends "AdminCommonBaseBundle:Layouts:master.html.twig" %}
-{% set active_sidenav = "mediatek" %}
-{% set short_page_title = ( short_page_title is defined) ? short_page_title : "all_imgs" %}
+{% set active_sidenav = "configs" %}
+{% set short_page_title = ( short_page_title is defined) ? short_page_title : "" %}
 {% block main %}
     <div class="row">
         <div class="col-sm-3 col-md-2">
-            <h4><i class="fa fa-picture-o"></i> Images</h4>
+            {#<h4><i class="fa fa-picture-o"></i> Images</h4>
             <ul class="nav nav-sidebar">
                 <li {% if short_page_title == "all_imgs" %}class="active" {% endif %}><a href="{{ path("admin_common_mediatek_homepage") }}"><i class="fa fa-list"></i> Liste</a></li>
                 <li {% if short_page_title == "new_img" %}class="active" {% endif %}><a href=""><i class="fa fa-plus-square-o"></i> Nouvelle image</a></li>
@@ -18,7 +18,7 @@
             <ul class="nav nav-sidebar">
                 <li {% if short_page_title == "all_tags" %}class="active" {% endif %}><a href=""><i class="fa fa-list"></i> Liste</a></li>
                 <li {% if short_page_title == "new_tag" %}class="active" {% endif %}><a href=""><i class="fa fa-plus-square-o"></i> Nouveau mot-clé</a></li>
-            </ul>
+            </ul>#}
         </div>
         <div class="col-sm-9 col-md-10">
             {% block content %}{% endblock %}

@@ -1,3 +1,7 @@
+admin_common_base_configs_routes:
+    prefix: /configurations
+    resource: "@AdminCommonBaseBundle/Resources/config/routing/configs.yml"
+
 admin_common_base_homepage:
     path:     /
     defaults: { _controller: AdminCommonBaseBundle:Default:index }

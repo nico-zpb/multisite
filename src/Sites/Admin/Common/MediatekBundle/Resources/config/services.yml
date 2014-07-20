@@ -1,5 +1,11 @@
 parameters:
 #    admin_common_mediatek.example.class: Sites\Admin\Common\MediatekBundle\Example
+    mediatek_images_base_dir: "%kernel.root_dir%/../web/uploads/mediatek/images"
+    mediatek_images_wed_dir: "/uploads/mediatek/images"
+    mediatek_pdf_base_dir: "%kernel.root_dir%/../web/uploads/mediatek/pdf"
+    mediatek_pdf_web_dir: "/uploads/mediatek/pdf"
+    mediatek_allowed_extensions: ["jpg","JPG","jpeg","JPEG","gif","GIF","png","PNG","pdf","PDF"]
+    mediatek_allowed_mime_types: ["image/jpeg", "image/jpg","image/gif", "image/png", "application/pdf"]
 
 services:
 #    admin_common_mediatek.example:

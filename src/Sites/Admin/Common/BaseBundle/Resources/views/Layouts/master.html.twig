@@ -51,6 +51,7 @@
             <div id="sidebar-content">
                 <h3><i class="fa fa-cog"></i> Généralités</h3>
                 <ul class="sidenav">
+                    <li {% if active_sidenav == "configs" %}class="active"{% endif %}><a href="{{ path("admin_common_base_configs_homepage") }}"><i class="fa fa-cogs"></i> Configurations <i class="fa fa-angle-right pull-right"></i></a></li>
                     <li {% if active_sidenav == "mediatek" %}class="active"{% endif %}><a href="{{ path("admin_common_mediatek_homepage")}}"><i class="fa fa-files-o"></i> Médiathèque <i class="fa fa-angle-right pull-right"></i></a></li>
                     <li {% if active_sidenav == "menu_manager" %}class="active"{% endif %}><a href="{{ path("admin_common_menu_manager_homepage") }}"><i class="fa fa-list-ul"></i> Menus Manager <i class="fa fa-angle-right pull-right"></i></a></li>
                     <li><a href="#"><i class="fa fa-bar-chart-o"></i> Statistiques <i class="fa fa-angle-right pull-right"></i></a></li>

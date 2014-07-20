@@ -1,0 +1,3 @@
+admin_common_base_configs_homepage:
+    path: /
+    defaults: { _controller: AdminCommonBaseBundle:Config:index }
