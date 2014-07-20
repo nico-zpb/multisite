@@ -24,7 +24,7 @@
             <tbody>
                 {% if images|length<1 %}
                     <tr class="warning">
-                        <td colspan="11">Il n'y a aucune images enregistées dans la médiathèque. <a href="{{ path("admin_common_mediatek_image_new") }}"><i class="fa fa-hand-o-right"></i> Upload</a></td>
+                        <td colspan="12">Il n'y a aucune images enregistées dans la médiathèque. <a href="{{ path("admin_common_mediatek_image_new") }}"><i class="fa fa-hand-o-right"></i> Upload</a></td>
                     </tr>
                 {% else %}
                     {% for img in images %}
