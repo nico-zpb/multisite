@@ -97,6 +97,12 @@ class Document
      */
     private $copyright;
 
+    /**
+     * @var string
+     * @ORM\Column(name="mime", type="string", length=255, nullable=false)
+     */
+    private $mime;
+
 
     /**
      * Get id
@@ -371,10 +377,33 @@ class Document
     /**
      * Get docType
      *
-     * @return string 
+     * @return string
      */
     public function getDocType()
     {
         return $this->docType;
+    }
+
+    /**
+     * Set mime
+     *
+     * @param string $mime
+     * @return Document
+     */
+    public function setMime($mime)
+    {
+        $this->mime = $mime;
+
+        return $this;
+    }
+
+    /**
+     * Get mime
+     *
+     * @return string 
+     */
+    public function getMime()
+    {
+        return $this->mime;
     }
 }

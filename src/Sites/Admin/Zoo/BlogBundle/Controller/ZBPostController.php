@@ -106,10 +106,12 @@ class ZBPostController extends Controller
                 $v = trim(preg_replace('/\s\s+/'," ",$v));
                 if($v){
                     if(preg_replace("/[a-zA-Z0-9éèêàçùûëïôâ'!?, _-]/",'',$v) == ""){
-                        $tag = new ZBTag();
-                        $tag->setName($v);
-                        $em->persist($tag);
-                        $post->addTag($tag);
+                        if(!$this->getDoctrine()->getRepository("AdminZooBlogBundle:ZBTag")->findOneByName($v)){
+                            $tag = new ZBTag();
+                            $tag->setName($v);
+                            $em->persist($tag);
+                            $post->addTag($tag);
+                        }
                     }
                 }
             }

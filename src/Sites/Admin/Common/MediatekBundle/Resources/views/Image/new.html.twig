@@ -3,7 +3,7 @@
 {% set short_page_title = "new_img" %}
 {% block content %}
 
-    <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+    <form class="form-horizontal" action="{{ path("admin_common_mediatek_image_create") }}" method="post" enctype="multipart/form-data">
         {% if form_errors|length %}
             {% for error in form_errors %}
                 <div class="alert alert-danger" role="alert">{{ error }}</div>
@@ -12,7 +12,7 @@
         <div class="form-group">
             <label class="control-label col-md-2" for="new_image_form_doctype">Type de document</label>
             <div class="col-md-4">
-                <input type="text" name="new_image_form[doctype]" id="new_image_form_doctype" class="form-control" value="{{ image.docType }}" disabled="disabled"/>
+                <input type="text" name="new_image_form[doctype]" id="new_image_form_doctype" class="form-control" value="{{ image.docType }}"/>
             </div>
         </div>
 
@@ -24,9 +24,9 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2" for="new_image_form_name">Nom</label>
+            <label class="control-label col-md-2" for="new_image_form_filename">Nom du fichier</label>
             <div class="col-md-4">
-                <input type="text" name="new_image_form[name]" id="new_image_form_name" class="form-control"/>
+                <input type="text" name="new_image_form[filename]" id="new_image_form_filename" class="form-control" value="{{ image.filename }}"/>
                 <span class="help-block">Si le nom est laissé vide, le nom original du fichier sera utilisé. Caractères autorisés : a à z, A à Z, 0 à 9, - et _</span>
             </div>
         </div>
@@ -51,25 +51,19 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <label class="control-label col-md-2" for="new_image_form_slug">Alias(slug)</label>
-            <div class="col-md-4">
-                <input type="text" name="new_form_image[slug]" id="new_image_form_slug" class="form-control"/>
-                <span class="help-block">Si l'alias est laissé vide, il sera créé automatiquement. Caractères autorisés : a à z en minuscule, 0 à 9 et le tiret.</span>
-            </div>
-        </div>
+
 
         <div class="form-group">
             <label class="control-label col-md-2" for="new_image_form_title">Texte de l'attribut 'title'</label>
             <div class="col-md-4">
-                <input type="text" name="new_image_form[title]" id="new_image_form_title" class="form-control"/>
+                <input type="text" name="new_image_form[title]" id="new_image_form_title" class="form-control" value="{{ image.title }}"/>
             </div>
         </div>
 
         <div class="form-group">
             <label class="control-label col-md-2" for="new_image_form_copyright">Copyright</label>
             <div class="col-md-4">
-                <input type="text" name="new_image_form[copyright]" id="new_image_form_copyright" class="form-control"/>
+                <input type="text" name="new_image_form[copyright]" id="new_image_form_copyright" class="form-control"  value="{{ image.copyright }}"/>
                 <span class="help-block">Texte sans &copy;. Si laissé vide, &laquo; &copy; ZooParc de Beauval &raquo; est enregistré par défaut.</span>
             </div>
         </div>

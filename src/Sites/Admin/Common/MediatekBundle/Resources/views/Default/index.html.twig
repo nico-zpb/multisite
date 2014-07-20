@@ -11,7 +11,6 @@
                     <th>Id</th>
                     <th>Nom du fichier</th>
                     <th>Url</th>
-                    <th>Alias (slug)</th>
                     <th>Copyright</th>
                     <th>Arrt. 'title'</th>
                     <th>Largeur</th>
@@ -29,12 +28,11 @@
                 {% else %}
                     {% for img in images %}
                     <tr>
-                        <td></td>
+                        <td><a href="{{ img.webPath }}/{{ img.filename }}" target="_blank"><img src="{{ img.webPath }}/{{ thumbDir }}/{{ img.filename }}" alt="" title="{{ img.title }}{{ img.copyright|raw }}" width="45"/></a></td>
                         <td>{{ img.id }}</td>
                         <td>{{ img.filename}}</td>
-                        <td><a href="{{ img.webPath }}/{{ img.filename }}" target="_blank">{{ img.webPath }}/{{ img.filename }}</a></td>
-                        <td>{{ img.slug }}</td>
-                        <td>{{ img.copyright }}</td>
+                        <td>{{ img.webPath }}/{{ img.filename }}</td>
+                        <td>{{ img.copyright|raw }}</td>
                         <td>{{ img.title }}</td>
                         <td>{{ img.width }}</td>
                         <td>{{ img.height }}</td>
@@ -46,7 +44,7 @@
                             {% else %} - {% endif %}
                         </td>
                         <td><a class="btn btn-default" href="#"><i class="fa fa-pencil-square-o"></i></a></td>
-                        <td><a class="btn btn-default delete-alert" href="#" data-name="{{ img.name }}"><i class="fa fa-trash-o"></i></a></td>
+                        <td><a class="btn btn-default delete-alert" href="#" data-name="{{ img.filename }}"><i class="fa fa-trash-o"></i></a></td>
                     </tr>
                     {% endfor %}
                 {% endif %}
