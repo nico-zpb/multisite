@@ -38,6 +38,12 @@ class Document
     private $title;
 
     /**
+     * @var string
+     * @ORM\Column(name="docType", type="string", length=255, nullable=false)
+     */
+    private $docType;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="createdAt", type="datetime")
@@ -85,6 +91,11 @@ class Document
      * @ORM\JoinTable(name="documents_tags")
      */
     private $tags;
+
+    /**
+     * @ORM\Column(name="copyright", type="string", length=255, nullable=false)
+     */
+    private $copyright;
 
 
     /**
@@ -319,5 +330,51 @@ class Document
     public function getTags()
     {
         return $this->tags;
+    }
+
+    /**
+     * Set copyright
+     *
+     * @param string $copyright
+     * @return Document
+     */
+    public function setCopyright($copyright)
+    {
+        $this->copyright = $copyright;
+
+        return $this;
+    }
+
+    /**
+     * Get copyright
+     *
+     * @return string
+     */
+    public function getCopyright()
+    {
+        return $this->copyright;
+    }
+
+    /**
+     * Set docType
+     *
+     * @param string $docType
+     * @return Document
+     */
+    public function setDocType($docType)
+    {
+        $this->docType = $docType;
+
+        return $this;
+    }
+
+    /**
+     * Get docType
+     *
+     * @return string 
+     */
+    public function getDocType()
+    {
+        return $this->docType;
     }
 }

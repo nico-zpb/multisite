@@ -1,3 +1,7 @@
 admin_common_mediatek_homepage:
     path:     /
     defaults: { _controller: AdminCommonMediatekBundle:Default:index }
+
+admin_common_mediatek_image_new:
+    path: /image/nouvelle
+    defaults: { _controller: AdminCommonMediatekBundle:Image:new }

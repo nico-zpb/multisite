@@ -12,4 +12,9 @@ use Doctrine\ORM\EntityRepository;
  */
 class TagRepository extends EntityRepository
 {
+    public function findAllAlphaOrdered()
+    {
+        $qb = $this->createQueryBuilder("t")->orderBy("t.name", "ASC");
+        return $qb->getQuery()->getResult();
+    }
 }

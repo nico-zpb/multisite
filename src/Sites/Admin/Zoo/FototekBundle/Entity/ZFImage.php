@@ -149,7 +149,7 @@ class ZFImage
 
     /**
      * @var string
-     * @ORM\Column(name="coypright", type="string")
+     * @ORM\Column(name="copyright", type="string")
      */
     private $copyright;
 
@@ -507,7 +507,7 @@ class ZFImage
     /**
      * Get position
      *
-     * @return integer 
+     * @return integer
      */
     public function getPosition()
     {
@@ -530,7 +530,7 @@ class ZFImage
     /**
      * Get absolutePath
      *
-     * @return string 
+     * @return string
      */
     public function getAbsolutePath()
     {
@@ -553,7 +553,7 @@ class ZFImage
     /**
      * Get webPath
      *
-     * @return string 
+     * @return string
      */
     public function getWebPath()
     {
@@ -576,7 +576,7 @@ class ZFImage
     /**
      * Get legend
      *
-     * @return string 
+     * @return string
      */
     public function getLegend()
     {
@@ -599,7 +599,7 @@ class ZFImage
     /**
      * Get copyright
      *
-     * @return string 
+     * @return string
      */
     public function getCopyright()
     {
