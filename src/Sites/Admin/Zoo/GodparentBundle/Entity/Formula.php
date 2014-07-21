@@ -45,6 +45,12 @@ class Formula
     private $position;
 
     /**
+     * @ORM\Column(name="category", type="string", length=64)
+     * @Gedmo\SortableGroup
+     */
+    private $category;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="description", type="text", nullable=true)
@@ -165,6 +171,7 @@ class Formula
     public function __construct()
     {
         $this->gifts = new ArrayCollection();
+        $this->category = "formula";
     }
 
     /**
@@ -198,5 +205,28 @@ class Formula
     public function getGifts()
     {
         return $this->gifts;
+    }
+
+    /**
+     * Set category
+     *
+     * @param string $category
+     * @return Formula
+     */
+    public function setCategory($category)
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return string 
+     */
+    public function getCategory()
+    {
+        return $this->category;
     }
 }

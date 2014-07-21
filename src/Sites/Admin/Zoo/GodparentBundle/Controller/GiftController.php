@@ -27,6 +27,8 @@ class GiftController extends Controller
 {
     public function indexAction()
     {
-        return $this->render("AdminZooGodparentBundle:Gift:index.html.twig");
+        $repo = $this->getDoctrine()->getRepository("AdminZooGodparentBundle:Gift");
+        $gifts = $repo->getBySortableGroupsQuery(["category"=>"gift"])->getResult();
+        return $this->render("AdminZooGodparentBundle:Gift:index.html.twig",["gifts"=>$gifts]);
     }
 }
