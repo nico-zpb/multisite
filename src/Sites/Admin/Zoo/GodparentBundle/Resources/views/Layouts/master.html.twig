@@ -1,0 +1,21 @@
+{% extends "AdminCommonBaseBundle:Layouts:master.html.twig" %}
+{% set active_site = "godparent" %}
+{% set short_page_title = ( short_page_title is defined) ? short_page_title : "all_imgs" %}
+
+
+{% block main %}
+    <div class="row">
+        <div class="col-sm-3 col-md-2">
+            <h4><i class="fa fa-picture-o"></i> lorem</h4>
+            <ul class="nav nav-sidebar">
+                <li><a href="#">Lorem ipsum.</a></li>
+                <li><a href="#">Expedita, quia.</a></li>
+            </ul>
+
+        </div>
+        <div class="col-sm-9 col-md-10">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+
+{% endblock %}

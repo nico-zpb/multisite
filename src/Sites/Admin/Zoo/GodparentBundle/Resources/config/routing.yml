@@ -1,3 +1,7 @@
 admin_zoo_godparent_routes:
-    prefix:     /parrainage
+    prefix:     /parrainages
     resource: "@AdminZooGodparentBundle/Resources/config/routing/base.yml"
+
+admin_zoo_godparent_gifts_routes:
+    prefix:     /parrainages/cadeaux
+    resource: "@AdminZooGodparentBundle/Resources/config/routing/gift.yml"

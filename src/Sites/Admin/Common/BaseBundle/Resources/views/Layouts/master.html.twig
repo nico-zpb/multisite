@@ -78,15 +78,15 @@
                     <li class="bg-bn"><a href="#"><i class="fa fa-bar-chart-o"></i> Statistiques <i class="fa fa-angle-right pull-right"></i></a></li>
                 </ul>
                 {# -------------------------------------------------------------------------------------------------------------------------------------------------        Parrainage            ------------------------------------------------------#}
-                <h3><i class="fa fa-users"></i> Parrainages <i class="fa fa-caret-down pull-right"></i></h3>
+                <h3 class="bg-parrainage-dark {% if active_sidenav in ["godparent_gifts","godparent_formulas"] %}open{% endif %}"><i class="fa fa-users"></i> Parrainages <i class="fa fa-caret-down pull-right"></i></h3>
                 <ul class="sidenav">
-                    <li><a href="#"><i class="fa fa-home"></i> Accueil <i class="fa fa-angle-right pull-right"></i></a></li>
-                    <li><a href="#"><i class="fa fa-users"></i> Parrains <i class="fa fa-angle-right pull-right"></i></a></li>
-                    <li><a href="#"><i class="fa fa-users"></i> Donnateurs <i class="fa fa-angle-right pull-right"></i></a></li>
-                    <li><a href="#"><i class="fa fa-list-alt"></i> Animaux <i class="fa fa-angle-right pull-right"></i></a></li>
-                    <li><a href="#"><i class="fa fa-shopping-cart"></i> Commandes <i class="fa fa-angle-right pull-right"></i></a></li>
-                    <li><a href="#"><i class="fa fa-list-ol"></i> Formules <i class="fa fa-angle-right pull-right"></i></a></li>
-                    <li><a href="#"><i class="fa fa-gift"></i> Cadeaux <i class="fa fa-angle-right pull-right"></i></a></li>
+                    <li class="bg-parrainage"><a href="#"><i class="fa fa-home"></i> Accueil <i class="fa fa-angle-right pull-right"></i></a></li>
+                    <li class="bg-parrainage"><a href="#"><i class="fa fa-users"></i> Parrains <i class="fa fa-angle-right pull-right"></i></a></li>
+                    <li class="bg-parrainage"><a href="#"><i class="fa fa-users"></i> Donnateurs <i class="fa fa-angle-right pull-right"></i></a></li>
+                    <li class="bg-parrainage"><a href="#"><i class="fa fa-list-alt"></i> Animaux <i class="fa fa-angle-right pull-right"></i></a></li>
+                    <li class="bg-parrainage"><a href="#"><i class="fa fa-shopping-cart"></i> Commandes <i class="fa fa-angle-right pull-right"></i></a></li>
+                    <li class="bg-parrainage {% if active_sidenav == "godparent_formulas" %}active{% endif %}"><a href="#"><i class="fa fa-list-ol"></i> Formules <i class="fa fa-angle-right pull-right"></i></a></li>
+                    <li class="bg-parrainage {% if active_sidenav == "godparent_gifts" %}active{% endif %}"><a href="{{ path("admin_zoo_godparent_gifts_homepage") }}"><i class="fa fa-gift"></i> Cadeaux <i class="fa fa-angle-right pull-right"></i></a></li>
                 </ul>
                 {# -------------------------------------------------------------------------------------------------------------------------------------------------        Boutique              ------------------------------------------------------#}
                 <h3><i class="fa fa-shopping-cart"></i> Boutique en ligne <i class="fa fa-caret-down pull-right"></i></h3>
