@@ -38,6 +38,58 @@ admin_common_pdf_homepage:
     path: /pdf
     defaults: { _controller: AdminCommonMediatekBundle:Pdf:index }
 
+admin_common_pdf_edit:
+    path: /pdf/edition/{id}
+    defaults: { _controller: AdminCommonMediatekBundle:Pdf:edit }
+    requirements:
+        id: \d+
+
+admin_common_pdf_new:
+    path: /pdf/nouveau
+    defaults: { _controller: AdminCommonMediatekBundle:Pdf:new }
+
+admin_common_pdf_create:
+    path: /pdf/creation
+    defaults: { _controller: AdminCommonMediatekBundle:Pdf:create }
+    requirements: { _method: post, id: \d+ }
+
+admin_common_pdf_update:
+    path: /pdf/maj/{id}
+    defaults: { _controller: AdminCommonMediatekBundle:Pdf:update }
+    requirements: { _method: post, id: \d+ }
+
+admin_common_pdf_delete:
+    path: /pdf/supprimer/{id}
+    defaults: { _controller: AdminCommonMediatekBundle:Pdf:delete }
+    requirements:
+        id: \d+
+
 admin_common_tag_homepage:
     path: /mot_clef
     defaults: { _controller: AdminCommonMediatekBundle:Tag:index }
+
+admin_common_tag_edit:
+    path: /mot_clef/edition/{id}
+    defaults: { _controller: AdminCommonMediatekBundle:Tag:edit }
+    requirements:
+        id: \d+
+
+admin_common_tag_new:
+    path: /mot_clef/nouveau
+    defaults: { _controller: AdminCommonMediatekBundle:Tag:new }
+
+admin_common_tag_create:
+    path: /mot_clef/creation
+    defaults: { _controller: AdminCommonMediatekBundle:Tag:create }
+    requirements: { _method: post, id: \d+ }
+
+admin_common_tag_update:
+    path: /mot_clef/maj/{id}
+    defaults: { _controller: AdminCommonMediatekBundle:Tag:update }
+    requirements: { _method: post, id: \d+ }
+
+admin_common_tag_delete:
+    path: /mot_clef/supprimer/{id}
+    defaults: { _controller: AdminCommonMediatekBundle:Tag:delete }
+    requirements:
+        id: \d+

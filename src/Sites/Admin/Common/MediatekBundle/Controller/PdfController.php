@@ -22,6 +22,7 @@ namespace Sites\Admin\Common\MediatekBundle\Controller;
 
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 class PdfController extends Controller
 {
@@ -29,5 +30,30 @@ class PdfController extends Controller
     {
         $pdfs = $this->getDoctrine()->getRepository("AdminCommonMediatekBundle:Document")->findAllAlphaOrdered("pdf");
         return $this->render("AdminCommonMediatekBundle:Pdf:index.html.twig", ["pdfs"=>$pdfs]);
+    }
+
+    public function editAction($id, Request $request)
+    {
+
+    }
+
+    public function newAction()
+    {
+
+    }
+
+    public function createAction($id, Request $request)
+    {
+
+    }
+
+    public function updateAction($id, Request $request)
+    {
+
+    }
+
+    public function deleteAction($id, Request $request)
+    {
+
     }
 } 
