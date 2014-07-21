@@ -36,7 +36,19 @@ class TagController extends Controller
 
     public function editAction($id, Request $request)
     {
+        $csrfProvider = $this->container->get("form.csrf_provider");
+        $token = $request->query->get("_token");
 
+        if(!$token || !$csrfProvider->isCsrfTokenValid("edit_tag",$token)){
+            throw new AccessDeniedException();
+        }
+
+        $tag = $this->getDoctrine()->getRepository("AdminCommonMediatekBundle:Tag")->find($id);
+        if(!$tag){
+            throw $this->createNotFoundException();
+        }
+
+        return $this->render("AdminCommonMediatekBundle:Tag:edit.html.twig", ["entity"=>$tag, "form_errors"=>[]]);
     }
 
     public function newAction()
