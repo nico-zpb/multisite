@@ -12,7 +12,7 @@
                     <th>Nom du fichier</th>
                     <th>Url</th>
                     <th>Copyright</th>
-                    <th>Arrt. 'title'</th>
+                    <th>Attr. 'title'</th>
                     <th>Largeur</th>
                     <th>Hauteur</th>
                     <th>Mots-clés</th>
@@ -38,12 +38,12 @@
                         <td>{{ img.height }}</td>
                         <td>
                             {% if img.tags|length>0 %}
-                            {% for t in img.tags %}
-                                <a href="#">{{ tag.name}}</a> {% if loop.last %} - {% endif %}
+                            {% for tag in img.tags %}
+                                <a href="#">{{ tag.name}}</a> {% if loop.last != true %} - {% endif %}
                             {% endfor %}
                             {% else %} - {% endif %}
                         </td>
-                        <td><a class="btn btn-default" href="#"><i class="fa fa-pencil-square-o"></i></a></td>
+                        <td><a class="btn btn-default" href="{{ path("admin_common_mediatek_image_edit", {id:img.id, _token:csrf_token("edit_image")} )}}"><i class="fa fa-pencil-square-o"></i></a></td>
                         <td><a class="btn btn-default delete-alert" href="{{ path("admin_common_mediatek_image_delete", {id:img.id, _token:csrf_token("delete_image")}) }}" data-name="{{ img.filename }}"><i class="fa fa-trash-o"></i></a></td>
                     </tr>
                     {% endfor %}

@@ -81,7 +81,7 @@
                             {% if draft.tags|length > 0 %}
                             <td>
                                 {% for tag in draft.tags %}
-                                    <a href="#">{{ tag.name}}</a> {% if loop.last %} - {% endif %}
+                                    <a href="#">{{ tag.name}}</a> {% if loop.last != true %} - {% endif %}
                                 {% endfor %}
                             </td>
                             {% else %}
@@ -232,7 +232,7 @@
                             {% if pub.tags|length > 0 %}
                                 <td>
                                     {% for tag in pub.tags %}
-                                        <a href="#">{{ tag.name}}</a> {% if loop.last %} - {% endif %}
+                                        <a href="#">{{ tag.name}}</a> {% if loop.last != true %} - {% endif %}
                                     {% endfor %}
                                 </td>
                             {% else %}

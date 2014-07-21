@@ -11,8 +11,19 @@ admin_common_mediatek_image_create:
     defaults: { _controller: AdminCommonMediatekBundle:Image:create }
     requirements: { _method: post }
 
+admin_common_mediatek_image_update:
+    path: /image/maj/{id}
+    defaults: { _controller: AdminCommonMediatekBundle:Image:update }
+    requirements: { _method: post, id: \d+ }
+
 admin_common_mediatek_image_delete:
     path: /image/supprimer/{id}
     defaults: { _controller: AdminCommonMediatekBundle:Image:delete }
+    requirements:
+        id: \d+
+
+admin_common_mediatek_image_edit:
+    path: /image/edition/{id}
+    defaults: { _controller: AdminCommonMediatekBundle:Image:edit }
     requirements:
         id: \d+

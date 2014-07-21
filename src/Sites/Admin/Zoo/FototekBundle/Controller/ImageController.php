@@ -260,7 +260,7 @@ class ImageController extends Controller
         }
         $cats = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFCategory")->findAllAlphaOrdered();
         $thumbnailsDir = $this->container->getParameter("zoo_fototek_web_dir") . "/" . $this->container->getParameter("zoo_fototek_thumbnails_dirname") . "/";
-
+        $image->setCopyright(trim(str_replace("&copy;", "", $image->getCopyright())));
         return $this->render("AdminZooFototekBundle:Image:edit.html.twig", ["image"=>$image,"thumb_dir"=>$thumbnailsDir, "categories"=>$cats, "form_errors"=>[]]);
     }
 

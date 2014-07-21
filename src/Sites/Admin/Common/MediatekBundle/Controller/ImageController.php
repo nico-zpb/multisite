@@ -154,9 +154,141 @@ class ImageController extends Controller
 
         $em->persist($img);
         $em->flush();
-        $this->makeThumbnail($img, $this->container->getParameter("mediatek_images_thumbnails_dirname"), $this->container->getParameter("mediatek_images_thumbnail_width"), $this->container->getParameter("mediatek_images_thumbnail_height"));
+        $this->makeThumbnail(
+            $img,
+            $this->container->getParameter("mediatek_images_thumbnails_dirname"),
+            $this->container->getParameter("mediatek_images_thumbnail_width"),
+            $this->container->getParameter("mediatek_images_thumbnail_height")
+        );
 
         $this->container->get("session")->getFlashBag()->add("success", "Votre document à bien été enregistré.");
+        return $this->redirect($this->generateUrl("admin_common_mediatek_homepage"));
+    }
+
+    public function editAction($id, Request $request)
+    {
+        $token = $request->query->get("_token");
+        $csrfProvider = $this->container->get("form.csrf_provider");
+        if(!$token || !$csrfProvider->isCsrfTokenValid("edit_image", $token)){
+            throw new AccessDeniedException();
+        }
+
+        $img = $this->getDoctrine()->getRepository("AdminCommonMediatekBundle:Document")->find($id);
+        if(!$img || $img->getDocType() != "image"){
+            throw $this->createNotFoundException();
+        }
+        $img->setCopyright(trim(str_replace("&copy;", "", $img->getCopyright())));
+        $img->setFilename(trim(str_replace("." . $img->getExtension(),"",$img->getFilename())));
+        $tags = $this->getDoctrine()->getRepository("AdminCommonMediatekBundle:Tag")->findAllAlphaOrdered();
+        return $this->render("AdminCommonMediatekBundle:Image:edit.html.twig", ["form_errors"=>[],"image"=>$img, "tags"=>$tags]);
+    }
+
+    public function updateAction($id, Request $request)
+    {
+        $csrfProvider = $this->container->get("form.csrf_provider");
+        $form = $request->request->get("update_image_form");
+
+        if(empty($form["_token"]) || !$csrfProvider->isCsrfTokenValid("update_image", $form["_token"])){
+            throw new AccessDeniedException();
+        }
+
+        $img = $this->getDoctrine()->getRepository("AdminCommonMediatekBundle:Document")->find($id);
+        if(!$img || $img->getDocType() != "image"){
+            throw $this->createNotFoundException();
+        }
+        $imgCopyright = trim(str_replace("&copy;","",$img->getCopyright()));
+        $errors = [];
+        $filename = $img->getFilename();
+        if(!empty($form["filename"]) && $form["filename"] != trim(str_replace(".".$img->getExtension(),"",$img->getFilename()))){
+            if(preg_replace('/[a-zA-Z0-9._-]/','',$form["filename"]) !== ""){
+                $errors[] = "Le champ 'nom' contient des caratères interdits.";
+            }
+            /*$img->setFilename($form["filename"] . "." . $img->getExtension());*/
+            $img->setFilename($form["filename"]);
+        }
+
+        if(!empty($form["title"]) && $form["title"] != $img->getTitle()){
+            $form["title"] = trim(strip_tags(preg_replace('/\s\s+/',' ',$form["title"])));
+            $img->setTitle($form["title"]);
+        }
+
+        if(!empty($form["copyright"]) && $form["copyright"] != $imgCopyright){
+            $form["copyright"] = " &copy; " . trim(strip_tags(preg_replace('/\s\s+/',' ',$form["copyright"])));
+            $img->setCopyright($form["copyright"]);
+        } elseif(empty($form["copyright"])) {
+            $form["copyright"] = " &copy; ZooParc de Beauval";
+            $img->setCopyright($form["copyright"]);
+        }
+
+        if(array_key_exists("associatedtags", $form)){
+            foreach($form["associatedtags"] as $k=>$v){
+                if($v){
+                    $t = $this->getDoctrine()->getRepository("AdminCommonMediatekBundle:Tag")->find($v);
+                    if(!$t){
+                        throw $this->createNotFoundException();
+                    }
+                    $img->removeTag($t);
+                }
+            }
+        }
+
+        if(array_key_exists("tags", $form)){
+            foreach($form["tags"] as $k=>$v){
+                if($v){
+                    $t = $this->getDoctrine()->getRepository("AdminCommonMediatekBundle:Tag")->find($v);
+                    if(!$t){
+                        throw $this->createNotFoundException();
+                    }
+                    $img->addTag($t);
+                }
+            }
+        }
+
+
+        $em = $this->getDoctrine()->getManager();
+        if(!empty($form["newtags"]) ){
+            $form["newtags"] = trim(preg_replace('/\s\s+/'," ",$form["newtags"]));
+            $tags = explode(";", $form["newtags"]);
+
+            foreach($tags as $k=>$v){
+                $v = trim(preg_replace('/\s\s+/'," ",$v));
+                if($v){
+                    if(preg_replace("/[a-zA-Z0-9éèêàçùûëïôâ'!?, _-]/",'',$v) == ""){
+                        if(!$this->getDoctrine()->getRepository("AdminCommonMediatekBundle:Tag")->findOneByName($v)){
+                            $tag = new Tag();
+                            $tag->setName($v);
+                            $em->persist($tag);
+                            $img->addTag($tag);
+                        }
+                    }
+                }
+            }
+            $em->flush();
+        }
+
+        if($errors){
+            $tags = $this->getDoctrine()->getRepository("AdminCommonMediatekBundle:Tag")->findAllAlphaOrdered();
+            return $this->render("AdminCommonMediatekBundle:Image:edit.html.twig", ["form_errors"=>$errors,"image"=>$img,"tags"=>$tags]);
+        }
+
+        $suffix = "";
+
+        if(!empty($form["date"])){
+            $date = new \DateTime("now", new \DateTimeZone("Europe/Paris"));
+            $suffix .= "_" . $date->format("d-m-y") ;
+        }
+
+        if(!empty($form["dims"])){
+            $suffix .= "_" . $img->getWidth() . "x" . $img->getHeight();
+        }
+
+        $img->setFilename($img->getFilename() . $suffix . "." . $img->getExtension());
+        rename($img->getAbsolutePath()."/".$filename, $img->getAbsolutePath()."/".$img->getFilename());
+        rename($img->getAbsolutePath()."/". $this->container->getParameter("mediatek_images_thumbnails_dirname") . "/" .$filename, $img->getAbsolutePath()."/". $this->container->getParameter("mediatek_images_thumbnails_dirname") . "/".$img->getFilename());
+        $em->persist($img);
+        $em->flush();
+
+        $this->container->get("session")->getFlashBag()->add("success", "L'image " . $img->getFilename() . " a bien été mise à jour dans la médiathèque.");
         return $this->redirect($this->generateUrl("admin_common_mediatek_homepage"));
     }
 
