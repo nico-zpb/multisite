@@ -260,6 +260,7 @@ class ImageController extends Controller
         }
         $cats = $this->getDoctrine()->getRepository("AdminZooFototekBundle:ZFCategory")->findAllAlphaOrdered();
         $thumbnailsDir = $this->container->getParameter("zoo_fototek_web_dir") . "/" . $this->container->getParameter("zoo_fototek_thumbnails_dirname") . "/";
+        $image->setName(trim(str_replace(".".$image->getExtension(), "", $image->getName())));
         $image->setCopyright(trim(str_replace("&copy;", "", $image->getCopyright())));
         return $this->render("AdminZooFototekBundle:Image:edit.html.twig", ["image"=>$image,"thumb_dir"=>$thumbnailsDir, "categories"=>$cats, "form_errors"=>[]]);
     }
@@ -280,9 +281,13 @@ class ImageController extends Controller
         if(!$cat){
             throw new EntityNotFoundException();
         }
+        $name = $image->getName();
         $errors = [];
-        if(!empty($form["name"]) && preg_replace('/[a-zA-Z0-9._-]/','',$form["name"]) !== ""){
-            $errors[] = "Le champ 'nom' contient des caratères interdits.";
+        if(!empty($form["name"]) && $form["name"] != trim(str_replace(".".$image->getExtension(),"",$image->getName()))){
+            if(preg_replace('/[a-zA-Z0-9._-]/','',$form["name"]) !== ""){
+                $errors[] = "Le champ 'nom' contient des caratères interdits.";
+            }
+            $image->setName($form["name"]);
         }
         if(!empty($form["slug"]) && preg_replace('/[a-z0-9-]/','',$form["slug"]) !== ""){
             $errors[] = "Le champ 'alias' contient des caratères interdits.";
@@ -309,8 +314,32 @@ class ImageController extends Controller
         }
 
 
-        $image->setName($form["name"]);
+        $image->setName($image->getName() . "." .$image->getExtension());
+        if($image->getName() != $name){
+            rename(
+                $image->getAbsolutePath() . "/" . $this->container->getParameter("zoo_fototek_originals_dirname") . "/" . $name,
+                $image->getAbsolutePath() . "/" . $this->container->getParameter("zoo_fototek_originals_dirname") . "/" . $image->getName()
+            );
 
+            rename(
+                $image->getAbsolutePath() . "/" . $this->container->getParameter("zoo_fototek_mds_dirname") . "/" . $name,
+                $image->getAbsolutePath() . "/" . $this->container->getParameter("zoo_fototek_mds_dirname") . "/" . $image->getName()
+            );
+
+            rename(
+                $image->getAbsolutePath() . "/" . $this->container->getParameter("zoo_fototek_slides_dirname") . "/" . $name,
+                $image->getAbsolutePath() . "/" . $this->container->getParameter("zoo_fototek_slides_dirname") . "/" . $image->getName()
+            );
+
+            rename(
+                $image->getAbsolutePath() . "/" . $this->container->getParameter("zoo_fototek_thumbnails_dirname") . "/" . $name,
+                $image->getAbsolutePath() . "/" . $this->container->getParameter("zoo_fototek_thumbnails_dirname") . "/" . $image->getName()
+            );
+
+
+
+
+        }
         if($form["slug"]){
             $image->setSlug($form["slug"]);
         }

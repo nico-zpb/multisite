@@ -203,7 +203,7 @@ class ImageController extends Controller
             if(preg_replace('/[a-zA-Z0-9._-]/','',$form["filename"]) !== ""){
                 $errors[] = "Le champ 'nom' contient des caratères interdits.";
             }
-            /*$img->setFilename($form["filename"] . "." . $img->getExtension());*/
+
             $img->setFilename($form["filename"]);
         }
 
@@ -283,8 +283,11 @@ class ImageController extends Controller
         }
 
         $img->setFilename($img->getFilename() . $suffix . "." . $img->getExtension());
-        rename($img->getAbsolutePath()."/".$filename, $img->getAbsolutePath()."/".$img->getFilename());
-        rename($img->getAbsolutePath()."/". $this->container->getParameter("mediatek_images_thumbnails_dirname") . "/" .$filename, $img->getAbsolutePath()."/". $this->container->getParameter("mediatek_images_thumbnails_dirname") . "/".$img->getFilename());
+        if($img->getFilename() != $filename){
+            rename($img->getAbsolutePath()."/".$filename, $img->getAbsolutePath()."/".$img->getFilename());
+            rename($img->getAbsolutePath()."/". $this->container->getParameter("mediatek_images_thumbnails_dirname") . "/" .$filename, $img->getAbsolutePath()."/". $this->container->getParameter("mediatek_images_thumbnails_dirname") . "/".$img->getFilename());
+
+        }
         $em->persist($img);
         $em->flush();
 
