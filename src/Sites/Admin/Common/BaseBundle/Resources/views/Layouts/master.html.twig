@@ -49,6 +49,7 @@
     <div class="nano">
         <div class="nano-content">
             <div id="sidebar-content">
+                {# -------------------------------------------------------------------------------------------------------------------------------------------------        Généralités              ------------------------------------------------------#}
                 <h3 {% if active_sidenav in ["configs","mediatek","menu_manager"] %}class="open"{% endif %}><i class="fa fa-cog"></i> Généralités <i class="fa fa-caret-down pull-right"></i></h3>
                 <ul class="sidenav">
                     <li {% if active_sidenav == "configs" %}class="active"{% endif %}><a href="{{ path("admin_common_base_configs_homepage") }}"><i class="fa fa-cogs"></i> Configurations <i class="fa fa-angle-right pull-right"></i></a></li>
@@ -57,30 +58,41 @@
                     <li><a href="#"><i class="fa fa-bar-chart-o"></i> Statistiques <i class="fa fa-angle-right pull-right"></i></a></li>
                     <li><a href="#"><i class="fa fa-users"></i> Utilisateurs <i class="fa fa-angle-right pull-right"></i></a></li>
                 </ul>
+                {# -------------------------------------------------------------------------------------------------------------------------------------------------        Actualités              ------------------------------------------------------#}
                 <h3 {% if active_sidenav in ["actus"] %}class="open"{% endif %}><i class="fa fa-pencil-square-o"></i> Actualités <i class="fa fa-caret-down pull-right"></i></h3>
                 <ul class="sidenav">
                     <li {% if active_sidenav == "actus" %}class="active"{% endif %}><a href="{{ path("admin_zoo_blog_homepage") }}"><i class="fa fa-pencil-square-o"></i> Actualités <i class="fa fa-angle-right pull-right"></i></a></li>
                 </ul>
+                {# -------------------------------------------------------------------------------------------------------------------------------------------------        Zoo              ------------------------------------------------------#}
                 <h3 class="bg-zoo-dark {% if active_sidenav in ["fototek_zoo"] %}open{% endif %}"><i class="fa fa-university"></i> Zoo <i class="fa fa-caret-down pull-right"></i></h3>
                 <ul class="sidenav">
                     <li class="bg-zoo"><a href="#"><i class="fa fa-files-o"></i> Pages <i class="fa fa-angle-right pull-right"></i></a></li>
                     <li class="bg-zoo {% if active_sidenav == "fototek_zoo" %}active{% endif %}"><a href="{{ path("admin_zoo_fototek_homepage") }}"><i class="fa fa-picture-o"></i> Photothèque <i class="fa fa-angle-right pull-right"></i></a></li>
                     <li class="bg-zoo"><a href="#"><i class="fa fa-bar-chart-o"></i> Statistiques <i class="fa fa-angle-right pull-right"></i></a></li>
                 </ul>
+                {# -------------------------------------------------------------------------------------------------------------------------------------------------        BN              ------------------------------------------------------#}
                 <h3 class="bg-bn-dark "><i class="fa fa-globe"></i> Beauval Nature <i class="fa fa-caret-down pull-right"></i></h3>
                 <ul class="sidenav">
                     <li class="bg-bn"><a href="#"><i class="fa fa-files-o"></i> Pages <i class="fa fa-angle-right pull-right"></i></a></li>
                     <li class="bg-bn"><a href="#"><i class="fa fa-picture-o"></i> Photothèque <i class="fa fa-angle-right pull-right"></i></a></li>
                     <li class="bg-bn"><a href="#"><i class="fa fa-bar-chart-o"></i> Statistiques <i class="fa fa-angle-right pull-right"></i></a></li>
                 </ul>
+                {# -------------------------------------------------------------------------------------------------------------------------------------------------        Parrainage            ------------------------------------------------------#}
                 <h3><i class="fa fa-users"></i> Parrainages <i class="fa fa-caret-down pull-right"></i></h3>
                 <ul class="sidenav">
+                    <li><a href="#"><i class="fa fa-home"></i> Accueil <i class="fa fa-angle-right pull-right"></i></a></li>
                     <li><a href="#"><i class="fa fa-users"></i> Parrains <i class="fa fa-angle-right pull-right"></i></a></li>
+                    <li><a href="#"><i class="fa fa-users"></i> Donnateurs <i class="fa fa-angle-right pull-right"></i></a></li>
                     <li><a href="#"><i class="fa fa-list-alt"></i> Animaux <i class="fa fa-angle-right pull-right"></i></a></li>
-                    <li><a href="#"><i class="fa fa-money"></i> Commandes <i class="fa fa-angle-right pull-right"></i></a></li>
+                    <li><a href="#"><i class="fa fa-shopping-cart"></i> Commandes <i class="fa fa-angle-right pull-right"></i></a></li>
+                    <li><a href="#"><i class="fa fa-list-ol"></i> Formules <i class="fa fa-angle-right pull-right"></i></a></li>
+                    <li><a href="#"><i class="fa fa-gift"></i> Cadeaux <i class="fa fa-angle-right pull-right"></i></a></li>
                 </ul>
+                {# -------------------------------------------------------------------------------------------------------------------------------------------------        Boutique              ------------------------------------------------------#}
                 <h3><i class="fa fa-shopping-cart"></i> Boutique en ligne <i class="fa fa-caret-down pull-right"></i></h3>
+                {# -------------------------------------------------------------------------------------------------------------------------------------------------        Pros              ------------------------------------------------------#}
                 <h3><i class="fa fa-briefcase"></i> Sites pros <i class="fa fa-caret-down pull-right"></i></h3>
+                {# -------------------------------------------------------------------------------------------------------------------------------------------------        Entrée              ------------------------------------------------------#}
                 <h3><i class="fa fa-tachometer"></i> Entrée <i class="fa fa-caret-down pull-right"></i></h3>
                 <ul class="sidenav">
                     <li><a href=""><i class="fa fa-clock-o"></i> Horaires parc <i class="fa fa-angle-right pull-right"></i></a></li>
@@ -88,18 +100,21 @@
                     <li><a href=""><i class="fa fa-clock-o"></i> Horaires animations <i class="fa fa-angle-right pull-right"></i></a></li>
                     <li><a href=""><i class="fa fa-clock-o"></i> Horaires boutiques <i class="fa fa-angle-right pull-right"></i></a></li>
                 </ul>
+                {# -------------------------------------------------------------------------------------------------------------------------------------------------        JdB              ------------------------------------------------------#}
                 <h3 class="bg-jardins-dark"><i class="fa fa-building"></i> Jardins de Beauval <i class="fa fa-caret-down pull-right"></i></h3>
                 <ul class="sidenav">
                     <li class="bg-jardins"><a href="#"><i class="fa fa-files-o"></i> Pages <i class="fa fa-angle-right pull-right"></i></a></li>
                     <li class="bg-jardins"><a href="#"><i class="fa fa-picture-o"></i> Photothèque <i class="fa fa-angle-right pull-right"></i></a></li>
                     <li class="bg-jardins"><a href="#"><i class="fa fa-bar-chart-o"></i> Statistiques <i class="fa fa-angle-right pull-right"></i></a></li>
                 </ul>
+                {# -------------------------------------------------------------------------------------------------------------------------------------------------        HdB              ------------------------------------------------------#}
                 <h3 class="bg-hameaux-dark"><i class="fa fa-building"></i> Hameaux de Beauval <i class="fa fa-caret-down pull-right"></i></h3>
                 <ul class="sidenav">
                     <li class="bg-hameaux"><a href="#"><i class="fa fa-files-o"></i> Pages <i class="fa fa-angle-right pull-right"></i></a></li>
                     <li class="bg-hameaux"><a href="#"><i class="fa fa-picture-o"></i> Photothèque <i class="fa fa-angle-right pull-right"></i></a></li>
                     <li class="bg-hameaux"><a href="#"><i class="fa fa-bar-chart-o"></i> Statistiques <i class="fa fa-angle-right pull-right"></i></a></li>
                 </ul>
+                {# -------------------------------------------------------------------------------------------------------------------------------------------------        PdB              ------------------------------------------------------#}
                 <h3 class="bg-pagodes-dark"><i class="fa fa-building"></i> Pagodes de Beauval <i class="fa fa-caret-down pull-right"></i></h3>
                 <ul class="sidenav">
                     <li class="bg-pagodes"><a href="#"><i class="fa fa-files-o"></i> Pages <i class="fa fa-angle-right pull-right"></i></a></li>

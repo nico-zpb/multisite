@@ -1,0 +1,3 @@
+admin_zoo_godparent_homepage:
+    path:     /parrainage
+    defaults: { _controller: AdminZooGodparentBundle:Default:index }

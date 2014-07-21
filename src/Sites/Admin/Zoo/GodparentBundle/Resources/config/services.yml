@@ -1,0 +1,7 @@
+parameters:
+#    admin_zoo_godparent.example.class: Sites\Admin\Zoo\GodparentBundle\Example
+
+services:
+#    admin_zoo_godparent.example:
+#        class: %admin_zoo_godparent.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

@@ -1,7 +1,8 @@
-zoo_tests:
-    resource: "@ZooTestsBundle/Resources/config/routing.yml"
-    host: zoobeauval.local
-    prefix:   /tests
+
+admin_zoo_godparent:
+    resource: "@AdminZooGodparentBundle/Resources/config/routing.yml"
+    host: admin.zooparc.local
+    prefix:   /
 
 admin_common_mediatek:
     resource: "@AdminCommonMediatekBundle/Resources/config/routing.yml"

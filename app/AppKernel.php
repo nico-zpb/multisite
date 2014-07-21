@@ -34,6 +34,7 @@ class AppKernel extends Kernel
             new Sites\Admin\Zoo\BlogBundle\AdminZooBlogBundle(),
             new Sites\Admin\Common\MediatekBundle\AdminCommonMediatekBundle(),
             new Sites\Zoo\TestsBundle\ZooTestsBundle(),
+            new Sites\Admin\Zoo\GodparentBundle\AdminZooGodparentBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
