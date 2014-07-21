@@ -33,3 +33,11 @@ admin_common_mediatek_image_search_by_tagid:
     defaults: { _controller: AdminCommonMediatekBundle:Image:searchByTagId }
     requirements:
         id: \d+
+
+admin_common_pdf_homepage:
+    path: /pdf
+    defaults: { _controller: AdminCommonMediatekBundle:Pdf:index }
+
+admin_common_tag_homepage:
+    path: /mot_clef
+    defaults: { _controller: AdminCommonMediatekBundle:Tag:index }
