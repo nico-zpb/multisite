@@ -23,7 +23,7 @@
                         <td>{{ tag.id }}</td>
                         <td>{{ tag.name }}</td>
                         <td><a class="btn btn-default" href="#"><i class="fa fa-pencil-square-o"></i></a></td>
-                        <td><a class="btn btn-default delete-alert" href="{{ path("admin_common_tag_delete", {id: tag.id,_token:csrf_token("delete_tag") })}}" data-name="{{ tag.name }}" ><i class="fa fa-trash-o"></i></a></td>
+                        <td><a class="btn btn-default delete-alert" href="{{ path("admin_common_mediatek_tag_delete", {id: tag.id,_token:csrf_token("delete_tag") })}}" data-name="{{ tag.name }}" ><i class="fa fa-trash-o"></i></a></td>
                     </tr>
                 {% endfor %}
             {% endif %}
