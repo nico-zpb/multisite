@@ -79,11 +79,6 @@ class ImageController extends Controller
             $form["copyright"] = " &copy; ZooParc de Beauval";
         }
 
-
-
-
-
-
         $img = new Document();
         $img->setDocType("image");
         $img->setTitle($form["title"]);
@@ -165,6 +160,35 @@ class ImageController extends Controller
         return $this->redirect($this->generateUrl("admin_common_mediatek_homepage"));
     }
 
+    public function deleteAction($id, Request $request)
+    {
+        $token = $request->query->get("_token");
+        $csrfProvider = $this->container->get("form.csrf_provider");
+        if(!$token || !$csrfProvider->isCsrfTokenValid("delete_image", $token)){
+            throw new AccessDeniedException();
+        }
+
+        $img = $this->getDoctrine()->getRepository("AdminCommonMediatekBundle:Document")->find($id);
+        if(!$img || $img->getDocType() != "image"){
+            throw $this->createNotFoundException();
+        }
+        $filename = $img->getFilename();
+
+        $pathToOriginal = $img->getAbsolutePath() . "/" . $img->getFilename();
+        $pathToThumbnail = $img->getAbsolutePath() . "/" . $this->container->getParameter("mediatek_images_thumbnails_dirname") . "/" . $img->getFilename();
+
+        unlink($pathToOriginal);
+        unlink($pathToThumbnail);
+
+        $em = $this->getDoctrine()->getManager();
+
+        $em->remove($img);
+        $em->flush();
+
+        $this->container->get("session")->getFlashBag()->add("success", "L'image " . $filename . " a bien été supprimée de la médiathèque.");
+        return $this->redirect($this->generateUrl("admin_common_mediatek_homepage"));
+    }
+
     private function makeThumbnail(Document $image, $dirname = "originales", $width = 300, $height = 450, $quality = 75)
     {
         if($image->getDocType() != "image"){
@@ -186,7 +210,7 @@ class ImageController extends Controller
         } else {
             return false;
         }
-
+        $result = false;
         $thumbIsLandscape = ( $width >= $height ) ? true : false;
 
         if($iniWidth>=$iniHeight){
@@ -195,40 +219,45 @@ class ImageController extends Controller
                 $newHeight = $width * ($iniHeight/$iniWidth);
                 if($newHeight>=$height){
                     //ok
-                    imagecopyresampled($gdImage, $copyImage, 0,($height-$newHeight)/2,0,0, $width, $newHeight, $iniWidth, $iniHeight);
+                    $result = imagecopyresampled($gdImage, $copyImage, 0,($height-$newHeight)/2,0,0, $width, $newHeight, $iniWidth, $iniHeight);
                 } else {
                     $newWidth = $height * ($iniWidth/$iniHeight);
-                    imagecopyresampled($gdImage, $copyImage, ($width-$newWidth)/2,0,0,0, $newWidth, $height, $iniWidth, $iniHeight);
+                    $result = imagecopyresampled($gdImage, $copyImage, ($width-$newWidth)/2,0,0,0, $newWidth, $height, $iniWidth, $iniHeight);
                 }
             } else {
                 $newWidth = $height * ($iniWidth/$iniHeight);
-                imagecopyresampled($gdImage, $copyImage, ($width-$newWidth)/2,0,0,0, $newWidth, $height, $iniWidth, $iniHeight);
+                $result = imagecopyresampled($gdImage, $copyImage, ($width-$newWidth)/2,0,0,0, $newWidth, $height, $iniWidth, $iniHeight);
             }
 
         } else {
             //portrait
             if($thumbIsLandscape){
                 $newHeight = $width * ($iniHeight/$iniWidth);
-                imagecopyresampled($gdImage, $copyImage, 0,($height-$newHeight)/2,0,0, $width, $newHeight, $iniWidth, $iniHeight);
+                $result = imagecopyresampled($gdImage, $copyImage, 0,($height-$newHeight)/2,0,0, $width, $newHeight, $iniWidth, $iniHeight);
             } else {
                 $newWidth = $height * ($iniWidth/$iniHeight);
                 if($newWidth>=$width){
                     //ok
-                    imagecopyresampled($gdImage, $copyImage, ($width-$newWidth)/2,0,0,0, $newWidth, $height, $iniWidth, $iniHeight);
+                    $result = imagecopyresampled($gdImage, $copyImage, ($width-$newWidth)/2,0,0,0, $newWidth, $height, $iniWidth, $iniHeight);
                 } else {
                     $newHeight = $width * ($iniHeight/$iniWidth);
-                    imagecopyresampled($gdImage, $copyImage, 0,($height-$newHeight)/2,0,0, $width, $newHeight, $iniWidth, $iniHeight);
+                    $result = imagecopyresampled($gdImage, $copyImage, 0,($height-$newHeight)/2,0,0, $width, $newHeight, $iniWidth, $iniHeight);
                 }
             }
         }
-        if($image->getMime() == "image/jpeg"){
-            imagejpeg($gdImage, $image->getAbsolutePath() . "/" . $dirname . "/" . $image->getFilename(), $quality);
-        } elseif($image->getMime() == "image/gif") {
-            imagegif($gdImage, $image->getAbsolutePath() . "/" . $dirname . "/" . $image->getFilename());
-        } else {
-            imagepng($gdImage, $image->getAbsolutePath() . "/" . $dirname . "/" . $image->getFilename(), $quality);
+        if($result){
+            if($image->getMime() == "image/jpeg"){
+                $result = imagejpeg($gdImage, $image->getAbsolutePath() . "/" . $dirname . "/" . $image->getFilename(), $quality);
+            } elseif($image->getMime() == "image/gif") {
+                $result = imagegif($gdImage, $image->getAbsolutePath() . "/" . $dirname . "/" . $image->getFilename());
+            } else {
+                $result = imagepng($gdImage, $image->getAbsolutePath() . "/" . $dirname . "/" . $image->getFilename(), $quality);
+            }
         }
 
+
         imagedestroy($gdImage);
+        return $result;
+
     }
 }

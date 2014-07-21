@@ -10,3 +10,9 @@ admin_common_mediatek_image_create:
     path: /image/creation
     defaults: { _controller: AdminCommonMediatekBundle:Image:create }
     requirements: { _method: post }
+
+admin_common_mediatek_image_delete:
+    path: /image/supprimer/{id}
+    defaults: { _controller: AdminCommonMediatekBundle:Image:delete }
+    requirements:
+        id: \d+

@@ -1,0 +1,28 @@
+parameters:
+    # Admin Common MediatekBundle
+    mediatek_images_base_dir: "%kernel.root_dir%/../web/uploads/mediatek/images"
+    mediatek_images_web_dir: "/uploads/mediatek/images"
+    mediatek_images_thumbnails_base_dir: "%kernel.root_dir%/../web/uploads/mediatek/images/thumbnails"
+    mediatek_images_thumbnails_web_dir: "/uploads/mediatek/images/thumbnails"
+    mediatek_images_thumbnails_dirname: "thumbnails"
+    mediatek_pdf_base_dir: "%kernel.root_dir%/../web/uploads/mediatek/pdf"
+    mediatek_pdf_web_dir: "/uploads/mediatek/pdf"
+    mediatek_allowed_extensions: ["jpg","JPG","jpeg","JPEG","gif","GIF","png","PNG","pdf","PDF"]
+    mediatek_allowed_mime_types: ["image/jpeg", "image/jpg","image/gif", "image/png", "application/pdf"]
+    mediatek_allowed_doc_types: ["image","pdf"]
+    mediatek_images_thumbnail_width: 120
+    mediatek_images_thumbnail_height: 180
+    # Zoo BaseBundle
+    zoo_fototek_base_dir: "%kernel.root_dir%/../web/uploads/zoo/phototheque"
+    zoo_fototek_web_dir: "/uploads/zoo/phototheque"
+    zoo_fototek_originals_dirname: "originales"
+    zoo_fototek_mds_dirname: "mds"
+    zoo_fototek_slides_dirname: "slides"
+    zoo_fototek_thumbnails_dirname: "thumbnails"
+    zoo_fototek_archives_dirname: "archives"
+    zoo_fototek_allowed_extensions: ["jpeg","jpg","JPEG","JPG"]
+    zoo_fototek_allowed_mime_types: [ "image/jpeg", "image/jpg" ]
+    zoo_fototek_mr_max_size: 1024
+    zoo_fototek_slide_max_size: 800
+    zoo_fototek_thumbnail_width: 120
+    zoo_fototek_thumbnail_height: 180
