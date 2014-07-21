@@ -2,102 +2,115 @@
 {% set page_title = "Médiathèque - Edition d'une image" %}
 {% set short_page_title = "edit_img" %}
 {% block content %}
-    <form class="form-horizontal" action="{{ path("admin_common_mediatek_image_update", {id:image.id}) }}" method="post">
-        {% if form_errors|length %}
-            {% for error in form_errors %}
-                <div class="alert alert-danger" role="alert">{{ error }}</div>
-            {% endfor %}
-        {% endif %}
-        <div class="form-group">
-            <label class="control-label col-md-2" for="update_image_form_doctype">Type de document</label>
-            <div class="col-md-4">
-                <input type="text" name="update_image_form[doctype]" id="update_image_form_doctype" class="form-control" value="{{ image.docType }}" readonly/>
-            </div>
-        </div>
+    <div class="row">
 
-        <div class="form-group">
-            <label class="control-label col-md-2" for="update_image_form_filename">Nom du fichier</label>
-            <div class="col-md-4">
-                <input type="text" name="update_image_form[filename]" id="update_image_form_filename" class="form-control" value="{{ image.filename }}"/>
-                <span class="help-block">Si le nom est laissé vide, le nom original du fichier sera utilisé. Caractères autorisés : a à z, A à Z, 0 à 9, - et _</span>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-4">
-                <div class="checkbox">
-                    <label for="update_image_form_date">
-                        <input type="checkbox" name="update_image_form[date]" id="update_image_form_date"/> Ajouter la date au nom de l'image ?
-                    </label>
+        <div class="col-md-2">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="thumbnail"><img src="{{image.webPath}}/{{thumbDir}}/{{image.filename}}" title="{{ image.title}} &copy; {{ image.copyright|raw }}"/></div>
                 </div>
             </div>
         </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-4">
-                <div class="checkbox">
-                    <label for="update_image_form_dims">
-                        <input type="checkbox" name="update_image_form[dims]" id="update_image_form_dims"/> Ajouter les dimensions au nom de l'image ?
-                    </label>
+        <div class="col-md-10">
+            <form class="form-horizontal" action="{{ path("admin_common_mediatek_image_update", {id:image.id}) }}" method="post">
+                {% if form_errors|length %}
+                    {% for error in form_errors %}
+                        <div class="alert alert-danger" role="alert">{{ error }}</div>
+                    {% endfor %}
+                {% endif %}
+                <div class="form-group">
+                    <label class="control-label col-md-2" for="update_image_form_doctype">Type de document</label>
+                    <div class="col-md-4">
+                        <input type="text" name="update_image_form[doctype]" id="update_image_form_doctype" class="form-control" value="{{ image.docType }}" readonly/>
+                    </div>
                 </div>
-            </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2" for="update_image_form_filename">Nom du fichier</label>
+                    <div class="col-md-4">
+                        <input type="text" name="update_image_form[filename]" id="update_image_form_filename" class="form-control" value="{{ image.filename }}"/>
+                        <span class="help-block">Si le nom est laissé vide, le nom original du fichier sera utilisé. Caractères autorisés : a à z, A à Z, 0 à 9, - et _</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-4">
+                        <div class="checkbox">
+                            <label for="update_image_form_date">
+                                <input type="checkbox" name="update_image_form[date]" id="update_image_form_date"/> Ajouter la date au nom de l'image ?
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-4">
+                        <div class="checkbox">
+                            <label for="update_image_form_dims">
+                                <input type="checkbox" name="update_image_form[dims]" id="update_image_form_dims"/> Ajouter les dimensions au nom de l'image ?
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2" for="update_image_form_title">Texte de l'attribut 'title'</label>
+                    <div class="col-md-4">
+                        <input type="text" name="update_image_form[title]" id="update_image_form_title" class="form-control" value="{{ image.title }}"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2" for="update_image_form_copyright">Copyright</label>
+                    <div class="col-md-4">
+                        <input type="text" name="update_image_form[copyright]" id="update_image_form_copyright" class="form-control"  value="{{ image.copyright }}"/>
+                        <span class="help-block">Texte sans &copy;. Si laissé vide, &laquo; &copy; ZooParc de Beauval &raquo; est enregistré par défaut.</span>
+                    </div>
+                </div>
+
+                {% if image.tags|length %}
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="update_image_form_associatedtags">Liste des tags déjà associés. Séléctionnez ceux à dissocier</label>
+                        <div class="col-md-4">
+                            <select class="form-control" name="update_image_form[associatedtags][]" id="update_image_form_associatedtags" multiple="multiple">
+                                <option value=""></option>
+                                {% for t in image.tags %}
+                                    <option value="{{ t.id }}">{{ t.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <div class="form-group">
+                    <label class="control-label col-md-2" for="update_image_form_tags">Associer un(des) mot(s)-clé(s) existant(s)</label>
+                    <div class="col-md-4">
+                        <select class="form-control" name="update_image_form[tags][]" id="update_image_form_tags" multiple="multiple">
+                            <option value=""></option>
+                            {% for tag in tags %}
+                                <option value="{{ tag.id }}">{{ tag.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2" for="update_image_form_newtags">Créer et associer un(des) mot(s)-clé(s)</label>
+                    <div class="col-md-4">
+                        <textarea class="form-control" name="update_image_form[newtags]" id="update_image_form_newtags"></textarea>
+                        <span class="help-block">Lister vos nouveaux mots-clés en les séparant par des points-virgules.</span>
+                    </div>
+                </div>
+
+                <input name="update_image_form[_token]" type="hidden" value="{{ csrf_token("update_image") }}"/>
+
+                <div class="form-group">
+                    <div class="col-md-4 col-md-offset-2">
+                        <button type="submit" class="btn btn-primary">Mettre à jour</button>
+                    </div>
+                </div>
+            </form>
         </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2" for="update_image_form_title">Texte de l'attribut 'title'</label>
-            <div class="col-md-4">
-                <input type="text" name="update_image_form[title]" id="update_image_form_title" class="form-control" value="{{ image.title }}"/>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2" for="update_image_form_copyright">Copyright</label>
-            <div class="col-md-4">
-                <input type="text" name="update_image_form[copyright]" id="update_image_form_copyright" class="form-control"  value="{{ image.copyright }}"/>
-                <span class="help-block">Texte sans &copy;. Si laissé vide, &laquo; &copy; ZooParc de Beauval &raquo; est enregistré par défaut.</span>
-            </div>
-        </div>
-
-        {% if image.tags|length %}
-        <div class="form-group">
-            <label class="control-label col-md-2" for="update_image_form_associatedtags">Liste des tags déjà associés. Séléctionnez ceux à dissocier</label>
-            <div class="col-md-4">
-                <select class="form-control" name="update_image_form[associatedtags][]" id="update_image_form_associatedtags" multiple="multiple">
-                    <option value=""></option>
-                    {% for t in image.tags %}
-                        <option value="{{ t.id }}">{{ t.name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            </div>
-        {% endif %}
-
-        <div class="form-group">
-            <label class="control-label col-md-2" for="update_image_form_tags">Associer un(des) mot(s)-clé(s) existant(s)</label>
-            <div class="col-md-4">
-                <select class="form-control" name="update_image_form[tags][]" id="update_image_form_tags" multiple="multiple">
-                    <option value=""></option>
-                    {% for tag in tags %}
-                        <option value="{{ tag.id }}">{{ tag.name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2" for="update_image_form_newtags">Créer et associer un(des) mot(s)-clé(s)</label>
-            <div class="col-md-4">
-                <textarea class="form-control" name="update_image_form[newtags]" id="update_image_form_newtags"></textarea>
-                <span class="help-block">Lister vos nouveaux mots-clés en les séparant par des points-virgules.</span>
-            </div>
-        </div>
-
-        <input name="update_image_form[_token]" type="hidden" value="{{ csrf_token("update_image") }}"/>
-
-        <div class="form-group">
-            <div class="col-md-4 col-md-offset-2">
-                <button type="submit" class="btn btn-primary">Mettre à jour</button>
-            </div>
-        </div>
-    </form>
+    </div>
+    
 {% endblock %}

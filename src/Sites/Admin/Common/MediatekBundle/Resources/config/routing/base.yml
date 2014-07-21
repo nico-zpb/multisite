@@ -27,3 +27,9 @@ admin_common_mediatek_image_edit:
     defaults: { _controller: AdminCommonMediatekBundle:Image:edit }
     requirements:
         id: \d+
+
+admin_common_mediatek_image_search_by_tagid:
+    path: /image/recherche_par_mot_cle/{id}
+    defaults: { _controller: AdminCommonMediatekBundle:Image:searchByTagId }
+    requirements:
+        id: \d+

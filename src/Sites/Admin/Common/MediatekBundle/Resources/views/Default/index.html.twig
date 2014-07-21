@@ -39,7 +39,7 @@
                         <td>
                             {% if img.tags|length>0 %}
                             {% for tag in img.tags %}
-                                <a href="#">{{ tag.name}}</a> {% if loop.last != true %} - {% endif %}
+                                <a href="{{ path("admin_common_mediatek_image_search_by_tagid",{id:tag.id,_token:csrf_token("search_by_tagid")}) }}">{{ tag.name}}</a> {% if loop.last != true %} - {% endif %}
                             {% endfor %}
                             {% else %} - {% endif %}
                         </td>

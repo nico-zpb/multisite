@@ -1,0 +1,56 @@
+{% extends "AdminCommonMediatekBundle:Layouts:master.html.twig" %}
+{% set page_title = "Médiathèque - Résultats de recherche" %}
+{% set short_page_title = "search_by_tag" %}
+{% block content %}
+    <div class="page-header">
+        <h2>Documents associés à &laquo;{{ tag.name }}&raquo;</h2>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th>Vignette</th>
+                <th>Id</th>
+                <th>Nom du fichier</th>
+                <th>Url</th>
+                <th>Copyright</th>
+                <th>Attr. 'title'</th>
+                <th>Largeur</th>
+                <th>Hauteur</th>
+                <th>Mots-clés</th>
+                <th>Editer</th>
+                <th>Supprimer</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for doc in tag.documents %}
+                <tr>
+                    <td>{% if doc.docType == "image" %}<a href="{{ doc.webPath }}/{{ doc.filename }}" target="_blank"><img src="{{ doc.webPath }}/{{ thumbDir }}/{{ doc.filename }}" title="{{ doc.title }}{{ doc.copyright|raw }}" width="30"/></a>
+                        {% else %}<a href="#"><i class="fa fa-file-pdf-o"></i></a>{% endif %}</td>
+                    <td>{{ doc.id }}</td>
+                    <td>{{ doc.filename }}</td>
+                    <td>{{ doc.webPath }}/{{ doc.filename }}</td>
+                    <td>{{ doc.copyright|raw }}</td>
+                    <td>{{ doc.title }}</td>
+                    <td>{% if doc.docType == "image" %}{{ doc.width }}{% else %} - {% endif %}</td>
+                    <td>{% if doc.docType == "image" %}{{ doc.height }}{% else %} - {% endif %}</td>
+                    <td>
+                        {% if doc.tags|length>0 %}
+                            {% for t in doc.tags %}
+                                <a href="{{ path("admin_common_mediatek_image_search_by_tagid",{id:t.id,_token:csrf_token("search_by_tagid")}) }}">{{ t.name}}</a> {% if loop.last != true %} - {% endif %}
+                            {% endfor %}
+                        {% else %} - {% endif %}
+                    </td>
+                    {% if doc.docType == "image" %}
+                    <td><a class="btn btn-default" href="{{ path("admin_common_mediatek_image_edit", {id:doc.id, _token:csrf_token("edit_image")} )}}"><i class="fa fa-pencil-square-o"></i></a></td>
+                    <td><a class="btn btn-default delete-alert" href="{{ path("admin_common_mediatek_image_delete", {id:doc.id, _token:csrf_token("delete_image")}) }}" data-name="{{ doc.filename }}"><i class="fa fa-trash-o"></i></a></td>
+                    {% else %}
+                    <td>todo</td>
+                    <td>todo</td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -11,7 +11,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="thumbnail">
-                        <img src="{{ thumb_dir ~ image.name }}" title="{{ image.title}}{{ image.copyright|raw }}"/>
+                        <img src="{{ thumb_dir ~ image.name }}.{{image.extension}}" title="{{ image.title}} &copy; {{ image.copyright|raw }}"/>
                     </div>
                 </div>
             </div>

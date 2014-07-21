@@ -180,7 +180,7 @@ class ImageController extends Controller
         $img->setCopyright(trim(str_replace("&copy;", "", $img->getCopyright())));
         $img->setFilename(trim(str_replace("." . $img->getExtension(),"",$img->getFilename())));
         $tags = $this->getDoctrine()->getRepository("AdminCommonMediatekBundle:Tag")->findAllAlphaOrdered();
-        return $this->render("AdminCommonMediatekBundle:Image:edit.html.twig", ["form_errors"=>[],"image"=>$img, "tags"=>$tags]);
+        return $this->render("AdminCommonMediatekBundle:Image:edit.html.twig", ["form_errors"=>[],"image"=>$img, "tags"=>$tags,"thumbDir"=>$this->container->getParameter("mediatek_images_thumbnails_dirname")]);
     }
 
     public function updateAction($id, Request $request)
@@ -268,7 +268,7 @@ class ImageController extends Controller
 
         if($errors){
             $tags = $this->getDoctrine()->getRepository("AdminCommonMediatekBundle:Tag")->findAllAlphaOrdered();
-            return $this->render("AdminCommonMediatekBundle:Image:edit.html.twig", ["form_errors"=>$errors,"image"=>$img,"tags"=>$tags]);
+            return $this->render("AdminCommonMediatekBundle:Image:edit.html.twig", ["form_errors"=>$errors,"image"=>$img,"tags"=>$tags,"thumbDir"=>$this->container->getParameter("mediatek_images_thumbnails_dirname")]);
         }
 
         $suffix = "";
@@ -282,7 +282,7 @@ class ImageController extends Controller
             $suffix .= "_" . $img->getWidth() . "x" . $img->getHeight();
         }
 
-        $img->setFilename($img->getFilename() . $suffix . "." . $img->getExtension());
+        $img->setFilename(trim(str_replace(".".$img->getExtension(),"",$img->getFilename())) . $suffix . "." . $img->getExtension());
         if($img->getFilename() != $filename){
             rename($img->getAbsolutePath()."/".$filename, $img->getAbsolutePath()."/".$img->getFilename());
             rename($img->getAbsolutePath()."/". $this->container->getParameter("mediatek_images_thumbnails_dirname") . "/" .$filename, $img->getAbsolutePath()."/". $this->container->getParameter("mediatek_images_thumbnails_dirname") . "/".$img->getFilename());
@@ -322,6 +322,22 @@ class ImageController extends Controller
 
         $this->container->get("session")->getFlashBag()->add("success", "L'image " . $filename . " a bien été supprimée de la médiathèque.");
         return $this->redirect($this->generateUrl("admin_common_mediatek_homepage"));
+    }
+
+    public function searchByTagIdAction($id, Request $request)
+    {
+        $token = $request->query->get("_token");
+        $csrfProvider = $this->container->get("form.csrf_provider");
+        if(!$token || !$csrfProvider->isCsrfTokenValid("search_by_tagid", $token)){
+            throw new AccessDeniedException();
+        }
+
+        $tag = $this->getDoctrine()->getRepository("AdminCommonMediatekBundle:Tag")->find($id);
+        if(!$tag){
+            throw $this->createNotFoundException();
+        }
+
+        return $this->render("AdminCommonMediatekBundle:Image:search_by_tagid.html.twig", ["tag"=>$tag,"thumbDir"=>$this->container->getParameter("mediatek_images_thumbnails_dirname")]);
     }
 
     private function makeThumbnail(Document $image, $dirname = "originales", $width = 300, $height = 450, $quality = 75)
