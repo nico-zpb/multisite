@@ -16,4 +16,6 @@ _main:
 zoo_tests:
     resource: "@ZooTestsBundle/Resources/config/routing.yml"
     host: zoobeauval.local
-    prefix:   /tests
+    prefix:   /{_locale}/tests
+    requirements:
+        _locale: fr|en
