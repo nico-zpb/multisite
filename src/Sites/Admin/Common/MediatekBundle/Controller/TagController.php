@@ -114,7 +114,52 @@ class TagController extends Controller
 
     public function updateAction($id, Request $request)
     {
+        $csrfProvider = $this->container->get("form.csrf_provider");
+        $form = $request->request->get("update_tag_form");
 
+        if(!$form["_token"] || !$csrfProvider->isCsrfTokenValid("update_tag", $form["_token"])){
+            throw new AccessDeniedException();
+        }
+
+        $tag = $this->getDoctrine()->getRepository("AdminCommonMediatekBundle:Tag")->find($id);
+
+        if(!$tag){
+            throw $this->createNotFoundException();
+        }
+
+        if(array_key_exists("name", $form)){
+            $form["name"] = trim(preg_replace('/\s\s+/'," ",$form["name"]));
+        }
+        $errors = [];
+
+        if(!empty($form["name"]) && $form["name"] != $tag->getName()){
+            $tag->setName($form["name"]);
+            if(preg_replace("/[a-zA-Z0-9éèêàçùûëïôâ'!?, _-]/",'',$form["name"]) != ""){
+                $errors[] = "Le champs 'nom' contient des caractères interdits.";
+            }
+            $tagExists = $this->getDoctrine()->getRepository("AdminCommonMediatekBundle:Tag")->findOneByName($form["name"]);
+            if($tagExists){
+                $errors[] = "Un mot-clé porte déjà le même nom.";
+            }
+        }
+
+        if(!empty($form["slug"]) && $form["slug"] != $tag->getSlug()){
+            $tag->setSlug($form["slug"]);
+            if(preg_replace("/[a-z0-9-]/",'',$form["slug"]) != ""){
+                $errors[] = "Le champs 'alias' contient des caractères interdits.";
+            }
+        }
+
+        if($errors){
+            return $this->render("AdminCommonMediatekBundle:Tag:edit.html.twig", ["form_errors"=>$errors, "entity"=>$tag]);
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($tag);
+        $em->flush();
+
+        $this->container->get("session")->getFlashBag()->add("success","Le mot-clé " . $tag->getName() . " a bien été mis à jour.");
+        return $this->redirect($this->generateUrl("admin_common_mediatek_tag_homepage"));
     }
 
     public function deleteAction($id, Request $request)
