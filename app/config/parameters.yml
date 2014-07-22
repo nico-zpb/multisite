@@ -5,7 +5,8 @@ parameters:
     database_port: null
     database_name: multisite
     database_user: root
-    database_password: null
+    database_password: root
+    # database_password: null
     mailer_transport: smtp
     mailer_host: 127.0.0.1
     mailer_user: null
