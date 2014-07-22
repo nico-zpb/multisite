@@ -1,3 +1,7 @@
 admin_zoo_godparent_gifts_homepage:
     path:     /
     defaults: { _controller: AdminZooGodparentBundle:Gift:index }
+
+admin_zoo_godparent_gifts_new:
+    path:     /nouveau
+    defaults: { _controller: AdminZooGodparentBundle:Gift:new }

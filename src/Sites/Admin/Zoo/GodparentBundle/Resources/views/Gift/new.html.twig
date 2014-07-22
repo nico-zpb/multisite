@@ -1,0 +1,51 @@
+{% extends "AdminZooGodparentBundle:Layouts:master.html.twig" %}
+{% set page_title = "Parrainages - Nouveau cadeau" %}
+{% set active_sidenav = "godparent_gifts" %}
+
+{% block content %}
+    <form class="form-horizontal" action="" method="post">
+
+        {% if form_errors|length %}
+            {% for error in form_errors %}
+                <div class="alert alert-danger" role="alert">{{ error }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="new_gift_form_name">Nom</label>
+            <div class="col-md-4">
+                <input class="form-control" type="text" name="new_gift_form[name]" id="new_gift_form_name" value="{{ gift.name }}"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="new_gift_form_description">Description</label>
+            <div class="col-md-4">
+                <textarea name="new_gift_form[description]" id="new_gift_form_description" class="form-control">{{ gift.description }}</textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="new_gift_form_position">Position</label>
+            <div class="col-md-4">
+                <input class="form-control" type="text" name="new_gift_form[position]" id="new_gift_form_position" value="{{ gift.position }}"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="new_gift_form_notabene">Nota Bene</label>
+            <div class="col-md-4">
+                <textarea name="new_gift_form[notabene]" id="new_gift_form_notabene" class="form-control">{{ gift.notabene }}</textarea>
+            </div>
+        </div>
+
+        <input name="new_gift_form[_token]" type="hidden" value="{{ csrf_provider("new_gift") }}"/>
+
+        <div class="form-group">
+            <div class="col-md-4 col-md-offset-2">
+                <button class="btn btn-primary" type="submit">Enregistrer</button>
+            </div>
+        </div>
+
+    </form>
+{% endblock %}

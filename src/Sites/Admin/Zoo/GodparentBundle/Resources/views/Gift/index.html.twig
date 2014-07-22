@@ -18,7 +18,7 @@
             <tbody>
             {% if gifts|length<1 %}
                 <tr class="warning">
-                    <td colspan="7">Il n'y a aucun cadeaux enregistrés. <a href="#"><i class="fa fa-hand-o-right"></i> Créer</a></td>
+                    <td colspan="7">Il n'y a aucun cadeaux enregistrés. <a href="{{ path("admin_zoo_godparent_gifts_new") }}"><i class="fa fa-hand-o-right"></i> Créer</a></td>
                 </tr>
             {% else %}
                 {% for gift in gifts %}
