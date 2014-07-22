@@ -3,18 +3,19 @@
 {% set active_sidenav = "godparent_gifts" %}
 
 {% block content %}
-    <form class="form-horizontal" action="" method="post">
+    <form class="form-horizontal" action="{{ path }}" method="post">
 
         {% if form_errors|length %}
             {% for error in form_errors %}
                 <div class="alert alert-danger" role="alert">{{ error }}</div>
-            {% endfor %}
+            {% endfor %
         {% endif %}
 
         <div class="form-group">
             <label class="control-label col-md-2" for="new_gift_form_name">Nom</label>
             <div class="col-md-4">
                 <input class="form-control" type="text" name="new_gift_form[name]" id="new_gift_form_name" value="{{ gift.name }}"/>
+                <span class="help-block">Champ requis. Caractères autorisés: a-z, A-Z, 0-9, é è ê à ç ù û ë ï ô â ' ! ? . , ; _ - et l'espace</span>
             </div>
         </div>
 
@@ -29,6 +30,7 @@
             <label class="control-label col-md-2" for="new_gift_form_position">Position</label>
             <div class="col-md-4">
                 <input class="form-control" type="text" name="new_gift_form[position]" id="new_gift_form_position" value="{{ gift.position }}"/>
+                <span class="help-block">Chiffre représentant la position du cadeau dans la liste en affichage client. Si laissé vide, la dernière position sera attribuée</span>
             </div>
         </div>
 
@@ -39,7 +41,7 @@
             </div>
         </div>
 
-        <input name="new_gift_form[_token]" type="hidden" value="{{ csrf_provider("new_gift") }}"/>
+        <input name="new_gift_form[_token]" type="hidden" value="{{ csrf_token("new_gift") }}"/>
 
         <div class="form-group">
             <div class="col-md-4 col-md-offset-2">

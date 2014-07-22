@@ -59,7 +59,7 @@ class ZBPostController extends Controller
                 $errors[] = "La catégorie associée n'existe pas";
             }
         }
-        $form["title"] = trim(preg_replace('/\s\s+/', '', $form["title"]));
+        $form["title"] = trim(preg_replace('/\s\s+/', ' ', $form["title"]));
         if(empty($form["title"])){
             $errors[] = "Votre article doit avoir un titre.";
         }
@@ -118,6 +118,7 @@ class ZBPostController extends Controller
             $em->flush();
         }
 
+        //TODO Nettoyage de body/excerpt =>html autorisé ?
         //TODO validation date différé
 
 
