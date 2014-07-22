@@ -17,6 +17,7 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
+            new Lunetics\LocaleBundle\LuneticsLocaleBundle(),
             new Sites\Zoo\BaseBundle\ZooBaseBundle(),
             new Sites\Jardins\BaseBundle\JardinsBaseBundle(),
             new Sites\Pagodes\BaseBundle\PagodesBaseBundle(),
