@@ -9,6 +9,8 @@
                     <td>id</td>
                     <td>Nom</td>
                     <td>Position</td>
+                    <td>monter</td>
+                    <td>descendre</td>
                     <td>Description</td>
                     <td>NotaBene</td>
                     <td>Editer</td>
@@ -26,10 +28,12 @@
                         <td>{{ gift.id }}</td>
                         <td>{{ gift.name }}</td>
                         <td>{{ gift.position }}</td>
+                        <td><a class="btn btn-default" href="{{ path("admin_zoo_godparent_gifts_moveup", {id: gift.id, _token:csrf_token("gift_moveup")}) }}"><i class="fa fa-caret-up"></i></a></td>
+                        <td><a class="btn btn-default" href="{{ path("admin_zoo_godparent_gifts_movedown", {id: gift.id, _token:csrf_token("gift_movedown")}) }}"><i class="fa fa-caret-down"></i></a></td>
                         <td>{{ gift.description }}</td>
                         <td>{{ gift.notabene }}</td>
                         <td><a href="#" class="btn btn-default"><i class="fa fa-pencil-square-o"></i></a></td>
-                        <td><a href="#" class="btn btn-default delete-alert" data-name="{{ gift.name }}"><i class="fa fa-trash-o"></i></a></td>
+                        <td><a href="{{ path("admin_zoo_godparent_gifts_delete", {id: gift.id, _token:csrf_token("delete_gift")}) }}" class="btn btn-default delete-alert" data-name="{{ gift.name }}"><i class="fa fa-trash-o"></i></a></td>
                     </tr>
                 {% endfor %}
             {% endif %}

@@ -39,7 +39,7 @@ class Gift
     /**
      * @var integer
      *
-     * @ORM\Column(name="position", type="integer")
+     * @ORM\Column(name="position", type="integer", nullable=true)
      * @Gedmo\SortablePosition
      */
     private $position;
@@ -222,7 +222,7 @@ class Gift
     /**
      * Get category
      *
-     * @return string 
+     * @return string
      */
     public function getCategory()
     {

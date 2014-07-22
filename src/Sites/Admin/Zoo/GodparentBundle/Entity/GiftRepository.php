@@ -12,4 +12,8 @@ use Gedmo\Sortable\Entity\Repository\SortableRepository;
  */
 class GiftRepository extends SortableRepository
 {
+    public function getLastPosition()
+    {
+        return $this->createQueryBuilder("g")->select("COUNT(g)")->getQuery()->getSingleScalarResult()-1;
+    }
 }

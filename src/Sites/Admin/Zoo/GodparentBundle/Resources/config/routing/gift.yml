@@ -5,3 +5,37 @@ admin_zoo_godparent_gifts_homepage:
 admin_zoo_godparent_gifts_new:
     path:     /nouveau
     defaults: { _controller: AdminZooGodparentBundle:Gift:new }
+
+admin_zoo_godparent_gifts_create:
+    path:     /creation
+    defaults: { _controller: AdminZooGodparentBundle:Gift:create }
+    requirements: { _method: post }
+
+admin_zoo_godparent_gifts_delete:
+    path:     /supprimer/{id}
+    defaults: { _controller: AdminZooGodparentBundle:Gift:delete }
+    requirements:
+        id: \d+
+
+admin_zoo_godparent_gifts_edit:
+    path:     /edition/{id}
+    defaults: { _controller: AdminZooGodparentBundle:Gift:edit }
+    requirements:
+        id: \d+
+
+admin_zoo_godparent_gifts_update:
+    path:     /maj/{id}
+    defaults: { _controller: AdminZooGodparentBundle:Gift:update }
+    requirements:
+        id: \d+
+
+admin_zoo_godparent_gifts_moveup:
+    path:     /monter/{id}
+    defaults: { _controller: AdminZooGodparentBundle:Gift:moveUp }
+    requirements: { _method: post, id: \d+ }
+
+admin_zoo_godparent_gifts_movedown:
+    path:     /descendre/{id}
+    defaults: { _controller: AdminZooGodparentBundle:Gift:moveDown }
+    requirements:
+        id: \d+
