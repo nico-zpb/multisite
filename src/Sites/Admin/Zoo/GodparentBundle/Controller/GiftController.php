@@ -38,8 +38,8 @@ class GiftController extends Controller
     public function newAction()
     {
         $gift = new Gift();
-
-        return $this->render("AdminZooGodparentBundle:Gift:new.html.twig",["gift"=>$gift, "form_errors"=>[]]);
+        $lastPosition = $this->getDoctrine()->getRepository("AdminZooGodparentBundle:Gift")->getLastPosition();
+        return $this->render("AdminZooGodparentBundle:Gift:new.html.twig",["gift"=>$gift, "form_errors"=>[], "lastPos"=>$lastPosition]);
     }
 
     public function createAction(Request $request)
@@ -63,9 +63,13 @@ class GiftController extends Controller
                 $errors[] = "Un cadeau porte déjà ce nom.";
             }
         }
+        $lastPosition = $this->getDoctrine()->getRepository("AdminZooGodparentBundle:Gift")->getLastPosition();
         if(!empty($form["position"])){
             if(preg_replace("/[0-9]+/", "", trim($form["position"])) != ""){
                 $errors[] = "La position ne doit contenir que des chiffres";
+            }
+            if($form["position"]<0 || $form["position"]>$lastPosition){
+                $errors[] = "La position donnée est en dehors de l'interval.";
             }
             $gift->setPosition($form["position"]);
         }
@@ -81,7 +85,7 @@ class GiftController extends Controller
         $gift->setDescription($form["description"]);
         $gift->setNotabene($form["notabene"]);
         if($errors){
-            return $this->render("AdminZooGodparentBundle:Gift:new.html.twig",["gift"=>$gift, "form_errors"=>$errors]);
+            return $this->render("AdminZooGodparentBundle:Gift:new.html.twig",["gift"=>$gift, "form_errors"=>$errors, "lastPos"=>$lastPosition]);
         }
         $em = $this->getDoctrine()->getManager();
         $em->persist($gift);
@@ -90,14 +94,76 @@ class GiftController extends Controller
         return $this->redirect($this->generateUrl("admin_zoo_godparent_gifts_homepage"));
     }
 
-    public function editAction($id)
+    public function editAction($id, Request $request)
     {
-        //TODO edit gift
+        $token = $request->query->get("_token");
+        $csrfProvider = $this->container->get("form.csrf_provider");
+        if(!$token || !$csrfProvider->isCsrfTokenValid("edit_gift", $token)){
+            throw new AccessDeniedException();
+        }
+        $gift = $this->getDoctrine()->getRepository("AdminZooGodparentBundle:Gift")->find($id);
+        if(!$gift){
+            throw $this->createNotFoundException();
+        }
+        $lastPosition = $this->getDoctrine()->getRepository("AdminZooGodparentBundle:Gift")->getLastPosition();
+        return $this->render("AdminZooGodparentBundle:Gift:edit.html.twig",["gift"=>$gift, "form_errors"=>[],"lastPos"=>$lastPosition]);
     }
 
     public function updateAction($id, Request $request)
     {
-        //TODO update gift
+        $csrfProvider = $this->container->get("form.csrf_provider");
+        $form = $request->request->get("update_gift_form");
+        if(empty($form["_token"]) || !$csrfProvider->isCsrfTokenValid("update_gift", $form["_token"])){
+            throw new AccessDeniedException();
+        }
+        $errors = [];
+        $gift = $this->getDoctrine()->getRepository("AdminZooGodparentBundle:Gift")->find($id);
+        if(!$gift){
+            throw $this->createNotFoundException();
+        }
+
+        if(empty($form["name"])){
+            $errors[] = "Votre cadeau doit avoir un nom.";
+        }
+        if(!empty($form["name"])){
+            if(preg_replace("/[a-zA-Z0-9éèêàçùûëïôâ'!?.,; _-]/",'',$form["name"]) != ""){
+                $errors[] = "Le nom de votre cadeau contient des caractères interdits.";
+            }
+            $giftExists = $this->getDoctrine()->getRepository("AdminZooGodparentBundle:Gift")->findOneByName($form["name"]);
+            if($giftExists){
+                $errors[] = "Un cadeau porte déjà ce nom.";
+            }
+        }
+        $lastPosition = $this->getDoctrine()->getRepository("AdminZooGodparentBundle:Gift")->getLastPosition();
+        if(!empty($form["position"])){
+            if(preg_replace("/[0-9]+/", "", trim($form["position"])) != ""){
+                $errors[] = "La position ne doit contenir que des chiffres";
+            }
+            if($form["position"]<0 || $form["position"]>$lastPosition){
+                $errors[] = "La position donnée est en dehors de l'interval.";
+            }
+            $gift->setPosition($form["position"]);
+        }
+        if(!empty($form["description"])){
+            $form["description"] = htmlentities(strip_tags($form["description"]));
+            $form["description"] = trim(preg_replace('/\s\s+/',' ',$form["description"]));
+        }
+        if(!empty($form["notabene"])){
+            $form["notabene"] = htmlentities(strip_tags($form["notabene"]));
+            $form["notabene"] = trim(preg_replace('/\s\s+/',' ',$form["notabene"]));
+        }
+        $gift->setName($form["name"]);
+        $gift->setDescription($form["description"]);
+        $gift->setNotabene($form["notabene"]);
+        if($errors){
+            return $this->render("AdminZooGodparentBundle:Gift:edit.html.twig",["gift"=>$gift, "form_errors"=>$errors,"lastPos"=>$lastPosition]);
+        }
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($gift);
+        $em->flush();
+        $this->container->get("session")->getFlashBag()->add("success", "Votre cadeau " . $gift->getName() . " a bien été mis à jour");
+        return $this->redirect($this->generateUrl("admin_zoo_godparent_gifts_homepage"));
+
     }
 
     public function deleteAction($id, Request $request)
